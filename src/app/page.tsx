@@ -1,14 +1,24 @@
-import Image from "next/image";
+import HeroBanner from "@/components/HeroBanner";
+import TrustSection from "@/components/TrustSection";
+import ProductSection from "@/components/ProductSection";
+import FAQSection from "@/components/FAQSection";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-white">
-      <h1 className="text-4xl font-bold tracking-tight text-zinc-900">
-        Welcome to Access Nest
-      </h1>
-      <p className="mt-4 text-lg text-zinc-600">
-        Explore the new components starting with the awesome Navbar.
-      </p>
+    <main className="min-h-screen text-slate-900 selection:bg-sky-100">
+      
+      {/* Hero / Banner Section */}
+      <HeroBanner />
+
+      {/* Trusted / Secure Section */}
+      <TrustSection />
+
+      {/* Product Cards Section */}
+      <ProductSection />
+
+      {/* FAQ Section */}
+      <FAQSection />
+
     </main>
   );
 }
