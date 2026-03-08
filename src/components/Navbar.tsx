@@ -43,9 +43,9 @@ export default function Navbar() {
               <span className="hidden md:inline font-semibold text-sm">Cart</span>
             </Link>
             <div className="h-6 w-px bg-slate-200 hidden md:block"></div>
-            <Link href="/login" className="flex items-center gap-2 hover:text-sky-600 transition-colors group">
+            <Link href="/dashboard" className="flex items-center gap-2 hover:text-sky-600 transition-colors group">
               <User className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-500" />
-              <span className="hidden md:inline font-semibold text-sm">Login / Register</span>
+              <span className="hidden md:inline font-semibold text-sm">Dashboard</span>
             </Link>
           </div>
         </nav>
