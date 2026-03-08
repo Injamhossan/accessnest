@@ -19,6 +19,8 @@ export const metadata: Metadata = {
   description: "Access Nest",
 };
 
+import Providers from "@/components/Providers";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -29,11 +31,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-slate-50`}
       >
-        <div className="relative flex-1">
-          <Navbar />
-          {children}
-        </div>
-        <Footer />
+        <Providers>
+          <div className="relative flex-1">
+            <Navbar />
+            {children}
+          </div>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

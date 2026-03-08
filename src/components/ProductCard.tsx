@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Download, Heart, MapPin, BedDouble, Bath, Square, Star } from "lucide-react";
+import { Star, ShoppingCart, CreditCard, Heart, ArrowRight } from "lucide-react";
 
 interface ProductCardProps {
   title: string;
@@ -12,73 +12,72 @@ interface ProductCardProps {
 
 export default function ProductCard({ title, description, price, rating, reviews, image }: ProductCardProps) {
   return (
-    <article className="group flex h-[480px] w-full flex-col bg-white p-3 rounded-[1.75rem] shadow-[0_4px_20px_rgb(0,0,0,0.06)] border border-slate-100 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-      <div className="relative h-full w-full rounded-2xl overflow-hidden">
-        {/* Background Image */}
+    <article className="group relative flex flex-col bg-white rounded-3xl overflow-hidden border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(15,122,247,0.12)] hover:-translate-y-2 h-full">
+      {/* Wishlist Button */}
+      <button className="absolute top-4 right-4 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/80 backdrop-blur-md text-slate-400 border border-white/50 transition-all hover:bg-white hover:text-red-500 shadow-sm active:scale-95 group/heart">
+        <Heart className="h-5 w-5 transition-transform duration-300 group-hover/heart:scale-110" />
+      </button>
+
+      {/* Image Container */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-100">
         <Image
           src={image}
           alt={title}
           fill
-          className="object-cover transition-transform duration-700 group-hover:scale-105"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
         />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
         
-        {/* Gradient Overlay bottom for text readability */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/50 to-black/10 transition-opacity duration-300 pointer-events-none" />
+        {/* Category / Badge (Optional) */}
+        <div className="absolute bottom-4 left-4 z-10">
+          <span className="rounded-full bg-slate-900/40 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">
+            Digital Asset
+          </span>
+        </div>
+      </div>
 
-        {/* Top Price Badge */}
-        <div className="absolute top-4 left-4 z-10 rounded-full bg-slate-900/40 backdrop-blur-md border border-white/10 px-4 py-1.5 text-sm tracking-wide font-bold text-white shadow-sm">
-          {price.includes("/") ? price.split("/")[0] : price} <span className="text-xs font-semibold tracking-normal capitalize">{price.includes("/") ? `/ ${price.split("/")[1]}` : ""}</span>
+      {/* Content Area */}
+      <div className="flex flex-col flex-1 p-6">
+        <div className="flex items-center justify-between mb-2">
+          {/* Price Tag */}
+          <div className="flex flex-col">
+            <span className="text-2xl font-black text-slate-900 leading-none">{price}</span>
+            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide mt-1">One-time payment</span>
+          </div>
+
+          {/* Rating */}
+          <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-100">
+            <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-500" />
+            <span className="text-xs font-bold text-amber-700">{rating}</span>
+            <span className="text-[10px] text-amber-600/60 font-medium">({reviews})</span>
+          </div>
         </div>
 
-        {/* Top Heart Icon */}
-        <button className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-900/40 backdrop-blur-md border border-white/10 text-white transition hover:bg-slate-900/60 shadow-sm">
-          <Heart className="h-4 w-4" />
-        </button>
+        <h3 className="text-xl font-extrabold text-slate-900 mb-2 group-hover:text-[#0f7af7] transition-colors line-clamp-1">
+          {title}
+        </h3>
+        
+        <p className="text-sm text-slate-500 font-medium mb-6 line-clamp-2 leading-relaxed">
+          {description}
+        </p>
 
-        {/* Bottom Content Area */}
-        <div className="absolute bottom-0 left-0 w-full flex flex-col p-5 z-10">
-          
-          {/* Carousel dots (decorative mimicking image) */}
-          <div className="flex justify-center gap-[5px] mb-4">
-            <span className="h-1.5 w-4 rounded-full bg-white shadow-sm"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-white/40 shadow-sm"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-white/40 shadow-sm"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-white/40 shadow-sm"></span>
-            <span className="h-1.5 w-1.5 rounded-full bg-white/40 shadow-sm"></span>
+        {/* Action Buttons */}
+        <div className="mt-auto space-y-3">
+          <div className="grid grid-cols-2 gap-3">
+            <button className="flex items-center justify-center gap-2 rounded-2xl bg-slate-50 border border-slate-200 py-3 text-xs font-bold text-slate-700 transition-all hover:bg-slate-100 hover:border-slate-300 active:scale-[0.97]">
+              <ShoppingCart className="h-4 w-4" />
+              Add to Cart
+            </button>
+            <button className="flex items-center justify-center gap-2 rounded-2xl bg-slate-900 py-3 text-xs font-bold text-white transition-all hover:bg-slate-800 active:scale-[0.97] shadow-lg shadow-slate-200 hover:shadow-xl">
+              <CreditCard className="h-4 w-4" />
+              Buy Now
+            </button>
           </div>
 
-          <div className="flex items-center justify-between gap-2 mb-1">
-            <h3 className="text-lg font-bold text-white truncate">{title}</h3>
-            <div className="flex items-center gap-1.5 shrink-0 text-white">
-              <Star className="h-4 w-4 fill-amber-500 text-amber-500" />
-              <span className="font-semibold text-sm">{rating}</span>
-              <span className="text-white/80 text-[13px]">({reviews})</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1.5 text-slate-300 text-sm mb-3">
-             <MapPin className="h-3.5 w-3.5" />
-             <p className="line-clamp-1 truncate">{description}</p>
-          </div>
-
-          <div className="flex items-center gap-3 text-slate-300 text-[13px] font-medium mb-5">
-            <div className="flex items-center gap-1.5">
-              <BedDouble className="h-[15px] w-[15px]" />
-              <span>3 Bedrooms</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Bath className="h-[15px] w-[15px]" />
-              <span>4 Bathrooms</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Square className="h-[15px] w-[15px]" />
-              <span>3210 Sqft</span>
-            </div>
-          </div>
-
-          <button className="flex w-full items-center justify-center gap-2 rounded-full bg-white/95 backdrop-blur-sm px-6 py-3.5 text-sm font-bold text-slate-900 transition hover:bg-white shadow-md hover:shadow-lg hover:-translate-y-0.5">
-             <Download className="h-4 w-4" />
-             Reserve
+          <button className="group/details flex w-full items-center justify-center gap-2 py-1 text-[11px] font-bold text-[#0f7af7] transition-all hover:text-[#0a66d1]">
+            View details
+            <ArrowRight className="h-3 w-3 transition-transform group-hover/details:translate-x-1" />
           </button>
         </div>
       </div>

@@ -6,7 +6,7 @@ export default function HeroBanner() {
     <section className="w-full bg-slate-50 flex justify-center">
       
       {/* Full Uncropped Banner Image - Scale Limited */}
-      <div className="relative w-full max-w-[1440px] mx-auto">
+      <div className="relative w-full max-w-360 mx-auto">
         <Image
           src={bannerImg}
           alt="Premium digital subscriptions"
