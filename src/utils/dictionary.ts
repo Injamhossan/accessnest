@@ -1,0 +1,250 @@
+export const dict = {
+  en: {
+    nav: {
+      search: "Search",
+      cart: "Cart",
+      dashboard: "Dashboard",
+      home: "Home",
+      about: "About",
+      products: "All Products",
+      contact: "Contact Us"
+    },
+    hero: {
+      badge: "The Ultimate Digital Marketplace",
+      title1: "Discover & Download",
+      title2: "Premium Resources",
+      desc: "Get unlimited access to thousands of top-tier software, templates, design assets, and exclusive digital tools. Elevate your projects instantly.",
+      cta: "Explore Our Library",
+      cta2: "View Pricing"
+    },
+    trust: {
+      badge: "Trusted & Secure Subscriptions",
+      box1Title: "100% Genuine Licenses",
+      box1Desc: "Every resource & software offered is directly partnered or official.",
+      box2Title: "Secure Delivery",
+      box2Desc: "Instant, encrypted delivery to your email or dashboard effortlessly.",
+      box3Title: "Safe Payments",
+      box3Desc: "SSL-encrypted fast checkout supporting cards, crypto, and wallets."
+    },
+    productSection: {
+      badge: "Top Picks",
+      title1: "Popular Digital Products",
+      title2: "Ready for Instant Access",
+      desc: "Choose from trending subscriptions and premium resources curated for creators, professionals, and growing teams.",
+      btn: "View All Products"
+    },
+    about: {
+      title: "About Access Nest",
+      desc: "We are dedicated to providing the best digital products and services to help you build, scale, and secure your next big idea.",
+      why: "Why Choose Us?",
+      whyDesc: "Our core principles guide everything we do.",
+      box1Title: "Premium Quality",
+      box1Desc: "All our products go through rigorous quality checks to ensure they meet the highest industry standards.",
+      box2Title: "Secure & Safe",
+      box2Desc: "Your data and privacy are critical. We use top-tier encryption and modern security practices globally.",
+      box3Title: "Lightning Fast",
+      box3Desc: "Optimized for performance. Our solutions are built to be quick, responsive, and ready out of the box."
+    },
+    faq: {
+      title1: "Got Questions? ",
+      title2: "We've Got Answers",
+      desc: "Everything you need to know about purchasing, licensing, and managing your digital resources.",
+      q1: "How do I access my purchased digital products?",
+      a1: "Once your secure checkout is complete, you will immediately receive an email with download links and license keys. You can also access everything anytime from your user dashboard under the 'Library' tab.",
+      q2: "Are the software licenses permanent?",
+      a2: "It depends on the specific product. We clearly mark whether a software package is a lifetime license, a yearly subscription, or a monthly recurring plan on the product page.",
+      q3: "Can I get a refund if the software doesn't work?",
+      a3: "Yes, we offer a 14-day money-back guarantee on all purchases if the product is fundamentally defective or does not match its description. Our support team is always available to help.",
+      q4: "Are the payments truly secure?",
+      a4: "Absolutely. We use bank-level 256-bit SSL encryption. We never store your credit card data directly, processing everything through verified partners like Stripe and PayPal."
+    },
+    contact: {
+      title: "Contact Us",
+      desc: "Have a question or want to work together? Leave us a message below and our team will get back to you shortly.",
+      email: "Email Us",
+      emailDesc: "We're here to help.",
+      call: "Call Us",
+      callDesc: "Mon-Fri from 8am to 5pm.",
+      visit: "Visit Us",
+      visitDesc: "Come say hello at our HQ.",
+      formTitle: "Send a Message",
+      fName: "First Name",
+      lName: "Last Name",
+      emailInput: "Email Address",
+      message: "Message",
+      send: "Send Message"
+    },
+    products: {
+      title: "All Products",
+      desc: "Discover top-tier digital products to boost your workflow.",
+      filters: "Filters",
+      sortFeatured: "Sort by: Featured",
+      sortLowToHigh: "Price: Low to High",
+      sortHighToLow: "Price: High to Low",
+      sortRated: "Highest Rated",
+      addToCart: "Add to Cart",
+      loadMore: "Load More Products"
+    },
+    productCard: {
+      digitalAsset: "Digital Asset",
+      oneTimePayment: "One-time payment",
+      addToCart: "Add to Cart",
+      buyNow: "Buy Now",
+      viewDetails: "View details"
+    },
+    dashboardLayout: {
+      title: "Dashboard",
+      overview: "Overview",
+      orders: "Orders",
+      billing: "Billing",
+      profile: "Profile",
+      settings: "Settings",
+      logout: "Log out"
+    },
+    dashboard: {
+      title: "User Dashboard",
+      welcome: "Welcome back, ",
+      memberSince: "Member since ",
+      browseProducts: "Browse Products",
+      recentOrders: "Recent Orders",
+      latestPurchases: "Your latest purchases",
+      viewAll: "View all",
+      activeProducts: "Active Products",
+      accessTo: "Products you have access to",
+      active: "Active",
+      expires: "Expires",
+      download: "Download",
+      notifications: "Notifications",
+      unreadAlerts: "unread alerts",
+      markRead: "Mark read",
+      needHelp: "Need Help?",
+      helpDesc: "Contact our support team or browse the documentation to get started quickly.",
+      contactSupport: "Contact Support",
+      viewDoc: "View Documentation"
+    }
+  },
+  bn: {
+    nav: {
+      search: "খুঁজুন",
+      cart: "কার্ট",
+      dashboard: "ড্যাশবোর্ড",
+      home: "হোম",
+      about: "আমাদের সম্পর্কে",
+      products: "সব পণ্য",
+      contact: "যোগাযোগ"
+    },
+    hero: {
+      badge: "সেরা ডিজিটাল মার্কেটপ্লেস",
+      title1: "ডিসকভার ও ডাউনলোড করুন",
+      title2: "প্রিমিয়াম রিসোর্স",
+      desc: "অগণিত সব সেরা সফটওয়্যার, টেমপ্লেট, ডিজাইন অ্যাসেট এবং এক্সক্লুসিভ ডিজিটাল টুলের আনলিমিটেড অ্যাক্সেস পান। আপনার প্রজেক্টকে এখনই উন্নত করুন।",
+      cta: "আমাদের লাইব্রেরি দেখুন",
+      cta2: "প্রাইসিং দেখুন"
+    },
+    trust: {
+      badge: "বিশ্বস্ত ও সুরক্ষিত সাবস্ক্রিপশন",
+      box1Title: "নিজস্ব লাইসেন্স",
+      box1Desc: "প্রতিটি সফটওয়্যার ও রিসোর্সের অফিসিয়াল অংশীদার কর্তৃক প্রদান করা হয়।",
+      box2Title: "নিরাপদ ডেলিভারি",
+      box2Desc: "মূহুর্তেই সরাসরি আপনার ইমেইলে অথবা ড্যাশবোর্ডে ডেলিভারি।",
+      box3Title: "নিরাপদ পেমেন্ট",
+      box3Desc: "SSL-এনক্রিপ্টেড পেমেন্ট যেটিতে কার্ড, ক্রিপ্টোকারেন্সি এবং ওয়ালেট সাপোর্ট করে।"
+    },
+    productSection: {
+      badge: "টপ পিক্স",
+      title1: "জনপ্রিয় ডিজিটাল পণ্যগুলো",
+      title2: "ইনস্ট্যান্ট অ্যাক্সেসের জন্য প্রস্তুত",
+      desc: "ক্রিয়েটর, প্রফেশনাল এবং টিমের জন্য সব সেরা সাবস্ক্রিপশন এবং প্রিমিয়াম রিসোর্স থেকে বেছে নিন।",
+      btn: "সব পণ্য দেখুন"
+    },
+    about: {
+      title: "Access Nest সম্পর্কে",
+      desc: "আপনার পরবর্তী বড় উদ্যোগ নির্মাণ ও সুরক্ষিত করতে আমরা সেরা ডিজিটাল পণ্য এবং পরিষেবা দিতে প্রতিশ্রুতিবদ্ধ।",
+      why: "আমাদের কেন বেছে নিবেন?",
+      whyDesc: "আমাদের মূল নীতিগুলোই আমাদের সব কাজে পথপ্রদর্শন করে।",
+      box1Title: "প্রিমিয়াম কোয়ালিটি",
+      box1Desc: "উচ্চতর কোয়ালিটি নিশ্চিত করার জন্য আমাদের সব পণ্য কঠোর মানের পরীক্ষার মধ্য দিয়ে যায়।",
+      box2Title: "সুরক্ষিত ও নিরাপদ",
+      box2Desc: "আপনার ডেটা ও গোপনীয়তাই প্রধান বিষয়। আমরা বিশ্বজুড়ে আধুনিক নিরাপত্তা ব্যবস্থা ও এনক্রিপশন ব্যবহার করি।",
+      box3Title: "বিদ্যুৎ গতির পারফরম্যান্স",
+      box3Desc: "সর্বোচ্চ গতির জন্য অপ্টিমাইজ করা। আমাদের সলিউশন সবসময় দ্রুত এবং ব্যবহারের জন্য প্রস্তুত।"
+    },
+    faq: {
+      title1: "কোনো প্রশ্ন আছে? ",
+      title2: "আমাদের কাছে উত্তর আছে",
+      desc: "ডিজিটাল সম্পদ কেনা, লাইসেন্স করা ও ম্যানেজ করার সব তথ্য এখানেই পাবেন।",
+      q1: "আমি কীভাবে আমার কেনা ডিজিটাল প্রোডাক্ট পাবো?",
+      a1: "সিকিউর চেকআউট শেষ হওয়ার সাথে সাথে আপনি ইমেইলে ডাউনলোড লিংক ও লাইসেন্স কি পেয়ে যাবেন। তাছাড়া, সবসময় ড্যাশবোর্ড থেকেও 'Library' ট্যাবে তা অ্যাক্সেস করতে পারবেন।",
+      q2: "সফটওয়্যার লাইসেন্স কি আজীবনের জন্য?",
+      a2: "এটি প্রোডাক্টের ওপর নির্ভর করে। প্রোডাক্ট পেজে স্পষ্ট লেখা থাকে লাইসেন্সটি লাইফটাইম, নাকি মাসিক/বাৎসরিক সাবস্ক্রিপশন।",
+      q3: "সফটওয়্যার ঠিকমতো কাজ না করলে কি রিফান্ড পাবো?",
+      a3: "হ্যাঁ, যদি সফটওয়্যারটিতে কোনো ত্রুটি থাকে বা বিবরণের সাথে মিল না থাকে, তাহলে ১৪ দিনের মানিব্যাক গ্যারান্টি আছে। আমাদের সাপোর্ট টিম সবসময় সাহায্যের জন্য প্রস্তুত।",
+      q4: "পেমেন্টগুলো কি সত্যিই নিরাপদ?",
+      a4: "অবশ্যই। আমরা ব্যাংক লেভেলের ২৫৬-বিট SSL এনক্রিপশন ব্যবহার করি এবং আপনার কার্ডের ডেটা আমাদের সার্ভারে সংরক্ষণ করি না।",
+    },
+    contact: {
+      title: "যোগাযোগ করুন",
+      desc: "আপনার কোনো প্রশ্ন থাকলে বা আমাদের সাথে কাজ করতে চাইলে নিচে মেসেজ দিন, এবং আমাদের টিম খুব শীঘ্রই আপনার সাথে যোগাযোগ করবে।",
+      email: "ইমেইল করুন",
+      emailDesc: "আমরা সাহায্য করতে প্রস্তুত।",
+      call: "কল করুন",
+      callDesc: "সোম-শুক্র, সকাল ৮টা থেকে বিকাল ৫টা।",
+      visit: "দেখা করুন",
+      visitDesc: "আমাদের অফিসে চলে আসুন।",
+      formTitle: "মেসেজ পাঠান",
+      fName: "নামের প্রথমাংশ",
+      lName: "নামের শেষাংশ",
+      emailInput: "ইমেইল অ্যাড্রেস",
+      message: "আপনার মেসেজ",
+      send: "মেসেজ পাঠান"
+    },
+    products: {
+      title: "সব পণ্য",
+      desc: "আপনার কাজকে দ্রুত করতে সেরা ডিজিটাল পণ্যগুলো এক্সপ্লোর করুন।",
+      filters: "ফিল্টারসমূহ",
+      sortFeatured: "Featured পণ্য",
+      sortLowToHigh: "দাম: কম থেকে বেশি",
+      sortHighToLow: "দাম: বেশি থেকে কম",
+      sortRated: "সর্বোচ্চ রেটিংপ্রাপ্ত",
+      addToCart: "কার্টে যোগ করুন",
+      loadMore: "আরও পণ্য লোড করুন"
+    },
+    productCard: {
+      digitalAsset: "ডিজিটাল সম্পদ",
+      oneTimePayment: "এককালীন পেমেন্ট",
+      addToCart: "কার্টে যোগ করুন",
+      buyNow: "এখনই কিনুন",
+      viewDetails: "বিস্তারিত দেখুন"
+    },
+    dashboardLayout: {
+      title: "ড্যাশবোর্ড",
+      overview: "ওভারভিউ",
+      orders: "অর্ডার",
+      billing: "বিলিং",
+      profile: "প্রোফাইল",
+      settings: "সেটিংস",
+      logout: "লগ আউট"
+    },
+    dashboard: {
+      title: "ইউজার ড্যাশবোর্ড",
+      welcome: "ফিরে আসার জন্য স্বাগতম, ",
+      memberSince: "সদস্য হয়েছেন ",
+      browseProducts: "পণ্য ব্রাউজ করুন",
+      recentOrders: "সাম্প্রতিক অর্ডার",
+      latestPurchases: "আপনার সর্বশেষ কেনাকাটা",
+      viewAll: "সব দেখুন",
+      activeProducts: "অ্যাক্টিভ পণ্য",
+      accessTo: "আপনি যেসব প্রোডাক্ট অ্যাক্সেস করতে পারেন",
+      active: "অ্যাক্টিভ",
+      expires: "মেয়াদ শেষ",
+      download: "ডাউনলোড",
+      notifications: "নোটিফিকেশনস",
+      unreadAlerts: "unread অ্যালার্ট",
+      markRead: "পঠিত হিসেবে মার্ক করুন",
+      needHelp: "সাহায্য প্রয়োজন?",
+      helpDesc: "দ্রুত শুরু করতে সাপোর্ট টিমের সাথে যোগাযোগ করুন অথবা ডকুমেন্টেশন পড়ুন।",
+      contactSupport: "সাপোর্টে যোগাযোগ",
+      viewDoc: "ডকুমেন্টেশন দেখুন"
+    }
+  }
+};

@@ -15,6 +15,8 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useLangStore } from "@/store/langStore";
+import { dict } from "@/utils/dictionary";
 
 // ── Mock Data ────────────────────────────────────────────
 const user = {
@@ -23,13 +25,6 @@ const user = {
   image: null,
   joinedDate: "March 2025",
 };
-
-const stats = [
-  { label: "Total Orders", value: "12", icon: ShoppingBag, color: "bg-blue-50 text-blue-600", change: "+2 this month" },
-  { label: "Total Spent", value: "$186", icon: CreditCard, color: "bg-emerald-50 text-emerald-600", change: "+$38 this month" },
-  { label: "Active Products", value: "5", icon: Package, color: "bg-violet-50 text-violet-600", change: "" },
-  { label: "Notifications", value: "3", icon: Bell, color: "bg-amber-50 text-amber-600", change: "3 unread" },
-];
 
 const recentOrders = [
   { id: "ORD-001", product: "Cloud Storage Pro", date: "Mar 8, 2026", amount: "$9.00", status: "completed" },
@@ -65,27 +60,37 @@ const notifColors: Record<string, string> = {
 // ─────────────────────────────────────────────────────────
 
 export default function UserDashboard() {
+  const { lang } = useLangStore();
+  const t = dict[lang].dashboard;
+
+  const stats = [
+    { label: "Total Orders", value: "12", icon: ShoppingBag, color: "bg-blue-50 text-blue-600", change: "+2 this month" },
+    { label: "Total Spent", value: "$186", icon: CreditCard, color: "bg-emerald-50 text-emerald-600", change: "+$38 this month" },
+    { label: "Active Products", value: "5", icon: Package, color: "bg-violet-50 text-violet-600", change: "" },
+    { label: "Notifications", value: "3", icon: Bell, color: "bg-amber-50 text-amber-600", change: `3 ${t.unreadAlerts}` },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div className="w-full">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10">
 
         {/* ── Header ── */}
-        <div className="mb-10 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-4">
-            <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-[#0f7af7] to-[#0452ab] flex items-center justify-center shadow-lg shadow-blue-200">
+            <div className="h-14 w-14 rounded-full bg-blue-600 flex items-center justify-center">
               <User className="h-7 w-7 text-white" />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-[#0f7af7] mb-0.5">User Dashboard</p>
-              <h1 className="text-2xl font-extrabold text-slate-900">Welcome back, {user.name.split(" ")[0]} 👋</h1>
-              <p className="text-sm text-slate-500 font-medium">{user.email} · Member since {user.joinedDate}</p>
+              <p className="text-xs font-semibold uppercase tracking-wider text-blue-600 mb-0.5">{t.title}</p>
+              <h1 className="text-2xl font-bold text-slate-900">{t.welcome}{user.name.split(" ")[0]}</h1>
+              <p className="text-sm text-slate-500 font-medium">{user.email} · {t.memberSince}{user.joinedDate}</p>
             </div>
           </div>
           <Link
             href="/"
-            className="mt-4 sm:mt-0 inline-flex items-center gap-2 rounded-2xl bg-[#0f7af7] px-5 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-300/30 transition hover:bg-[#085fc3] hover:shadow-xl hover:-translate-y-px"
+            className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-700"
           >
-            Browse Products
+            {t.browseProducts}
             <ArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
@@ -93,13 +98,13 @@ export default function UserDashboard() {
         {/* ── Stats Grid ── */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           {stats.map((s) => (
-            <div key={s.label} className="bg-white rounded-2xl border border-slate-100 p-5 shadow-sm hover:shadow-md transition-shadow">
-              <div className={`inline-flex items-center justify-center h-10 w-10 rounded-xl ${s.color} mb-4`}>
+            <div key={s.label} className="bg-white rounded-xl border border-slate-200 p-5 shadow-sm">
+              <div className={`inline-flex items-center justify-center h-10 w-10 rounded-lg ${s.color} mb-4`}>
                 <s.icon className="h-5 w-5" />
               </div>
-              <p className="text-2xl font-black text-slate-900">{s.value}</p>
-              <p className="text-sm font-semibold text-slate-600 mt-0.5">{s.label}</p>
-              {s.change && <p className="text-xs text-slate-400 mt-1">{s.change}</p>}
+              <p className="text-2xl font-bold text-slate-900">{s.value}</p>
+              <p className="text-sm font-medium text-slate-600 mt-1">{lang === "bn" ? s.label : s.label}</p>
+              {s.change && <p className="text-xs text-slate-500 mt-1.5">{s.change}</p>}
             </div>
           ))}
         </div>
@@ -111,33 +116,33 @@ export default function UserDashboard() {
           <div className="lg:col-span-2 space-y-6">
 
             {/* Recent Orders */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden" id="orders">
               <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
-                  <h2 className="font-bold text-slate-900">Recent Orders</h2>
-                  <p className="text-xs text-slate-400 mt-0.5">Your latest purchases</p>
+                  <h2 className="font-semibold text-slate-900">{t.recentOrders}</h2>
+                  <p className="text-sm text-slate-500 mt-0.5">{t.latestPurchases}</p>
                 </div>
-                <button className="text-xs font-bold text-[#0f7af7] flex items-center gap-1 hover:gap-2 transition-all">
-                  View all <ChevronRight className="h-3.5 w-3.5" />
+                <button className="text-sm font-medium text-blue-600 flex items-center gap-1 hover:gap-1.5 transition-all">
+                  {t.viewAll} <ChevronRight className="h-4 w-4" />
                 </button>
               </div>
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-slate-100">
                 {recentOrders.map((order) => (
-                  <div key={order.id} className="flex items-center justify-between px-6 py-4 hover:bg-slate-50/60 transition-colors">
+                  <div key={order.id} className="flex items-center justify-between px-6 py-4 hover:bg-slate-50 transition-colors">
                     <div className="flex items-center gap-3">
-                      <div className="h-9 w-9 rounded-xl bg-slate-100 flex items-center justify-center">
-                        <Package className="h-4 w-4 text-slate-500" />
+                      <div className="h-10 w-10 rounded-lg bg-slate-100 flex items-center justify-center">
+                        <Package className="h-5 w-5 text-slate-600" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-800">{order.product}</p>
-                        <p className="text-xs text-slate-400 flex items-center gap-1 mt-0.5">
-                          <Clock className="h-3 w-3" /> {order.date} · <span className="font-mono">{order.id}</span>
+                        <p className="text-sm font-medium text-slate-900">{order.product}</p>
+                        <p className="text-xs text-slate-500 flex items-center gap-1 mt-1">
+                          <Clock className="h-3 w-3" /> {order.date} · <span className="font-mono text-slate-400">{order.id}</span>
                         </p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <span className="font-bold text-sm text-slate-900">{order.amount}</span>
-                      <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full capitalize ${statusColors[order.status]}`}>
+                    <div className="flex items-center gap-4">
+                      <span className="font-medium text-sm text-slate-900">{order.amount}</span>
+                      <span className={`text-xs font-medium px-2.5 py-1 rounded-md capitalize ${statusColors[order.status]}`}>
                         {order.status}
                       </span>
                     </div>
@@ -147,36 +152,36 @@ export default function UserDashboard() {
             </div>
 
             {/* Active Products */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
               <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
-                  <h2 className="font-bold text-slate-900">Active Products</h2>
-                  <p className="text-xs text-slate-400 mt-0.5">Products you have access to</p>
+                  <h2 className="font-semibold text-slate-900">{t.activeProducts}</h2>
+                  <p className="text-sm text-slate-500 mt-0.5">{t.accessTo}</p>
                 </div>
               </div>
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-slate-100">
                 {activeProducts.map((p) => (
-                  <div key={p.name} className="flex items-center justify-between px-6 py-4 hover:bg-slate-50/60 transition-colors">
+                  <div key={p.name} className="flex items-center justify-between px-6 py-4 hover:bg-slate-50 transition-colors">
                     <div className="flex items-center gap-4">
-                      <div className="relative h-12 w-12 rounded-2xl overflow-hidden border border-slate-100 shrink-0">
+                      <div className="relative h-12 w-12 rounded-lg overflow-hidden border border-slate-200 shrink-0 bg-slate-50">
                         <Image src={p.img} alt={p.name} fill className="object-cover" />
                       </div>
                       <div>
-                        <p className="text-sm font-bold text-slate-800">{p.name}</p>
-                        <p className="text-xs text-slate-400 mt-0.5">{p.category}</p>
-                        <div className="flex items-center gap-1 mt-1">
+                        <p className="text-sm font-medium text-slate-900">{p.name}</p>
+                        <p className="text-xs text-slate-500 mt-1">{p.category}</p>
+                        <div className="flex items-center gap-1 mt-1.5">
                           <Star className="h-3 w-3 fill-amber-400 text-amber-400" />
-                          <span className="text-xs font-bold text-amber-600">{p.rating}</span>
+                          <span className="text-xs font-medium text-slate-700">{p.rating}</span>
                         </div>
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-full">
-                        <CheckCircle2 className="h-3 w-3" /> Active
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md">
+                        <CheckCircle2 className="h-3.5 w-3.5" /> {t.active}
                       </span>
-                      <p className="text-[10px] text-slate-400 mt-1.5">Expires {p.expires}</p>
-                      <button className="mt-1.5 inline-flex items-center gap-1 text-[10px] font-bold text-[#0f7af7] hover:underline">
-                        <Download className="h-3 w-3" /> Download
+                      <p className="text-xs text-slate-500 mt-2">{t.expires} {p.expires}</p>
+                      <button className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-blue-600 hover:text-blue-700">
+                        <Download className="h-3.5 w-3.5" /> {t.download}
                       </button>
                     </div>
                   </div>
@@ -187,38 +192,38 @@ export default function UserDashboard() {
 
           {/* Right Column: Notifications */}
           <div className="space-y-6">
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
               <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
                 <div>
-                  <h2 className="font-bold text-slate-900">Notifications</h2>
-                  <p className="text-xs text-slate-400 mt-0.5">3 unread alerts</p>
+                  <h2 className="font-semibold text-slate-900">{t.notifications}</h2>
+                  <p className="text-sm text-slate-500 mt-0.5">3 {t.unreadAlerts}</p>
                 </div>
-                <button className="text-xs font-bold text-[#0f7af7]">Mark all read</button>
+                <button className="text-sm font-medium text-blue-600 hover:text-blue-700">{t.markRead}</button>
               </div>
-              <div className="divide-y divide-slate-50">
+              <div className="divide-y divide-slate-100">
                 {notifications.map((n, i) => (
-                  <div key={i} className="flex gap-3 px-5 py-4 hover:bg-slate-50/60 transition-colors">
-                    <div className={`mt-1 h-2.5 w-2.5 rounded-full shrink-0 ${notifColors[n.type]}`} />
+                  <div key={i} className="flex gap-3 px-6 py-4 hover:bg-slate-50 transition-colors">
+                    <div className={`mt-1 h-2 w-2 rounded-full shrink-0 ${notifColors[n.type]}`} />
                     <div>
-                      <p className="text-sm font-bold text-slate-800">{n.title}</p>
-                      <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{n.message}</p>
-                      <p className="text-[10px] text-slate-400 mt-1.5 font-medium">{n.time}</p>
+                      <p className="text-sm font-medium text-slate-900">{n.title}</p>
+                      <p className="text-sm text-slate-600 mt-1">{n.message}</p>
+                      <p className="text-xs text-slate-400 mt-2">{n.time}</p>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Quick Actions */}
-            <div className="bg-gradient-to-br from-[#0f7af7] to-[#0452ab] rounded-3xl p-6 text-white shadow-xl shadow-blue-300/30">
-              <h2 className="font-extrabold text-lg mb-1">Need Help?</h2>
-              <p className="text-sm text-blue-100 mb-5 leading-relaxed">Contact our support team or browse the documentation to get started quickly.</p>
+            {/* Quick Actions - Normal styling */}
+            <div className="bg-slate-800 rounded-xl p-6 text-white shadow-sm">
+              <h2 className="font-semibold text-lg mb-2">{t.needHelp}</h2>
+              <p className="text-sm text-slate-300 mb-6">{t.helpDesc}</p>
               <div className="space-y-3">
-                <button className="w-full rounded-2xl bg-white/20 border border-white/20 backdrop-blur-sm py-2.5 text-sm font-bold text-white transition hover:bg-white/30">
-                  Contact Support
+                <button className="w-full rounded-lg bg-slate-700 py-2.5 text-sm font-medium text-white transition hover:bg-slate-600">
+                  {t.contactSupport}
                 </button>
-                <button className="w-full rounded-2xl bg-white py-2.5 text-sm font-bold text-[#0f7af7] transition hover:bg-blue-50">
-                  View Documentation
+                <button className="w-full rounded-lg bg-white py-2.5 text-sm font-medium text-slate-900 transition hover:bg-slate-50">
+                  {t.viewDoc}
                 </button>
               </div>
             </div>

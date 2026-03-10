@@ -1,54 +1,103 @@
-import { Plus } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Plus, Minus, MessageCircleQuestion } from "lucide-react";
+import { useLangStore } from "@/store/langStore";
+import { dict } from "@/utils/dictionary";
 
 export default function FAQSection() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const { lang } = useLangStore();
+  const t = dict[lang].faq;
+
   const faqs = [
     {
-      question: "How do I access my purchased digital products?",
-      answer: "Once your secure checkout is complete, you will immediately receive an email with download links and license keys. You can also access everything anytime from your user dashboard under the 'Library' tab."
+      question: t.q1,
+      answer: t.a1
     },
     {
-      question: "Are the software licenses permanent?",
-      answer: "It depends on the specific product. We clearly mark whether a software package is a lifetime license, a yearly subscription, or a monthly recurring plan on the product page."
+      question: t.q2,
+      answer: t.a2
     },
     {
-      question: "Can I get a refund if the software doesn't work?",
-      answer: "Yes, we offer a 14-day money-back guarantee on all purchases if the product is fundamentally defective or does not match its description. Our support team is always available to help."
+      question: t.q3,
+      answer: t.a3
     },
     {
-      question: "Are the payments truly secure?",
-      answer: "Absolutely. We use bank-level 256-bit SSL encryption. We never store your credit card data directly, processing everything through verified partners like Stripe and PayPal."
+      question: t.q4,
+      answer: t.a4
     }
   ];
 
-  return (
-    <section id="faq" className="py-16 md:py-24 mx-auto w-full max-w-7xl px-4">
-      <header className="mb-12 text-center">
-        <h2 className="text-3xl font-extrabold text-slate-900 md:text-5xl tracking-tight mb-4">
-          Frequently Asked <span className="text-blue-600">Questions</span>
-        </h2>
-        <p className="text-slate-600 max-w-2xl mx-auto md:text-lg">
-          Everything you need to know about purchasing, licensing, and managing your digital resources.
-        </p>
-      </header>
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
 
-      <ul className="mx-auto max-w-3xl space-y-4">
-        {faqs.map((faq, idx) => (
-          <li key={idx} className="group rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all hover:border-sky-200 hover:shadow-md cursor-pointer">
-            <div className="flex items-center justify-between gap-4">
-              <h3 className="text-lg font-bold text-slate-900 group-hover:text-sky-700 transition-colors">
-                {faq.question}
-              </h3>
-              <button className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 text-slate-500 group-hover:bg-sky-50 group-hover:text-sky-600 transition-colors shrink-0">
-                <Plus className="h-4 w-4" />
-              </button>
-            </div>
-            {/* Displaying answer as visible for now, normally it would be an accordion */}
-            <p className="mt-4 text-sm leading-relaxed text-slate-600 pr-8">
-              {faq.answer}
-            </p>
-          </li>
-        ))}
-      </ul>
+  return (
+    <section id="faq" className="py-20 md:py-28 bg-slate-50 border-t border-slate-100 relative overflow-hidden">
+      {/* Background Decoration */}
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 rounded-full bg-sky-100/50 blur-3xl mix-blend-multiply pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 rounded-full bg-blue-100/50 blur-3xl mix-blend-multiply pointer-events-none"></div>
+
+      <div className="mx-auto w-full max-w-4xl px-4 relative z-10">
+        <header className="mb-14 text-center">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-200 mb-6">
+            <MessageCircleQuestion className="w-8 h-8 text-blue-600" />
+          </div>
+          <h2 className="text-3xl font-extrabold text-slate-900 md:text-5xl tracking-tight mb-4">
+            {t.title1} <span className="text-blue-600">{t.title2}</span>
+          </h2>
+          <p className="text-slate-600 max-w-2xl mx-auto md:text-lg">
+            {t.desc}
+          </p>
+        </header>
+
+        <div className="space-y-4">
+          {faqs.map((faq, idx) => {
+            const isOpen = openIndex === idx;
+            return (
+              <div 
+                key={idx} 
+                className={`group rounded-2xl border transition-all duration-300 overflow-hidden ${
+                  isOpen 
+                    ? "border-blue-200 bg-white shadow-md shadow-blue-100/50" 
+                    : "border-slate-200 bg-white/60 hover:bg-white hover:shadow-sm"
+                }`}
+              >
+                <button 
+                  onClick={() => toggleFAQ(idx)}
+                  className="flex w-full items-center justify-between gap-4 p-6 text-left focus:outline-none"
+                >
+                  <h3 className={`text-lg font-bold transition-colors ${
+                    isOpen ? "text-blue-700" : "text-slate-900 group-hover:text-blue-600"
+                  }`}>
+                    {faq.question}
+                  </h3>
+                  <div className={`flex h-10 w-10 items-center justify-center rounded-full transition-colors shrink-0 ${
+                    isOpen 
+                      ? "bg-blue-600 text-white" 
+                      : "bg-slate-100 text-slate-500 group-hover:bg-blue-50 group-hover:text-blue-600"
+                  }`}>
+                    {isOpen ? <Minus className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+                  </div>
+                </button>
+                
+                <div 
+                  className={`grid transition-all duration-300 ease-in-out ${
+                    isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                  }`}
+                >
+                  <div className="overflow-hidden">
+                    <p className="px-6 pb-6 text-slate-600 leading-relaxed md:pr-12">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </section>
   );
 }

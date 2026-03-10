@@ -1,7 +1,48 @@
+"use client";
+
+import Link from "next/link";
 import ProductCard from "./ProductCard";
+import { useLangStore } from "@/store/langStore";
+import { dict } from "@/utils/dictionary";
 
 export default function ProductSection() {
-  const products = [
+  const { lang } = useLangStore();
+  const t = dict[lang].productSection;
+
+  const products = lang === "bn" ? [
+    {
+      title: "ক্লাউড স্টোরেজ প্রো",
+      description: "আপনার সমস্ত ডিজিটাল অ্যাসেটের জন্য সুরক্ষিত, উচ্চ গতির ক্লাউড স্টোরেজ। যে কোনো জায়গা থেকে, যে কোনো সময় অ্যাক্সেস করুন।",
+      price: "$9",
+      rating: 4.8,
+      reviews: 1240,
+      image: "/images/cloud.png",
+    },
+    {
+      title: "এআই অ্যাসিস্ট্যান্ট প্লাস",
+      description: "আমাদের এআই অ্যাসিস্ট্যান্ট ওয়ার্কস্পেস দিয়ে আপনার প্রডাক্টিভিটি বাড়ান। ইন্টেলিজেন্ট অটোমেশন।",
+      price: "$19",
+      rating: 4.9,
+      reviews: 892,
+      image: "/images/ai.png",
+    },
+    {
+      title: "ক্রিয়েটিভ স্যুট ম্যাক্স",
+      description: "সবচেয়ে সেরা ডিজাইন এবং ক্রিয়েটিভ সফটওয়্যার বান্ডিল। মাস্টারপিস তৈরি করতে যা কিছু প্রয়োজন সব এখানে আছে।",
+      price: "$29",
+      rating: 4.7,
+      reviews: 2150,
+      image: "/images/creative.png",
+    },
+    {
+      title: "মার্কেটিং অ্যাসেটস",
+      description: "আপনার পরবর্তী বড় প্রকল্পের জন্য ১০,০০০ এর বেশি প্রিমিয়াম গ্রাফিক্স, টেমপ্লেট এবং ইউআই কিট।",
+      price: "$14",
+      rating: 4.6,
+      reviews: 310,
+      image: "/images/banner.png",
+    },
+  ] : [
     {
       title: "Cloud Storage Pro",
       description: "Secure, high-speed cloud storage for all your digital assets. Access anywhere, anytime.",
@@ -41,23 +82,22 @@ export default function ProductSection() {
       <article className="mx-auto w-full">
         <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
           <hgroup className="max-w-2xl">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-600">Top Picks</p>
+            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-600">{t.badge}</p>
             <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">
-              Popular Digital Products
-              <span className="block text-sky-700">Ready for Instant Access</span>
+              {t.title1}
+              <span className="block text-sky-700">{t.title2}</span>
             </h2>
             <p className="mt-3 text-sm text-slate-600 md:text-base font-medium">
-              Choose from trending subscriptions and premium resources curated for creators,
-              professionals, and growing teams.
+              {t.desc}
             </p>
           </hgroup>
-          <button className="rounded-xl border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-[0_2px_10px_rgb(0,0,0,0.03)] transition hover:border-sky-200 hover:text-sky-700 hover:bg-slate-50">
-            View All Products
-          </button>
+          <Link href="/products" className="rounded-xl flex items-center justify-center border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-[0_2px_10px_rgb(0,0,0,0.03)] transition hover:border-sky-200 hover:text-sky-700 hover:bg-slate-50 cursor-pointer">
+            {t.btn}
+          </Link>
         </header>
 
-        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {products.map((product, idx) => (
+        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {products.slice(0, 3).map((product, idx) => (
             <li key={idx} className="list-none">
               <ProductCard {...product} />
             </li>
