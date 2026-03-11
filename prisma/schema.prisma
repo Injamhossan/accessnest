@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider        = "prisma-client-js"
   previewFeatures = ["driverAdapters"]
@@ -10,9 +7,180 @@ datasource db {
   provider = "postgresql"
 }
 
-// ─────────────────────────────────────────
-// Enums
-// ─────────────────────────────────────────
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String         @unique
+  emailVerified DateTime?
+  image         String?
+  role          UserRole       @default(user)
+  isActive      Boolean        @default(true)
+  lastLogin     DateTime?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  password      String?
+  accounts      Account[]
+  cart          CartItem[]
+  notifications Notification[]
+  orders        Order[]
+  sessions      Session[]
+  transactions  Transaction[]
+  approvedLogs  VisitorLog[]   @relation("ApproverAdmin")
+  visitorLogs   VisitorLog[]   @relation("VisitorUser")
+
+  @@map("users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+model Product {
+  id              String          @id @default(cuid())
+  title           String
+  description     String
+  longDescription String?
+  price           Decimal         @db.Decimal(10, 2)
+  discountedPrice Decimal?        @db.Decimal(10, 2)
+  category        ProductCategory
+  image           String
+  rating          Float           @default(0)
+  reviews         Int             @default(0)
+  stock           Int             @default(0)
+  isActive        Boolean         @default(true)
+  isFeatured      Boolean         @default(false)
+  downloadUrl     String?         // For digital product delivery
+  deliverableContent String?      // For license keys or instructions
+  tags            String[]
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  orderItems      CartItem[]
+  orders          OrderItem[]
+
+  @@map("products")
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  productId String
+  quantity  Int      @default(1)
+  addedAt   DateTime @default(now())
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id            String        @id @default(cuid())
+  userId        String
+  status        OrderStatus   @default(pending)
+  totalAmount   Decimal       @db.Decimal(10, 2)
+  paymentMethod String?
+  paymentId     String?
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  items         OrderItem[]
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions  Transaction[]
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String
+  quantity  Int
+  unitPrice Decimal @db.Decimal(10, 2)
+  subtotal  Decimal @db.Decimal(10, 2)
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+model Transaction {
+  id             String            @id @default(cuid())
+  userId         String
+  orderId        String?
+  type           TransactionType
+  amount         Decimal           @db.Decimal(10, 2)
+  currency       String            @default("USD")
+  status         TransactionStatus @default(pending)
+  paymentGateway String
+  createdAt      DateTime          @default(now())
+  order          Order?            @relation(fields: [orderId], references: [id])
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("transactions")
+}
+
+model VisitorLog {
+  id           String        @id @default(cuid())
+  userId       String
+  resourceId   String
+  resourceType String
+  status       VisitorStatus @default(pending)
+  approvedById String?
+  notes        String?
+  requestedAt  DateTime      @default(now())
+  resolvedAt   DateTime?
+  approver     User?         @relation("ApproverAdmin", fields: [approvedById], references: [id])
+  user         User          @relation("VisitorUser", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("visitor_logs")
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  title     String
+  message   String
+  type      NotificationType @default(info)
+  isRead    Boolean          @default(false)
+  link      String?
+  createdAt DateTime         @default(now())
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("notifications")
+}
 
 enum UserRole {
   user
@@ -29,11 +197,15 @@ enum OrderStatus {
 }
 
 enum ProductCategory {
-  Security_Storage  @map("Security & Storage")
+  Security
+  Storage
   Automation
-  Design_Tools      @map("Design Tools")
-  Growth
-  Analytics
+  Design
+  Marketing
+  Development
+  Software
+  Education
+  Other
 }
 
 enum TransactionType {
@@ -60,221 +232,4 @@ enum NotificationType {
   success
   warning
   error
-}
-
-// ─────────────────────────────────────────
-// User
-// ─────────────────────────────────────────
-
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String    @unique
-  emailVerified DateTime?
-  image         String?
-  role          UserRole  @default(user)
-  isActive      Boolean   @default(true)
-  lastLogin     DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-
-  // NextAuth relations
-  accounts      Account[]
-  sessions      Session[]
-
-  // App relations
-  orders        Order[]
-  cart          CartItem[]
-  transactions  Transaction[]
-  notifications Notification[]
-  visitorLogs   VisitorLog[]    @relation("VisitorUser")
-  approvedLogs  VisitorLog[]    @relation("ApproverAdmin")
-
-  @@map("users")
-}
-
-// ─────────────────────────────────────────
-// NextAuth — Account & Session
-// ─────────────────────────────────────────
-
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
-  @@map("accounts")
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("sessions")
-}
-
-model VerificationToken {
-  identifier String
-  token      String   @unique
-  expires    DateTime
-
-  @@unique([identifier, token])
-  @@map("verification_tokens")
-}
-
-// ─────────────────────────────────────────
-// Product
-// ─────────────────────────────────────────
-
-model Product {
-  id               String          @id @default(cuid())
-  title            String
-  description      String
-  longDescription  String?         @db.Text
-  price            Decimal         @db.Decimal(10, 2)
-  discountedPrice  Decimal?        @db.Decimal(10, 2)
-  category         ProductCategory
-  image            String
-  rating           Float           @default(0)
-  reviews          Int             @default(0)
-  stock            Int             @default(0)
-  isActive         Boolean         @default(true)
-  isFeatured       Boolean         @default(false)
-  tags             String[]
-  createdAt        DateTime        @default(now())
-  updatedAt        DateTime        @updatedAt
-
-  orderItems CartItem[]
-  orders     OrderItem[]
-
-  @@map("products")
-}
-
-// ─────────────────────────────────────────
-// Cart
-// ─────────────────────────────────────────
-
-model CartItem {
-  id        String   @id @default(cuid())
-  userId    String
-  productId String
-  quantity  Int      @default(1)
-  addedAt   DateTime @default(now())
-
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, productId])
-  @@map("cart_items")
-}
-
-// ─────────────────────────────────────────
-// Order
-// ─────────────────────────────────────────
-
-model Order {
-  id            String      @id @default(cuid())
-  userId        String
-  status        OrderStatus @default(pending)
-  totalAmount   Decimal     @db.Decimal(10, 2)
-  paymentMethod String?
-  paymentId     String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  items        OrderItem[]
-  transactions Transaction[]
-
-  @@map("orders")
-}
-
-model OrderItem {
-  id        String  @id @default(cuid())
-  orderId   String
-  productId String
-  quantity  Int
-  unitPrice Decimal @db.Decimal(10, 2)
-  subtotal  Decimal @db.Decimal(10, 2)
-
-  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product Product @relation(fields: [productId], references: [id])
-
-  @@map("order_items")
-}
-
-// ─────────────────────────────────────────
-// Transaction
-// ─────────────────────────────────────────
-
-model Transaction {
-  id             String            @id @default(cuid())
-  userId         String
-  orderId        String?
-  type           TransactionType
-  amount         Decimal           @db.Decimal(10, 2)
-  currency       String            @default("USD")
-  status         TransactionStatus @default(pending)
-  paymentGateway String
-  createdAt      DateTime          @default(now())
-
-  user  User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  order Order? @relation(fields: [orderId], references: [id])
-
-  @@map("transactions")
-}
-
-// ─────────────────────────────────────────
-// Visitor / Access Log
-// ─────────────────────────────────────────
-
-model VisitorLog {
-  id           String        @id @default(cuid())
-  userId       String
-  resourceId   String
-  resourceType String
-  status       VisitorStatus @default(pending)
-  approvedById String?
-  notes        String?
-  requestedAt  DateTime      @default(now())
-  resolvedAt   DateTime?
-
-  user     User  @relation("VisitorUser", fields: [userId], references: [id], onDelete: Cascade)
-  approver User? @relation("ApproverAdmin", fields: [approvedById], references: [id])
-
-  @@map("visitor_logs")
-}
-
-// ─────────────────────────────────────────
-// Notification
-// ─────────────────────────────────────────
-
-model Notification {
-  id        String           @id @default(cuid())
-  userId    String
-  title     String
-  message   String
-  type      NotificationType @default(info)
-  isRead    Boolean          @default(false)
-  link      String?
-  createdAt DateTime         @default(now())
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("notifications")
 }

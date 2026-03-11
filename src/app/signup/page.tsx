@@ -1,10 +1,65 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Github, Lock, Mail, User, Sparkles, ShieldCheck, Users } from "lucide-react";
 import { signIn } from "next-auth/react";
 
 export default function SignupPage() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const fullName = formData.get("fullName") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const confirmPassword = formData.get("confirmPassword") as string;
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fullName, email, password }),
+      });
+
+      if (response.ok) {
+        // Automatically sign in after successful registration
+        const res = await signIn("credentials", {
+          redirect: false,
+          email,
+          password,
+        });
+
+        if (res?.error) {
+          setError("Registration successful, but login failed. Please sign in manually.");
+        } else {
+          router.push("/dashboard");
+          router.refresh();
+        }
+      } else {
+        const data = await response.text();
+        setError(data || "Registration failed. Please try again.");
+      }
+    } catch (err: any) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="min-h-screen grid lg:grid-cols-2">
       {/* Right Side: Signup Form */}
@@ -17,7 +72,12 @@ export default function SignupPage() {
             </p>
           </div>
 
-          <form className="space-y-5" action="#" method="POST" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-5" action="#" method="POST" onSubmit={handleSignup}>
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm font-medium border border-red-100 mb-4">
+                {error}
+              </div>
+            )}
             <div className="grid gap-5 sm:grid-cols-2">
               <div className="sm:col-span-2 space-y-2">
                 <label htmlFor="fullName" className="text-sm font-semibold text-slate-700 ml-1">
@@ -34,6 +94,7 @@ export default function SignupPage() {
                     autoComplete="name"
                     required
                     placeholder="John Doe"
+                    suppressHydrationWarning={true}
                     className="w-full rounded-2xl border border-slate-200/80 bg-slate-50/50 py-3.5 pl-12 pr-4 text-sm text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 hover:bg-white focus:bg-white focus:border-[#0f7af7] focus:ring-4 focus:ring-[#0f7af7]/15"
                   />
                 </div>
@@ -54,6 +115,7 @@ export default function SignupPage() {
                     autoComplete="email"
                     required
                     placeholder="name@company.com"
+                    suppressHydrationWarning={true}
                     className="w-full rounded-2xl border border-slate-200/80 bg-slate-50/50 py-3.5 pl-12 pr-4 text-sm text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 hover:bg-white focus:bg-white focus:border-[#0f7af7] focus:ring-4 focus:ring-[#0f7af7]/15"
                   />
                 </div>
@@ -75,6 +137,7 @@ export default function SignupPage() {
                     required
                     minLength={8}
                     placeholder="8+ characters"
+                    suppressHydrationWarning={true}
                     className="w-full rounded-2xl border border-slate-200/80 bg-slate-50/50 py-3.5 pl-12 pr-4 text-sm text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 hover:bg-white focus:bg-white focus:border-[#0f7af7] focus:ring-4 focus:ring-[#0f7af7]/15"
                   />
                 </div>
@@ -96,6 +159,7 @@ export default function SignupPage() {
                     required
                     minLength={8}
                     placeholder="Re-enter password"
+                    suppressHydrationWarning={true}
                     className="w-full rounded-2xl border border-slate-200/80 bg-slate-50/50 py-3.5 pl-12 pr-4 text-sm text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 hover:bg-white focus:bg-white focus:border-[#0f7af7] focus:ring-4 focus:ring-[#0f7af7]/15"
                   />
                 </div>
@@ -131,11 +195,12 @@ export default function SignupPage() {
 
             <button
               type="submit"
-              className="mt-2 group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f7af7] to-[#0a66d1] px-4 py-4 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,122,247,0.3)] transition-all hover:scale-[1.01] hover:shadow-[0_12px_25px_rgba(15,122,247,0.4)] active:scale-[0.98]"
+              disabled={loading}
+              className="mt-2 group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f7af7] to-[#0a66d1] px-4 py-4 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,122,247,0.3)] transition-all hover:scale-[1.01] hover:shadow-[0_12px_25px_rgba(15,122,247,0.4)] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0" />
               <span className="relative flex items-center justify-center gap-2">
-                Create Account
+                {loading ? "Creating Account..." : "Create Account"}
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             </button>

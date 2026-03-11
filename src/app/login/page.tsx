@@ -1,10 +1,45 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight, Github, Lock, Mail, Sparkles, ShieldCheck } from "lucide-react";
 import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        callbackUrl: "/dashboard",
+        email,
+        password,
+      });
+
+      if (res?.error) {
+        setError("Invalid email or password");
+      } else {
+        window.location.href = "/dashboard";
+      }
+    } catch (err: any) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main className="min-h-screen grid lg:grid-cols-2">
       {/* Left Side: Brand & Visuals */}
@@ -64,7 +99,12 @@ export default function LoginPage() {
             </p>
           </div>
 
-          <form className="space-y-6" action="#" method="POST" onSubmit={(e) => e.preventDefault()}>
+          <form className="space-y-6" action="#" method="POST" onSubmit={handleLogin}>
+            {error && (
+              <div className="bg-red-50 text-red-600 p-3 rounded-xl text-sm font-medium border border-red-100">
+                {error}
+              </div>
+            )}
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-semibold text-slate-700 ml-1">
                 Email address
@@ -80,6 +120,7 @@ export default function LoginPage() {
                   autoComplete="email"
                   required
                   placeholder="name@company.com"
+                  suppressHydrationWarning={true}
                   className="w-full rounded-2xl border border-slate-200/80 bg-slate-50/50 py-3.5 pl-12 pr-4 text-sm text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 hover:bg-white focus:bg-white focus:border-[#0f7af7] focus:ring-4 focus:ring-[#0f7af7]/15"
                 />
               </div>
@@ -105,6 +146,7 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   required
                   placeholder="Enter your password"
+                  suppressHydrationWarning={true}
                   className="w-full rounded-2xl border border-slate-200/80 bg-slate-50/50 py-3.5 pl-12 pr-4 text-sm text-slate-900 shadow-sm outline-none transition-all placeholder:text-slate-400 hover:bg-white focus:bg-white focus:border-[#0f7af7] focus:ring-4 focus:ring-[#0f7af7]/15"
                 />
               </div>
@@ -129,11 +171,12 @@ export default function LoginPage() {
 
             <button
               type="submit"
-              className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f7af7] to-[#0a66d1] px-4 py-4 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,122,247,0.3)] transition-all hover:scale-[1.01] hover:shadow-[0_12px_25px_rgba(15,122,247,0.4)] active:scale-[0.98]"
+              disabled={loading}
+              className="group relative w-full overflow-hidden rounded-2xl bg-gradient-to-r from-[#0f7af7] to-[#0a66d1] px-4 py-4 text-sm font-bold text-white shadow-[0_8px_20px_rgba(15,122,247,0.3)] transition-all hover:scale-[1.01] hover:shadow-[0_12px_25px_rgba(15,122,247,0.4)] active:scale-[0.98] disabled:opacity-70 disabled:cursor-not-allowed"
             >
               <div className="absolute inset-0 bg-white/20 translate-y-full transition-transform duration-300 ease-out group-hover:translate-y-0" />
               <span className="relative flex items-center justify-center gap-2">
-                Continue to Dashboard
+                {loading ? "Signing in..." : "Continue to Dashboard"}
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
               </span>
             </button>
@@ -148,7 +191,7 @@ export default function LoginPage() {
           <div className="grid grid-cols-2 gap-4">
             <button
               type="button"
-              onClick={() => signIn("google")}
+              onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
               className="flex items-center justify-center gap-2 rounded-2xl border border-slate-200/80 bg-white px-4 py-3.5 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:border-slate-300 hover:bg-slate-50 hover:shadow"
             >
               <svg className="h-5 w-5" viewBox="0 0 24 24" aria-hidden="true">

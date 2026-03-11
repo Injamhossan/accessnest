@@ -121,6 +121,36 @@ export const dict = {
       helpDesc: "Contact our support team or browse the documentation to get started quickly.",
       contactSupport: "Contact Support",
       viewDoc: "View Documentation"
+    },
+    admin: {
+      manageProducts: "Manage Products",
+      manageUsers: "User Management",
+      salesAnalytics: "Sales & Analytics",
+      allOrders: "All Orders",
+      revenue: "Revenue",
+      completedSales: "Completed Sales",
+      activeProducts: "Active Products",
+      totalUsers: "Total Users",
+      addProduct: "Add Product",
+      editProduct: "Edit Product",
+      deleteProduct: "Delete Product",
+      productName: "Product Name",
+      category: "Category",
+      price: "Price",
+      actions: "Actions",
+      userRole: "Role",
+      joinedDate: "Joined Date",
+      categories: {
+        Security: "Security",
+        Storage: "Storage",
+        Automation: "Automation",
+        Design: "Design",
+        Marketing: "Marketing",
+        Development: "Development",
+        Software: "Software",
+        Education: "Education",
+        Other: "Other"
+      }
     }
   },
   bn: {
@@ -180,7 +210,7 @@ export const dict = {
       q3: "সফটওয়্যার ঠিকমতো কাজ না করলে কি রিফান্ড পাবো?",
       a3: "হ্যাঁ, যদি সফটওয়্যারটিতে কোনো ত্রুটি থাকে বা বিবরণের সাথে মিল না থাকে, তাহলে ১৪ দিনের মানিব্যাক গ্যারান্টি আছে। আমাদের সাপোর্ট টিম সবসময় সাহায্যের জন্য প্রস্তুত।",
       q4: "পেমেন্টগুলো কি সত্যিই নিরাপদ?",
-      a4: "অবশ্যই। আমরা ব্যাংক লেভেলের ২৫৬-বিট SSL এনক্রিপশন ব্যবহার করি এবং আপনার কার্ডের ডেটা আমাদের সার্ভারে সংরক্ষণ করি না।",
+      a4: "অবশ্যই। আমরা ব্যাংক লেভেলের ২৫৫-বিট SSL এনক্রিপশন ব্যবহার করি এবং আপনার কার্ডের ডেটা আমাদের সার্ভারে সংরক্ষণ করি না।",
     },
     contact: {
       title: "যোগাযোগ করুন",
@@ -245,6 +275,36 @@ export const dict = {
       helpDesc: "দ্রুত শুরু করতে সাপোর্ট টিমের সাথে যোগাযোগ করুন অথবা ডকুমেন্টেশন পড়ুন।",
       contactSupport: "সাপোর্টে যোগাযোগ",
       viewDoc: "ডকুমেন্টেশন দেখুন"
+    },
+    admin: {
+      manageProducts: "পণ্য পরিচালনা",
+      manageUsers: "ইউজার ম্যানেজমেন্ট",
+      salesAnalytics: "সেলস ও অ্যানালিটিক্স",
+      allOrders: "সব অর্ডার",
+      revenue: "মোট আয়",
+      completedSales: "সম্পন্ন বিক্রয়",
+      activeProducts: "সক্রিয় পণ্য",
+      totalUsers: "মোট ইউজার",
+      addProduct: "পণ্য যোগ করুন",
+      editProduct: "পণ্য এডিট",
+      deleteProduct: "পণ্য মুছুন",
+      productName: "পণ্যের নাম",
+      category: "ক্যাটাগরি",
+      price: "দাম",
+      actions: "অ্যাকশন",
+      userRole: "রোল",
+      joinedDate: "যোগদানের তারিখ",
+      categories: {
+        Security: "নিরাপত্তা (Security)",
+        Storage: "স্টোরেজ (Storage)",
+        Automation: "অটোমেশন (Automation)",
+        Design: "ডিজাইন (Design)",
+        Marketing: "মার্কেটিং (Marketing)",
+        Development: "ডেভেলপমেন্ট (Development)",
+        Software: "সফটওয়্যার (Software)",
+        Education: "শিক্ষা (Education)",
+        Other: "অন্যান্য (Other)"
+      }
     }
   }
 };

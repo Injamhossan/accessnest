@@ -12,19 +12,19 @@ export default function AllProductsPage() {
 
   // Mock Data for All Products
   const products = lang === "bn" ? [
-    { id: 1, name: "ক্লাউড স্টোরেজ প্রো", category: "স্টোরেজ", price: "$9.00", rating: 4.8, reviews: 124, img: "/images/cloud.png" },
-    { id: 2, name: "এআই অ্যাসিস্ট্যান্ট প্লাস", category: "অটোমেশন", price: "$19.00", rating: 4.9, reviews: 342, img: "/images/ai.png" },
-    { id: 3, name: "ক্রিয়েটিভ স্যুট ম্যাক্স", category: "ডিজাইন", price: "$29.00", rating: 4.7, reviews: 89, img: "/images/cloud.png" },
-    { id: 4, name: "মার্কেটিং অ্যাসেটস", category: "মার্কেটিং", price: "$14.00", rating: 4.6, reviews: 210, img: "/images/ai.png" },
-    { id: 5, name: "সিকিউর ভিপিএন শিল্ড", category: "সিকিউরিটি", price: "$12.00", rating: 4.9, reviews: 450, img: "/images/cloud.png" },
-    { id: 6, name: "ডেভপস টুলকিট", category: "ডেভেলপমেন্ট", price: "$39.00", rating: 4.8, reviews: 112, img: "/images/ai.png" },
+    { id: 1, name: "ক্লাউড স্টোরেজ প্রো", category: "স্টোরেজ", price: "9.00", rating: 4.8, reviews: 124, img: "/images/cloud.png" },
+    { id: 2, name: "এআই অ্যাসিস্ট্যান্ট প্লাস", category: "অটোমেশন", price: "19.00", rating: 4.9, reviews: 342, img: "/images/ai.png" },
+    { id: 3, name: "ক্রিয়েটিভ স্যুট ম্যাক্স", category: "ডিজাইন", price: "29.00", rating: 4.7, reviews: 89, img: "/images/cloud.png" },
+    { id: 4, name: "মার্কেটিং অ্যাসেটস", category: "মার্কেটিং", price: "14.00", rating: 4.6, reviews: 210, img: "/images/ai.png" },
+    { id: 5, name: "সিকিউর ভিপিএন শিল্ড", category: "সিকিউরিটি", price: "12.00", rating: 4.9, reviews: 450, img: "/images/cloud.png" },
+    { id: 6, name: "ডেভপস টুলকিট", category: "ডেভেলপমেন্ট", price: "39.00", rating: 4.8, reviews: 112, img: "/images/ai.png" },
   ] : [
-    { id: 1, name: "Cloud Storage Pro", category: "Storage", price: "$9.00", rating: 4.8, reviews: 124, img: "/images/cloud.png" },
-    { id: 2, name: "AI Assistant Plus", category: "Automation", price: "$19.00", rating: 4.9, reviews: 342, img: "/images/ai.png" },
-    { id: 3, name: "Creative Suite Max", category: "Design", price: "$29.00", rating: 4.7, reviews: 89, img: "/images/cloud.png" },
-    { id: 4, name: "Marketing Assets", category: "Marketing", price: "$14.00", rating: 4.6, reviews: 210, img: "/images/ai.png" },
-    { id: 5, name: "Secure VPN Shield", category: "Security", price: "$12.00", rating: 4.9, reviews: 450, img: "/images/cloud.png" },
-    { id: 6, name: "DevOps Toolkit", category: "Development", price: "$39.00", rating: 4.8, reviews: 112, img: "/images/ai.png" },
+    { id: 1, name: "Cloud Storage Pro", category: "Storage", price: "9.00", rating: 4.8, reviews: 124, img: "/images/cloud.png" },
+    { id: 2, name: "AI Assistant Plus", category: "Automation", price: "19.00", rating: 4.9, reviews: 342, img: "/images/ai.png" },
+    { id: 3, name: "Creative Suite Max", category: "Design", price: "29.00", rating: 4.7, reviews: 89, img: "/images/cloud.png" },
+    { id: 4, name: "Marketing Assets", category: "Marketing", price: "14.00", rating: 4.6, reviews: 210, img: "/images/ai.png" },
+    { id: 5, name: "Secure VPN Shield", category: "Security", price: "12.00", rating: 4.9, reviews: 450, img: "/images/cloud.png" },
+    { id: 6, name: "DevOps Toolkit", category: "Development", price: "39.00", rating: 4.8, reviews: 112, img: "/images/ai.png" },
   ];
 
   return (
@@ -77,7 +77,7 @@ export default function AllProductsPage() {
                 <h3 className="text-lg font-bold text-slate-900 mb-2 truncate">{product.name}</h3>
                 
                 <div className="mt-auto pt-6 flex items-center justify-between">
-                  <span className="text-xl font-extrabold text-slate-900">{product.price}</span>
+                  <span className="text-xl font-extrabold text-slate-900">৳{product.price}</span>
                   <Link href={`/cart`} className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 hover:text-sky-700 group/link">
                     {t.addToCart} <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
                   </Link>
