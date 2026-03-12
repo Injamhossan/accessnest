@@ -68,7 +68,7 @@ export async function GET() {
       return NextResponse.json({
         type: "user",
         orders,
-        activeProducts: activeProducts.map(item => item.product)
+        activeProducts: activeProducts.map((item: any) => item.product)
       });
     }
   } catch (error) {
