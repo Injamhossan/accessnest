@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { nagorikpay } from "@/lib/nagorikpay";
 import { sendEmail } from "@/lib/mailer";
+import { trackCapiEvent } from "@/lib/facebook-capi";
+
 
 export async function POST(req: Request) {
   try {
@@ -138,6 +140,25 @@ export async function POST(req: Request) {
       if (!emailResult.success) {
         console.error("Critical: Order confirmed but email failed to send to", updatedOrder.user.email);
       }
+
+      // 6. Track with Facebook CAPI (Server-side)
+      await trackCapiEvent({
+        eventName: "Purchase",
+        eventSourceUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/verify`,
+        userData: {
+          em: updatedOrder.user.email,
+          client_ip_address: req.headers.get("x-forwarded-for") || undefined,
+          client_user_agent: req.headers.get("user-agent") || undefined,
+        },
+        customData: {
+          value: Number(updatedOrder.totalAmount),
+          currency: "BDT",
+          content_ids: updatedOrder.items.map((i: any) => i.productId),
+          content_type: "product",
+          order_id: updatedOrder.id,
+        },
+      });
+
 
 
       return NextResponse.json({ success: true, order: updatedOrder });

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import { Search, SlidersHorizontal, Star, ArrowRight, X } from "lucide-react";
 import Link from "next/link";
 import { createPortal } from "react-dom";
+import * as fp from "@/lib/fpixel";
+
 
 const searchResults = [
   {
@@ -56,6 +58,20 @@ export default function GlobalSearch({ isOpen, onClose }: GlobalSearchProps) {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Track search query with debounce
+  useEffect(() => {
+    if (!query.trim()) return;
+
+    const timer = setTimeout(() => {
+      fp.event("Search", {
+        search_string: query.trim(),
+      });
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [query]);
+
 
   // Handle escape key and body scroll lock
   useEffect(() => {

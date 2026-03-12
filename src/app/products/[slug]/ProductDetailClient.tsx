@@ -1,9 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import { useLangStore } from "@/store/langStore";
 import { dict } from "@/utils/dictionary";
 import { useCartStore } from "@/store/cartStore";
+import * as fp from "@/lib/fpixel";
+
 import Image from "next/image";
 import Link from "next/link";
 import { 
@@ -30,14 +33,56 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
   const adminT = dict[lang].admin;
   const addItem = useCartStore((state) => state.addItem);
 
+  useEffect(() => {
+    fp.event("ViewContent", {
+      content_name: product.title,
+      content_category: product.category,
+      content_ids: [product.id],
+      content_type: "product",
+      value: Number(product.price),
+      currency: "BDT",
+    });
+  }, [product.id]);
+
+
+
   const handleAddToCart = () => {
     addItem(product);
+    fp.event("AddToCart", {
+      content_name: product.title,
+      content_category: product.category,
+      content_ids: [product.id],
+      content_type: "product",
+      value: Number(product.price),
+      currency: "BDT",
+    });
   };
+
 
   const handleBuyNow = () => {
     addItem(product);
+    fp.event("AddToCart", {
+      content_name: product.title,
+      content_category: product.category,
+      content_ids: [product.id],
+      content_type: "product",
+      value: Number(product.price),
+      currency: "BDT",
+    });
     router.push("/cart");
   };
+
+  const handleAddToWishlist = () => {
+    fp.event("AddToWishlist", {
+      content_name: product.title,
+      content_category: product.category,
+      content_ids: [product.id],
+      content_type: "product",
+      value: Number(product.price),
+      currency: "BDT",
+    });
+  };
+
 
   const [copied, setCopied] = useState(false);
 
@@ -76,9 +121,13 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                 className="object-cover"
                 priority
               />
-              <button className="absolute top-6 right-6 h-12 w-12 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 shadow-lg transition-all active:scale-90">
+              <button 
+                onClick={handleAddToWishlist}
+                className="absolute top-6 right-6 h-12 w-12 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 shadow-lg transition-all active:scale-90"
+              >
                 <Heart className="h-6 w-6" />
               </button>
+
             </div>
 
             {/* Quick Info Grid */}
