@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCartStore();
@@ -18,15 +19,23 @@ export default function CheckoutPage() {
     fullName: "",
     email: "",
     phone: "",
-    paymentMethod: "card"
+    paymentMethod: "nagorikpay"
   });
 
   const [isLoading, setIsLoading] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const { data: session } = useSession();
 
   useEffect(() => {
     setIsClient(true);
-  }, []);
+    if (session?.user) {
+      setFormData(prev => ({
+        ...prev,
+        fullName: session.user.name || "",
+        email: session.user.email || "",
+      }));
+    }
+  }, [session]);
 
   if (!isClient) return null;
 
@@ -160,7 +169,7 @@ export default function CheckoutPage() {
                     </h2>
 
                     <div className="space-y-4">
-                      {["card", "crypto", "wallets"].map((method) => (
+                      {["nagorikpay", "card", "crypto"].map((method) => (
                         <label
                           key={method}
                           className={`relative flex items-center p-4 cursor-pointer rounded-xl border transition-all ${
@@ -178,10 +187,9 @@ export default function CheckoutPage() {
                             className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300"
                           />
                           <span className="ml-4 flex items-center">
-                            <span className="text-slate-900 font-medium">
-                              {method === "card" ? t.card : method === "crypto" ? t.crypto : t.wallets}
+                            <span className="text-slate-900 font-medium capitalize">
+                              {method === "nagorikpay" ? "Nagorikpay (Bkash/Rocket/Nagad/Card)" : method === "card" ? t.card : t.crypto}
                             </span>
-                            {/* Icons would go here */}
                           </span>
                         </label>
                       ))}
