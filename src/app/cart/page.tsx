@@ -138,9 +138,12 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <button className="w-full bg-[#0f7af7] hover:bg-[#0863cb] text-white py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-blue-200 hover:shadow-blue-300 active:scale-[0.98]">
+              <Link 
+                href="/checkout"
+                className="w-full bg-[#0f7af7] hover:bg-[#0863cb] text-white py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-blue-200 hover:shadow-blue-300 active:scale-[0.98] flex items-center justify-center"
+              >
                 {cartT.checkout}
-              </button>
+              </Link>
               
               <div className="mt-6 flex items-center justify-center gap-4 grayscale opacity-40">
                 <Image src="https://placehold.co/40x25/png?text=Visa" alt="Visa" width={40} height={25} />

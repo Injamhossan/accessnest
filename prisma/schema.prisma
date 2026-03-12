@@ -71,7 +71,6 @@ model VerificationToken {
 
 model Product {
   id                 String          @id @default(cuid())
-  slug               String?         @unique
   title              String
   description        String
   longDescription    String?
@@ -89,6 +88,7 @@ model Product {
   updatedAt          DateTime        @updatedAt
   deliverableContent String?
   downloadUrl        String?
+  slug               String?         @unique
   orderItems         CartItem[]
   orders             OrderItem[]
 

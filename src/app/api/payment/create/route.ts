@@ -13,8 +13,20 @@ export async function POST(req: Request) {
 
     const { fullName, email, phone, items, totalPrice } = await req.json();
 
-    if (!items || items.length === 0) {
-      return NextResponse.json({ error: "No items in cart" }, { status: 400 });
+    // Verify products exist to prevent P2003 foreign key violation
+    const productIds = items.map((i: any) => i.id);
+    const existingProducts = await prisma.product.findMany({
+      where: { id: { in: productIds } },
+      select: { id: true }
+    });
+    
+    const existingIds = new Set(existingProducts.map(p => p.id));
+    const missingIds = productIds.filter((id: string) => !existingIds.has(id));
+
+    if (missingIds.length > 0) {
+      return NextResponse.json({ 
+        error: "One or more products in your cart are no longer available. Please clear your cart and try again." 
+      }, { status: 400 });
     }
 
     // 1. Create Order in Database

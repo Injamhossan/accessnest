@@ -28,6 +28,9 @@ export default function CheckoutPage() {
 
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
     if (session?.user) {
       setFormData(prev => ({
         ...prev,
@@ -37,7 +40,13 @@ export default function CheckoutPage() {
     }
   }, [session]);
 
-  if (!isClient) return null;
+  if (!isClient) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
 
   const totalPrice = getTotalPrice();
 
@@ -127,7 +136,8 @@ export default function CheckoutPage() {
                         required
                         value={formData.fullName}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        placeholder="John Doe"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900 bg-white"
                       />
                     </div>
 
@@ -142,7 +152,8 @@ export default function CheckoutPage() {
                         required
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        placeholder="your@email.com"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900 bg-white"
                       />
                     </div>
 
@@ -157,7 +168,8 @@ export default function CheckoutPage() {
                         required
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                        placeholder="01XXXXXXXXX"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900 bg-white"
                       />
                     </div>
                   </div>
@@ -223,25 +235,25 @@ export default function CheckoutPage() {
                         <p className="text-xs text-slate-500 mt-1">{item.category}</p>
                         <div className="flex justify-between items-center mt-1">
                           <span className="text-xs text-slate-500">Qty: {item.quantity}</span>
-                          <span className="text-sm font-semibold text-slate-900">${(item.price * item.quantity).toFixed(2)}</span>
+                          <span className="text-sm font-semibold text-slate-900">৳{(item.price * item.quantity).toFixed(2)}</span>
                         </div>
                       </div>
                     </li>
                   ))}
                 </ul>
-
+ 
                 <div className="space-y-3 pt-6 border-t border-slate-100">
                   <div className="flex justify-between text-slate-600">
                     <span>Subtotal</span>
-                    <span>${totalPrice.toFixed(2)}</span>
+                    <span>৳{totalPrice.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-slate-600">
                     <span>Tax (0%)</span>
-                    <span>$0.00</span>
+                    <span>৳0.00</span>
                   </div>
                   <div className="flex justify-between items-center pt-3 border-t border-slate-100">
                     <span className="text-lg font-bold text-slate-900">{t.total}</span>
-                    <span className="text-2xl font-black text-blue-600">${totalPrice.toFixed(2)}</span>
+                    <span className="text-2xl font-black text-blue-600">৳{totalPrice.toFixed(2)}</span>
                   </div>
                 </div>
 
