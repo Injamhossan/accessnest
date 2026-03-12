@@ -18,16 +18,25 @@ interface EmailOptions {
 
 export const sendEmail = async ({ to, subject, html }: EmailOptions) => {
   try {
+    // Verify connection configuration
+    await transporter.verify();
+    
     const info = await transporter.sendMail({
       from: `"Access Nest" <${process.env.EMAIL_USER}>`,
       to,
       subject,
       html,
     });
-    console.log("Email sent: %s", info.messageId);
+    console.log("Email sent successfully: %s", info.messageId);
     return { success: true, messageId: info.messageId };
-  } catch (error) {
-    console.error("Email send error:", error);
-    return { success: false, error };
+  } catch (error: any) {
+    console.error("Email send error detail:", {
+      message: error.message,
+      code: error.code,
+      command: error.command,
+      response: error.response
+    });
+    return { success: false, error: error.message };
   }
 };
+

@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, ShoppingCart, User, Globe } from "lucide-react";
+import { Search, ShoppingCart, User, Globe, LogOut, LogIn } from "lucide-react";
+import { useSession, signOut } from "next-auth/react";
+
 import navLogo from "@/assets/navlogo.png";
 import GlobalSearch from "./GlobalSearch";
 import { useLangStore } from "@/store/langStore";
@@ -15,7 +17,9 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const { lang, toggleLang } = useLangStore();
   const t = dict[lang].nav;
+  const { data: session, status } = useSession();
   const cartItemsCount = useCartStore((state) => state.getTotalItems());
+
 
   useEffect(() => {
     setMounted(true);
@@ -75,10 +79,28 @@ export default function Navbar() {
               <span className="hidden md:inline font-semibold text-sm">{t.cart}</span>
             </Link>
             <div className="h-6 w-px bg-slate-200 hidden md:block"></div>
-            <Link href="/dashboard" className="flex items-center gap-2 hover:text-sky-600 transition-colors group">
-              <User className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-500" />
-              <span className="hidden md:inline font-semibold text-sm">{t.dashboard}</span>
-            </Link>
+            
+            {status === "authenticated" ? (
+              <div className="flex items-center gap-4">
+                <Link href="/dashboard" className="flex items-center gap-2 hover:text-sky-600 transition-colors group">
+                  <User className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-500" />
+                  <span className="hidden md:inline font-semibold text-sm">{t.dashboard}</span>
+                </Link>
+                <button 
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="flex items-center gap-2 hover:text-red-500 transition-colors group cursor-pointer"
+                  title="Logout"
+                >
+                  <LogOut className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-500" />
+                </button>
+              </div>
+            ) : (
+              <Link href="/login" className="flex items-center gap-2 hover:text-sky-600 transition-colors group">
+                <LogIn className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-500" />
+                <span className="hidden md:inline font-semibold text-sm">Login</span>
+              </Link>
+            )}
+
           </div>
         </nav>
       </header>

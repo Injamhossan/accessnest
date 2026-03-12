@@ -86,7 +86,7 @@ export async function POST(req: Request) {
       // 5. Send Confirmation Email
       const itemsHtml = updatedOrder.items.map((item: any) => `
         <div style="padding: 15px; border-bottom: 1px solid #edf2f7; display: flex; align-items: center;">
-          <img src="${item.product.image}" alt="${item.product.title}" style="width: 50px; hieght: 50px; border-radius: 8px; margin-right: 15px; object-fit: cover;">
+          <img src="${item.product.image}" alt="${item.product.title}" style="width: 50px; height: 50px; border-radius: 8px; margin-right: 15px; object-fit: cover;">
           <div style="flex: 1;">
             <p style="margin: 0; font-weight: bold; color: #1a202c;">${item.product.title}</p>
             <p style="margin: 5px 0 0; font-size: 12px; color: #718096;">Qty: ${item.quantity}</p>
@@ -96,7 +96,8 @@ export async function POST(req: Request) {
         </div>
       `).join('');
 
-      await sendEmail({
+      console.log(`Attempting to send receipt to: ${updatedOrder.user.email}`);
+      const emailResult = await sendEmail({
         to: updatedOrder.user.email,
         subject: `Your Order Receipt - ${updatedOrder.id}`,
         html: `
@@ -133,6 +134,11 @@ export async function POST(req: Request) {
           </div>
         `,
       });
+
+      if (!emailResult.success) {
+        console.error("Critical: Order confirmed but email failed to send to", updatedOrder.user.email);
+      }
+
 
       return NextResponse.json({ success: true, order: updatedOrder });
     } else {
