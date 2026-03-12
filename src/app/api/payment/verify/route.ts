@@ -12,12 +12,31 @@ export async function POST(req: Request) {
 
     // 1. Verify with Nagorikpay
     const npVerify = await nagorikpay.verifyPayment(transactionId);
+    console.log("Nagorikpay Verify Response:", npVerify);
 
-    if (npVerify.status === "COMPLETED") {
-      const orderId = npVerify.metadata?.orderId;
+    if (npVerify.status === "COMPLETED" || npVerify.status === "SUCCESS") {
+      // Check both metadata and meta_data as some APIs change the case/format/type
+      let rawMetadata = npVerify.metadata || (npVerify as any).meta_data;
+      let metadata: any = {};
+
+      if (typeof rawMetadata === 'string') {
+        try {
+          metadata = JSON.parse(rawMetadata);
+        } catch (e) {
+          console.error("Failed to parse metadata string:", rawMetadata);
+        }
+      } else {
+        metadata = rawMetadata;
+      }
+
+      const orderId = metadata?.orderId;
 
       if (!orderId) {
-          return NextResponse.json({ error: "Order context lost in metadata" }, { status: 400 });
+          console.error("Missing orderId in metadata:", metadata);
+          return NextResponse.json({ 
+            success: false, 
+            message: "Order context missing in payment verification. Please contact support." 
+          }, { status: 400 });
       }
 
       // 2. Update Order in Database
@@ -28,6 +47,13 @@ export async function POST(req: Request) {
           paymentId: transactionId,
           paymentMethod: npVerify.payment_method || "Nagorikpay",
         },
+        include: {
+          items: {
+            include: {
+              product: true
+            }
+          }
+        }
       });
 
       // 3. Create a Transaction record
@@ -37,10 +63,10 @@ export async function POST(req: Request) {
           orderId: updatedOrder.id,
           type: "purchase",
           amount: updatedOrder.totalAmount,
-          currency: "BDT", // Based on Nagorikpay context
+          currency: "BDT", 
           status: "success",
           paymentGateway: "Nagorikpay",
-          id: transactionId, // Use the real transaction ID
+          id: transactionId, 
         },
       });
 
@@ -60,11 +86,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ 
         success: false, 
         status: npVerify.status, 
-        message: npVerify.message || "Payment not completed" 
+        message: npVerify.message || `Payment status: ${npVerify.status}. Verification not completed.`
       });
     }
   } catch (error: any) {
     console.error("Verify Payment Route Error:", error);
-    return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ 
+      success: false, 
+      message: error.message || "Internal Server Error" 
+    }, { status: 500 });
   }
 }

@@ -27,6 +27,7 @@ export interface NagorikpayVerifyResponse {
   amount?: string;
   transaction_id: string;
   metadata?: any;
+  meta_data?: any;
   payment_method?: string;
   message?: string;
 }
