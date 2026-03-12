@@ -50,7 +50,7 @@ export async function GET() {
         dailySales[d.toLocaleDateString()] = 0;
     }
 
-    recentOrders.forEach(o => {
+    recentOrders.forEach((o: any) => {
         const dateStr = new Date(o.createdAt).toLocaleDateString();
         if (dailySales[dateStr] !== undefined) {
             dailySales[dateStr] += Number(o.totalAmount);
@@ -59,7 +59,7 @@ export async function GET() {
 
     return NextResponse.json({ 
         orders, 
-        chartData: Object.entries(dailySales).map(([date, amount]) => ({ date, amount })).reverse()
+        chartData: Object.entries(dailySales).map(([date, amount]: [string, any]) => ({ date, amount })).reverse()
     });
   } catch (error) {
     console.error(error);

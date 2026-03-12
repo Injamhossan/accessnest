@@ -25,7 +25,7 @@ export async function GET() {
     });
 
     // Add order counts
-    const usersWithCounts = await Promise.all(users.map(async (user) => {
+    const usersWithCounts = await Promise.all(users.map(async (user: any) => {
       const orderCount = await prisma.order.count({ where: { userId: user.id } });
       return { ...user, orderCount };
     }));

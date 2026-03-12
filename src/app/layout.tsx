@@ -22,6 +22,7 @@ export const metadata: Metadata = {
 };
 
 import Providers from "@/components/Providers";
+import { Analytics } from "@vercel/analytics/react";
 
 export default function RootLayout({
   children,
@@ -40,6 +41,7 @@ export default function RootLayout({
             </WrapperLayout>
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
