@@ -22,6 +22,7 @@ export async function GET() {
         prisma.product.count(),
         prisma.order.count(),
         prisma.order.aggregate({
+          where: { status: "completed" },
           _sum: {
             totalAmount: true
           }
@@ -50,25 +51,31 @@ export async function GET() {
       });
     } else {
       // User Data
-      const [orders, activeProducts] = await Promise.all([
+      const [orders, activeProducts, notifications] = await Promise.all([
         prisma.order.findMany({
           where: { userId: session.user.id },
           take: 5,
           orderBy: { createdAt: "desc" },
           include: { items: { include: { product: true } } }
         }),
-        // This is a simplified way to get active products (e.g. from successful orders)
+        // This is a simplified way to get active products
         prisma.orderItem.findMany({
           where: { order: { userId: session.user.id, status: "completed" } },
           include: { product: true },
           take: 5
+        }),
+        prisma.notification.findMany({
+          where: { userId: session.user.id },
+          orderBy: { createdAt: "desc" },
+          take: 10
         })
       ]);
 
       return NextResponse.json({
         type: "user",
         orders,
-        activeProducts: activeProducts.map((item: any) => item.product)
+        activeProducts: activeProducts.map((item: any) => item.product),
+        notifications
       });
     }
   } catch (error) {

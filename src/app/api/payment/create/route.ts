@@ -54,7 +54,7 @@ export async function POST(req: Request) {
       cus_name: fullName,
       cus_email: email,
       amount: String(totalPrice),
-      success_url: `${baseUrl}/checkout/success`,
+      success_url: `${baseUrl}/checkout/success?orderId=${order.id}`,
       cancel_url: `${baseUrl}/checkout/cancel`,
       meta_data: {
         orderId: order.id,

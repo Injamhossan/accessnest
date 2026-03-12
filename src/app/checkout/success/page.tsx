@@ -11,6 +11,7 @@ function SuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const transactionId = searchParams.get("transactionId") || searchParams.get("transaction_id");
+  const orderId = searchParams.get("orderId");
   const [verifying, setVerifying] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [order, setOrder] = useState<any>(null);
@@ -26,14 +27,14 @@ function SuccessContent() {
       setError("No transaction ID found");
       setVerifying(false);
     }
-  }, [transactionId]);
+  }, [transactionId, orderId]);
 
   const verifyPayment = async () => {
     try {
       const res = await fetch("/api/payment/verify", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ transactionId }),
+        body: JSON.stringify({ transactionId, orderId }),
       });
       const data = await res.json();
       

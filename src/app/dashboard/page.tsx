@@ -305,11 +305,15 @@ function UserDashboard({ session, lang, realData }: { session: any; lang: keyof 
     joinedDate: "N/A",
   };
 
+  const totalSpent = realData?.orders
+    ?.filter((o: any) => o.status === "completed")
+    ?.reduce((acc: number, o: any) => acc + Number(o.totalAmount), 0) || 0;
+
   const stats = [
-    { label: "Total Orders", value: realData?.orders?.length?.toString() || "0", icon: ShoppingBag, color: "bg-blue-50 text-blue-600", change: "+0 this month" },
-    { label: "Total Spent", value: "৳0", icon: CreditCard, color: "bg-emerald-50 text-emerald-600", change: "+৳0 this month" },
-    { label: "Active Products", value: realData?.activeProducts?.length?.toString() || "0", icon: Package, color: "bg-violet-50 text-violet-600", change: "" },
-    { label: "Notifications", value: "0", icon: Bell, color: "bg-amber-50 text-amber-600", change: `0 ${t.unreadAlerts}` },
+    { label: "Total Orders", value: realData?.orders?.length?.toString() || "0", icon: ShoppingBag, color: "bg-blue-50 text-blue-600", change: `${realData?.orders?.length || 0} total` },
+    { label: "Total Spent", value: `৳${totalSpent.toLocaleString()}`, icon: CreditCard, color: "bg-emerald-50 text-emerald-600", change: "Verified payments" },
+    { label: "Active Products", value: realData?.activeProducts?.length?.toString() || "0", icon: Package, color: "bg-violet-50 text-violet-600", change: "Downloads enabled" },
+    { label: "Notifications", value: realData?.notifications?.length?.toString() || "0", icon: Bell, color: "bg-amber-50 text-amber-600", change: `${realData?.notifications?.filter((n: any) => !n.isRead).length || 0} ${t.unreadAlerts}` },
   ];
 
   return (

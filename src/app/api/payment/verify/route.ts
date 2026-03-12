@@ -5,7 +5,7 @@ import { sendEmail } from "@/lib/mailer";
 
 export async function POST(req: Request) {
   try {
-    const { transactionId } = await req.json();
+    const { transactionId, orderId: orderIdFromBody } = await req.json();
 
     if (!transactionId) {
       return NextResponse.json({ error: "Transaction ID is required" }, { status: 400 });
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
         metadata = rawMetadata;
       }
 
-      const orderId = metadata?.orderId;
+      const orderId = metadata?.orderId || orderIdFromBody;
 
       if (!orderId) {
           console.error("Missing orderId in metadata:", metadata);
