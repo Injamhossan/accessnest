@@ -58,12 +58,33 @@ export default function CheckoutPage() {
     e.preventDefault();
     setIsLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const response = await fetch("/api/payment/create", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          fullName: formData.fullName,
+          email: formData.email,
+          phone: formData.phone,
+          items: items,
+          totalPrice: totalPrice,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.payment_url) {
+        // Redirect to Nagorikpay gateway
+        window.location.href = data.payment_url;
+      } else {
+        alert(data.error || "Failed to initialize payment");
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.error("Checkout Error:", error);
+      alert("An unexpected error occurred. Please try again.");
       setIsLoading(false);
-      clearCart();
-      router.push("/checkout/thank-you");
-    }, 2000);
+    }
   };
 
   return (
