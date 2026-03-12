@@ -74,7 +74,7 @@ export default function AdminDashboard() {
     );
   }
 
-  if (session?.user?.role !== "admin" && session?.user?.role !== "superadmin") {
+  if ((session?.user as any)?.role !== "admin" && (session?.user as any)?.role !== "superadmin") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
         <div className="max-w-md w-full bg-white rounded-3xl p-8 border border-red-100 shadow-xl text-center">
@@ -169,7 +169,7 @@ export default function AdminDashboard() {
             <p className="text-xs font-bold text-slate-300 mb-0.5">Logged in as</p>
             <p className="text-sm font-extrabold text-white truncate">{session?.user?.name || "Admin"}</p>
             <span className="inline-block mt-1 text-[10px] font-bold bg-[#0f7af7]/20 text-[#60aaff] border border-[#0f7af7]/30 px-2 py-0.5 rounded-full uppercase">
-              {session?.user?.role}
+              {(session?.user as any)?.role}
             </span>
           </div>
         </div>

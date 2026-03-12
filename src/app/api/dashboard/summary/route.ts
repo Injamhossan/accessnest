@@ -3,16 +3,17 @@ export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/prisma";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 
 export async function GET() {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession(authOptions as any) as any;
 
   if (!session) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 141 });
   }
 
-  const isAdmin = session.user.role === "admin" || session.user.role === "superadmin";
+  const isAdmin = (session.user as any).role === "admin" || (session.user as any).role === "superadmin";
+
 
   try {
     if (isAdmin) {
@@ -60,7 +61,7 @@ export async function GET() {
         }),
         // This is a simplified way to get active products
         prisma.orderItem.findMany({
-          where: { order: { userId: session.user.id, status: "completed" } },
+          where: { order: { userId: (session.user as any).id, status: "completed" } },
           include: { product: true },
           take: 5
         }),

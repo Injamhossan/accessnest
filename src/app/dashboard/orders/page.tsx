@@ -20,7 +20,7 @@ export default function OrdersPage() {
   const { data: session } = useSession();
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const isAdmin = session?.user?.role === "admin" || session?.user?.role === "superadmin";
+  const isAdmin = (session?.user as any)?.role === "admin" || (session?.user as any)?.role === "superadmin";
 
   useEffect(() => {
     fetch("/api/sales")

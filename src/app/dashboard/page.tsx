@@ -50,7 +50,7 @@ export default function DashboardPage() {
   const lang = useLangStore((state) => state.lang) as keyof typeof dict;
   const [data, setData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const isAdmin = session?.user?.role === "admin" || session?.user?.role === "superadmin";
+  const isAdmin = (session?.user as any)?.role === "admin" || (session?.user as any)?.role === "superadmin";
 
   useEffect(() => {
     if (status === "authenticated") {

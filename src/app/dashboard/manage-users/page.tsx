@@ -37,7 +37,7 @@ export default function ManageUsersPage() {
     fetchUsers();
   }, []);
 
-  if (session?.user?.role !== "admin" && session?.user?.role !== "superadmin") {
+  if ((session?.user as any)?.role !== "admin" && (session?.user as any)?.role !== "superadmin") {
     return <div className="p-10 text-center font-bold text-red-600">Unauthorized Access</div>;
   }
 
