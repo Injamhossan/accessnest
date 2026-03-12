@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, ShoppingCart, User, Globe } from "lucide-react";
@@ -12,9 +12,14 @@ import { useCartStore } from "@/store/cartStore";
 
 export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const { lang, toggleLang } = useLangStore();
   const t = dict[lang].nav;
   const cartItemsCount = useCartStore((state) => state.getTotalItems());
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <>
@@ -61,7 +66,7 @@ export default function Navbar() {
             <Link href="/cart" className="flex items-center gap-2 hover:text-sky-600 transition-colors group">
               <div className="relative">
                  <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-500" />
-                 {cartItemsCount > 0 && (
+                 {mounted && cartItemsCount > 0 && (
                    <span className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-sky-500 text-[9px] font-bold text-white animate-in zoom-in duration-300">
                      {cartItemsCount}
                    </span>
