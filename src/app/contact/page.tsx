@@ -30,7 +30,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-bold text-slate-900">{t.email}</h3>
                 <p className="text-slate-500 mt-1 mb-2 text-sm">{t.emailDesc}</p>
-                <a href="mailto:support@accessnest.com" className="font-semibold text-sky-600 hover:underline">support@accessnest.com</a>
+                <a href="mailto:support@accessnest.tech" className="font-semibold text-sky-600 hover:underline">support@accessnest.tech</a>
               </div>
             </div>
 
