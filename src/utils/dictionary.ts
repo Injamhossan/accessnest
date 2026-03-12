@@ -165,6 +165,39 @@ export const dict = {
         Education: "Education",
         Other: "Other"
       }
+    },
+    checkout: {
+      title: "Checkout",
+      subtitle: "Complete your purchase to get instant access.",
+      billingDetails: "Billing Details",
+      orderSummary: "Order Summary",
+      fullName: "Full Name",
+      email: "Email Address",
+      phone: "Phone Number",
+      country: "Country",
+      paymentMethod: "Payment Method",
+      card: "Credit / Debit Card",
+      crypto: "Cryptocurrency",
+      wallets: "Digital Wallets",
+      placeOrder: "Place Order",
+      secure: "Secure Checkout",
+      total: "Total Amount"
+    },
+    thankYou: {
+      title: "Thank You for Your Purchase!",
+      subtitle: "Your order has been successfully processed.",
+      orderId: "Order ID",
+      checkEmail: "Check your email for access details and invoice.",
+      goDashboard: "Go to Dashboard",
+      backHome: "Back to Home",
+      anyQuestions: "Fixed a bug? Have a question?",
+      contactUs: "Contact Support"
+    },
+    notFound: {
+      title: "404 - Page Not Found",
+      subtitle: "Oops! The page you're looking for doesn't exist.",
+      desc: "It might have been moved, deleted, or never existed in the first place.",
+      goHome: "Go back home"
     }
   },
   bn: {
@@ -333,6 +366,39 @@ export const dict = {
         Education: "শিক্ষা (Education)",
         Other: "অন্যান্য (Other)"
       }
+    },
+    checkout: {
+      title: "চেকআউট",
+      subtitle: "তাত্ক্ষণিক অ্যাক্সেস পেতে আপনার কেনাকাটা সম্পন্ন করুন।",
+      billingDetails: "বিলিং বিবরণ",
+      orderSummary: "অর্ডার সারাংশ",
+      fullName: "পুরো নাম",
+      email: "ইমেইল অ্যাড্রেস",
+      phone: "ফোন নম্বর",
+      country: "দেশ",
+      paymentMethod: "পেমেন্ট মাধ্যম",
+      card: "ক্রেডিট / ডেবিট কার্ড",
+      crypto: "ক্রিপ্টোকারেন্সি",
+      wallets: "ডিজিটাল ওয়ালেট",
+      placeOrder: "অর্ডার করুন",
+      secure: "সুরক্ষিত চেকআউট",
+      total: "মোট পরিমাণ"
+    },
+    thankYou: {
+      title: "আপনার কেনাকাটার জন্য ধন্যবাদ!",
+      subtitle: "আপনার অর্ডারটি সফলভাবে সম্পন্ন হয়েছে।",
+      orderId: "অর্ডার আইডি",
+      checkEmail: "অ্যাক্সেস বিবরণ এবং ইনভয়েসের জন্য আপনার ইমেইল চেক করুন।",
+      goDashboard: "ড্যাশবোর্ডে যান",
+      backHome: "হোমে ফিরে যান",
+      anyQuestions: "কোনো প্রশ্ন আছে?",
+      contactUs: "সাপোর্টে যোগাযোগ করুন"
+    },
+    notFound: {
+      title: "৪০৪ - পৃষ্ঠাটি পাওয়া যায়নি",
+      subtitle: "উফ! আপনি যে পৃষ্ঠাটি খুঁজছেন তা বিদ্যমান নেই।",
+      desc: "এটি হয়তো সরানো হয়েছে, মুছে ফেলা হয়েছে অথবা কখনোই ছিল না।",
+      goHome: "হোমে ফিরে যান"
     }
   }
 };
