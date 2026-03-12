@@ -28,6 +28,7 @@ export default function ManageProductsPage() {
   const [editingProduct, setEditingProduct] = useState<any>(null);
   const [formData, setFormData] = useState({
     name: "",
+    slug: "",
     price: "",
     category: "",
     description: "",
@@ -38,7 +39,7 @@ export default function ManageProductsPage() {
 
   const fetchProducts = async () => {
     try {
-      const res = await fetch("/api/products");
+      const res = await fetch("/api/products", { cache: "no-store" });
       const data = await res.json();
       setProducts(data);
     } catch (err) {
@@ -61,7 +62,8 @@ export default function ManageProductsPage() {
       const res = await fetch(url, {
         method,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(formData),
+        cache: "no-store",
       });
       if (res.ok) {
         fetchProducts();
@@ -87,6 +89,7 @@ export default function ManageProductsPage() {
       setEditingProduct(product);
       setFormData({
         name: product.title,
+        slug: product.slug || "",
         price: product.price.toString(),
         category: product.category,
         description: product.description,
@@ -98,6 +101,7 @@ export default function ManageProductsPage() {
       setEditingProduct(null);
       setFormData({ 
         name: "", 
+        slug: "",
         price: "", 
         category: "", 
         description: "", 
@@ -252,10 +256,24 @@ export default function ManageProductsPage() {
                   <input 
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => {
+                      const name = e.target.value;
+                      const slug = name.toLowerCase().replace(/ /g, '-').replace(/[^\w-]+/g, '');
+                      setFormData({...formData, name, slug: formData.slug ? formData.slug : slug});
+                    }}
                     type="text" 
                     placeholder="e.g. Cloud Storage Pro"
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">URL Slug (Optional)</label>
+                  <input 
+                    value={formData.slug}
+                    onChange={(e) => setFormData({...formData, slug: e.target.value})}
+                    type="text" 
+                    placeholder="e.g. cloud-storage-pro (Defaults to ID)"
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm font-medium focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-mono"
                   />
                 </div>
                 <div>

@@ -92,6 +92,20 @@ export const dict = {
       buyNow: "Buy Now",
       viewDetails: "View details"
     },
+    productDetails: {
+      backToProducts: "Back to Products",
+      category: "Category",
+      rating: "Rating",
+      reviews: "reviews",
+      description: "Description",
+      buyNow: "Buy Now",
+      addToCart: "Add to Cart",
+      guarantee: "14-day Money Back Guarantee",
+      delivery: "Instant Digital Delivery",
+      support: "24/7 Priority Support",
+      license: "Official Genuine License",
+      relatedProducts: "Related Products"
+    },
     dashboardLayout: {
       title: "Dashboard",
       overview: "Overview",
@@ -245,6 +259,20 @@ export const dict = {
       addToCart: "কার্টে যোগ করুন",
       buyNow: "এখনই কিনুন",
       viewDetails: "বিস্তারিত দেখুন"
+    },
+    productDetails: {
+      backToProducts: "পণ্য তালিকায় ফিরুন",
+      category: "ক্যাটাগরি",
+      rating: "রেটিং",
+      reviews: "রিভিউ",
+      description: "বিবরণ",
+      buyNow: "এখনই কিনুন",
+      addToCart: "কার্টে যোগ করুন",
+      guarantee: "১৪ দিনের মানি ব্যাক গ্যারান্টি",
+      delivery: "ইনস্ট্যান্ট ডিজিটাল ডেলিভারি",
+      support: "২৪/৭ প্রায়োরিটি সাপোর্ট",
+      license: "অফিসিয়াল জেনুইন লাইসেন্স",
+      relatedProducts: "সম্পর্কিত পণ্যসমূহ"
     },
     dashboardLayout: {
       title: "ড্যাশবোর্ড",

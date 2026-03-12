@@ -1,81 +1,36 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import ProductCard from "./ProductCard";
 import { useLangStore } from "@/store/langStore";
 import { dict } from "@/utils/dictionary";
+import { Loader2 } from "lucide-react";
 
 export default function ProductSection() {
   const { lang } = useLangStore();
   const t = dict[lang].productSection;
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const products = lang === "bn" ? [
-    {
-      title: "ক্লাউড স্টোরেজ প্রো",
-      description: "আপনার সমস্ত ডিজিটাল অ্যাসেটের জন্য সুরক্ষিত, উচ্চ গতির ক্লাউড স্টোরেজ। যে কোনো জায়গা থেকে, যে কোনো সময় অ্যাক্সেস করুন।",
-      price: "৳9",
-      rating: 4.8,
-      reviews: 1240,
-      image: "/images/cloud.png",
-    },
-    {
-      title: "এআই অ্যাসিস্ট্যান্ট প্লাস",
-      description: "আমাদের এআই অ্যাসিস্ট্যান্ট ওয়ার্কস্পেস দিয়ে আপনার প্রডাক্টিভিটি বাড়ান। ইন্টেলিজেন্ট অটোমেশন।",
-      price: "৳19",
-      rating: 4.9,
-      reviews: 892,
-      image: "/images/ai.png",
-    },
-    {
-      title: "ক্রিয়েটিভ স্যুট ম্যাক্স",
-      description: "সবচেয়ে সেরা ডিজাইন এবং ক্রিয়েটিভ সফটওয়্যার বান্ডিল। মাস্টারপিস তৈরি করতে যা কিছু প্রয়োজন সব এখানে আছে।",
-      price: "৳29",
-      rating: 4.7,
-      reviews: 2150,
-      image: "/images/creative.png",
-    },
-    {
-      title: "মার্কেটিং অ্যাসেটস",
-      description: "আপনার পরবর্তী বড় প্রকল্পের জন্য ১০,০০০ এর বেশি প্রিমিয়াম গ্রাফিক্স, টেমপ্লেট এবং ইউআই কিট।",
-      price: "৳14",
-      rating: 4.6,
-      reviews: 310,
-      image: "/images/banner.png",
-    },
-  ] : [
-    {
-      title: "Cloud Storage Pro",
-      description: "Secure, high-speed cloud storage for all your digital assets. Access anywhere, anytime.",
-      price: "৳9",
-      rating: 4.8,
-      reviews: 1240,
-      image: "/images/cloud.png",
-    },
-    {
-      title: "AI Assistant Plus",
-      description: "Boost your productivity with our advanced AI assistant workspace. Intelligent automation.",
-      price: "৳19",
-      rating: 4.9,
-      reviews: 892,
-      image: "/images/ai.png",
-    },
-    {
-      title: "Creative Suite Max",
-      description: "The ultimate design and creative software bundle. Everything you need to create masterpieces.",
-      price: "৳29",
-      rating: 4.7,
-      reviews: 2150,
-      image: "/images/creative.png",
-    },
-    {
-      title: "Marketing Assets",
-      description: "Over 10,000+ premium graphics, templates, and UI kits for your next big project.",
-      price: "৳14",
-      rating: 4.6,
-      reviews: 310,
-      image: "/images/banner.png",
-    },
-  ];
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await fetch("/api/products", { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          // Take only first 3 featured products or just first 3
+          setProducts(data);
+        }
+      } catch (err) {
+        console.error("Failed to fetch products:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <section id="products" className="py-12 md:py-16 mx-auto w-full max-w-7xl px-4">
@@ -96,13 +51,33 @@ export default function ProductSection() {
           </Link>
         </header>
 
-        <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {products.slice(0, 3).map((product, idx) => (
-            <li key={idx} className="list-none">
-              <ProductCard {...product} />
-            </li>
-          ))}
-        </ul>
+        {loading ? (
+          <div className="flex justify-center py-20">
+            <Loader2 className="h-10 w-10 text-sky-600 animate-spin" />
+          </div>
+        ) : products.length > 0 ? (
+          <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {products.slice(0, 3).map((product) => (
+              <li key={product.id} className="list-none">
+                <ProductCard 
+                  id={product.id}
+                  slug={product.slug}
+                  title={product.title}
+                  description={product.description}
+                  price={`৳${product.price}`}
+                  rating={product.rating || 0}
+                  reviews={product.reviews || 0}
+                  image={product.image || "https://placehold.co/600x400/png?text=Product"}
+                  category={product.category}
+                />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+            <p className="text-slate-500 font-bold">No products available yet.</p>
+          </div>
+        )}
       </article>
     </section>
   );

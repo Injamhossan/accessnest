@@ -4,20 +4,21 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
+        hostname: '**.googleusercontent.com',
         pathname: '**',
       },
       {
         protocol: 'https',
-        hostname: 'i.ibb.co.com',
+        hostname: '**.ibb.co',
         pathname: '**',
       },
       {
         protocol: 'https',
-        hostname: 'i.ibb.co',
+        hostname: '**.ibb.co.com',
         pathname: '**',
       },
       {
@@ -27,7 +28,22 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'images.unsplash.com',
+        hostname: '**.unsplash.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.imgur.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudinary.com',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.pexels.com',
         pathname: '**',
       },
     ],
