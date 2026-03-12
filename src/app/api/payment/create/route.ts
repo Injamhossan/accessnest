@@ -7,11 +7,30 @@ import { nagorikpay } from "@/lib/nagorikpay";
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions as any) as any;
-    if (!session?.user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
     const { fullName, email, phone, items, totalPrice } = await req.json();
+
+    let userId = session?.user?.id;
+
+    // If no session, handle as Guest Checkout
+    if (!userId) {
+      // Find or create a ghost/guest user based on email
+      const existingUser = await prisma.user.findUnique({
+        where: { email },
+      });
+
+      if (existingUser) {
+        userId = existingUser.id;
+      } else {
+        const newUser = await prisma.user.create({
+          data: {
+            email,
+            name: fullName,
+            role: "user", // Default guest role
+          },
+        });
+        userId = newUser.id;
+      }
+    }
 
     // Verify products exist to prevent P2003 foreign key violation
     const productIds = items.map((i: any) => i.id);
@@ -32,7 +51,7 @@ export async function POST(req: Request) {
     // 1. Create Order in Database
     const order = await prisma.order.create({
       data: {
-        userId: session.user.id,
+        userId: userId,
         status: "pending",
         totalAmount: totalPrice,
         paymentMethod: "Nagorikpay",

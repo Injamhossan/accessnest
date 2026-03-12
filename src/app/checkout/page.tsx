@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Info, ShieldCheck, UserPlus } from "lucide-react";
 
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCartStore();
@@ -34,8 +35,8 @@ export default function CheckoutPage() {
     if (session?.user) {
       setFormData(prev => ({
         ...prev,
-        fullName: session.user.name || "",
-        email: session.user.email || "",
+        fullName: session.user?.name ?? "",
+        email: session.user?.email ?? "",
       }));
     }
   }, [session]);
@@ -112,6 +113,40 @@ export default function CheckoutPage() {
           <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">{t.title}</h1>
           <p className="text-slate-500 mt-2">{t.subtitle}</p>
         </header>
+
+        {!session && (
+          <div className="mb-8 bg-blue-600 rounded-2xl p-6 text-white shadow-lg overflow-hidden relative group">
+            <div className="absolute right-0 top-0 opacity-10 -mr-6 -mt-6 transition-transform group-hover:scale-110">
+              <UserPlus className="w-48 h-48" />
+            </div>
+            <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
+              <div className="h-16 w-16 bg-white/20 rounded-2xl flex items-center justify-center shrink-0 backdrop-blur-sm">
+                <UserPlus className="h-8 w-8 text-white" />
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <h3 className="text-xl font-bold">Checkout faster and save your orders!</h3>
+                <p className="text-blue-100 mt-1 max-w-2xl font-medium">
+                  Did you know? Registered users can access their purchased products, license keys, and download links anytime from their dashboard. 
+                  Get 100% lifetime security for your digital assets.
+                </p>
+              </div>
+              <div className="flex gap-3 shrink-0">
+                <Link 
+                  href="/login?callbackUrl=/checkout" 
+                  className="px-6 py-3 bg-white text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-md"
+                >
+                  Sign In
+                </Link>
+                <Link 
+                  href="/signup?callbackUrl=/checkout" 
+                  className="px-6 py-3 bg-blue-500 text-white rounded-xl font-bold border border-white/20 hover:bg-blue-400 transition-colors"
+                >
+                  Create Account
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
           {/* Left Column - Billing Form */}
