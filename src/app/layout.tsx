@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     default: "Access Nest | Premium Digital Products & Assets Marketplace",
     template: "%s | Access Nest"
   },
-  description: "The ultimate destination for high-quality digital products. Explore premium software, UI kits, design assets, and development tools at Access Nest. Empowering creators and developers with professional-grade assets.",
+  description: "Explore premium digital products, UI kits, and software assets at Access Nest. Empowering creators with professional-grade digital resources.",
   keywords: ["digital products", "marketplace", "UI kits", "software", "design assets", "development tools", "Access Nest"],
   authors: [{ name: "Access Nest Team" }],
   alternates: {
@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     follow: true,
   },
   icons: {
-    icon: "/favicon.png",
-    shortcut: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/favicon.ico",
   },
 
   openGraph: {
@@ -62,7 +62,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${roboto.variable} ${banglaFont.variable} font-sans antialiased min-h-screen flex flex-col bg-slate-50`}
       >
@@ -77,7 +77,6 @@ export default function RootLayout({
           </noscript>
         )}
         <Providers>
-
           <FacebookPixel />
           <div className="relative flex-1 flex flex-col">
             <WrapperLayout>

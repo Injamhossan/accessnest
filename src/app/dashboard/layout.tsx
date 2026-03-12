@@ -18,7 +18,8 @@ export default function DashboardLayout({
   const t = dict[lang].dashboardLayout;
   const pathname = usePathname();
   const router = useRouter();
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+  const isAdmin = (session?.user as any)?.role === "admin" || (session?.user as any)?.role === "superadmin";
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -62,6 +63,27 @@ export default function DashboardLayout({
           <Link href="/dashboard" className={getLinkClass("/dashboard")}>
             <Home className="h-5 w-5" /> {t.overview}
           </Link>
+
+          {isAdmin && (
+            <>
+              <div className="pt-4 pb-2 px-3">
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Admin Tools</p>
+              </div>
+              <Link href="/dashboard/manage-products" className={getLinkClass("/dashboard/manage-products")}>
+                <ShoppingBag className="h-5 w-5" /> Manage Products
+              </Link>
+              <Link href="/dashboard/manage-users" className={getLinkClass("/dashboard/manage-users")}>
+                <User className="h-5 w-5" /> Manage Users
+              </Link>
+              <Link href="/dashboard/all-sales" className={getLinkClass("/dashboard/all-sales")}>
+                <CreditCard className="h-5 w-5" /> Global Sales
+              </Link>
+            </>
+          )}
+
+          <div className="pt-4 pb-2 px-3 border-t border-slate-50 mt-4">
+             <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">User Dashboard</p>
+          </div>
           <Link href="/dashboard/orders" className={getLinkClass("/dashboard/orders")}>
             <ShoppingBag className="h-5 w-5" /> {t.orders}
           </Link>
@@ -92,6 +114,13 @@ export default function DashboardLayout({
         </Link>
         <div className="w-px h-6 bg-slate-200 shrink-0 mx-1 self-center"></div>
         <Link href="/dashboard" className={getMobileLinkClass("/dashboard")}>{t.overview}</Link>
+        {isAdmin && (
+          <>
+            <Link href="/dashboard/manage-products" className={getMobileLinkClass("/dashboard/manage-products")}>Products</Link>
+            <Link href="/dashboard/manage-users" className={getMobileLinkClass("/dashboard/manage-users")}>Users</Link>
+            <Link href="/dashboard/all-sales" className={getMobileLinkClass("/dashboard/all-sales")}>Sales</Link>
+          </>
+        )}
         <Link href="/dashboard/orders" className={getMobileLinkClass("/dashboard/orders")}>{t.orders}</Link>
         <Link href="/dashboard/billing" className={getMobileLinkClass("/dashboard/billing")}>{t.billing}</Link>
         <Link href="/dashboard/profile" className={getMobileLinkClass("/dashboard/profile")}>{t.profile}</Link>

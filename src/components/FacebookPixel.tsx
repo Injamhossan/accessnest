@@ -21,8 +21,10 @@ export default function FacebookPixel() {
   if (!fp.FB_PIXEL_ID) return null;
 
   return (
-    <Suspense fallback={null}>
-      <PixelTracker />
+    <>
+      <Suspense fallback={null}>
+        <PixelTracker />
+      </Suspense>
       <Script
         id="fb-pixel"
         strategy="afterInteractive"
@@ -50,7 +52,8 @@ export default function FacebookPixel() {
           alt="pixel"
         />
       </noscript>
-    </Suspense>
+    </>
   );
 }
+
 

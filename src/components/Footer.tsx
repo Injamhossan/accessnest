@@ -65,7 +65,7 @@ export default function Footer() {
             <nav aria-label="Legal Links" className="space-y-4">
                <h3 className="font-bold text-slate-900 tracking-wide uppercase text-xs">Legal</h3>
                <ul className="space-y-3 font-medium text-slate-500 list-none p-0">
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">Privacy Policy</Link></li>
+                  <li><Link href="/privacy-policy" className="hover:text-sky-600 transition-colors">Privacy Policy</Link></li>
                   <li><Link href="#" className="hover:text-sky-600 transition-colors">Terms of Service</Link></li>
                   <li><Link href="#" className="hover:text-sky-600 transition-colors">Refund Policy</Link></li>
                </ul>
