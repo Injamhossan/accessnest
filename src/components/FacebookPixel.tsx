@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
+
 import { usePathname, useSearchParams } from "next/navigation";
 import Script from "next/script";
 import * as fp from "@/lib/fpixel";
 
-export default function FacebookPixel() {
+function PixelTracker() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -13,10 +14,15 @@ export default function FacebookPixel() {
     fp.pageview();
   }, [pathname, searchParams]);
 
+  return null;
+}
+
+export default function FacebookPixel() {
   if (!fp.FB_PIXEL_ID) return null;
 
   return (
-    <>
+    <Suspense fallback={null}>
+      <PixelTracker />
       <Script
         id="fb-pixel"
         strategy="afterInteractive"
@@ -44,6 +50,7 @@ export default function FacebookPixel() {
           alt="pixel"
         />
       </noscript>
-    </>
+    </Suspense>
   );
 }
+
