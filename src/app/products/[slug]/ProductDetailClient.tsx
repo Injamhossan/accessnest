@@ -113,7 +113,7 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
           
           {/* Left: Product Visuals */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="relative aspect-[16/10] rounded-[2.5rem] overflow-hidden bg-white border border-slate-200 shadow-xl shadow-slate-200/50">
+            <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-white border border-slate-200 shadow-sm">
               <Image 
                 src={product.image || "https://placehold.co/1200x800/png?text=Product"} 
                 alt={product.title}
@@ -123,7 +123,7 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
               />
               <button 
                 onClick={handleAddToWishlist}
-                className="absolute top-6 right-6 h-12 w-12 rounded-2xl bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 shadow-lg transition-all active:scale-90"
+                className="absolute top-6 right-6 h-12 w-12 rounded-lg bg-white/90 backdrop-blur-md flex items-center justify-center text-slate-400 hover:text-red-500 shadow-sm transition-all active:scale-90"
               >
                 <Heart className="h-6 w-6" />
               </button>
@@ -138,7 +138,7 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
                 { icon: CheckCircle2, label: t.guarantee, color: "text-emerald-600", bg: "bg-emerald-50" },
                 { icon: Info, label: t.support, color: "text-violet-600", bg: "bg-violet-50" },
               ].map((item, i) => (
-                <div key={i} className={`${item.bg} p-4 rounded-3xl border border-white shadow-sm flex flex-col items-center text-center gap-2`}>
+                <div key={i} className={`${item.bg} p-4 rounded-xl border border-white shadow-sm flex flex-col items-center text-center gap-2`}>
                   <item.icon className={`h-6 w-6 ${item.color}`} />
                   <span className="text-[10px] font-bold text-slate-700 uppercase leading-tight tracking-wider">{item.label}</span>
                 </div>
@@ -148,7 +148,7 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
 
           {/* Right: Product Info & Purchase */}
           <div className="lg:col-span-5">
-            <div className="bg-white rounded-[2.5rem] p-8 sm:p-10 border border-slate-200 shadow-2xl shadow-slate-200/40 sticky top-28">
+            <div className="bg-white rounded-xl p-8 sm:p-10 border border-slate-200 shadow-sm sticky top-28">
               
               <div className="flex items-center justify-between mb-6">
                 <span className="px-4 py-1.5 rounded-full bg-[#0f7af7]/10 text-[#0f7af7] text-xs font-black uppercase tracking-widest border border-[#0f7af7]/10">
@@ -172,18 +172,18 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
 
               <div className="space-y-4 mb-10">
                 <button 
-                  onClick={handleAddToCart}
-                  className="w-full flex items-center justify-center gap-3 bg-[#0f7af7] hover:bg-[#0863cb] text-white py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-blue-200 hover:shadow-blue-300 active:scale-[0.98]"
-                >
-                  <ShoppingCart className="h-6 w-6" />
-                  {t.addToCart}
-                </button>
-                <button 
                   onClick={handleBuyNow}
-                  className="w-full flex items-center justify-center gap-3 bg-slate-900 hover:bg-slate-800 text-white py-5 rounded-2xl font-black text-lg transition-all shadow-xl shadow-slate-200 active:scale-[0.98]"
+                  className="w-full flex items-center justify-center gap-3 bg-[#0f7af7] hover:bg-blue-600 text-white py-4 rounded-lg font-bold text-lg transition-all shadow-sm active:scale-[0.98]"
                 >
                   <CreditCard className="h-6 w-6" />
                   {t.buyNow}
+                </button>
+                <button 
+                  onClick={handleAddToCart}
+                  className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-700 py-4 rounded-lg font-bold text-lg transition-all hover:bg-slate-50 active:scale-[0.98]"
+                >
+                  <ShoppingCart className="h-6 w-6" />
+                  {t.addToCart}
                 </button>
               </div>
 
@@ -201,9 +201,9 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
 
         {/* Dedicated Description Section */}
         <div className="mt-12">
-          <div className="bg-white rounded-[2.5rem] p-8 sm:p-12 border border-slate-200 shadow-xl shadow-slate-200/30">
-            <h3 className="text-xl font-black text-slate-900 uppercase tracking-widest mb-8 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-blue-50 flex items-center justify-center">
+          <div className="bg-white rounded-xl p-8 sm:p-12 border border-slate-200 shadow-sm">
+            <h3 className="text-xl font-bold text-slate-900 uppercase tracking-widest mb-8 flex items-center gap-3">
+              <div className="h-10 w-10 rounded-lg bg-blue-50 flex items-center justify-center">
                 <Info className="h-5 w-5 text-[#0f7af7]" />
               </div>
               {t.description}

@@ -22,7 +22,7 @@
 
 ## 🛠️ Technology Stack
 
-- **Framework**: [Next.js 15 (App Router)](https://nextjs.org/)
+- **Framework**: [Next.js 16 (App Router)](https://nextjs.org/)
 - **Database**: [PostgreSQL](https://www.postgresql.org/) with [Prisma ORM](https://www.prisma.io/)
 - **Authentication**: [NextAuth.js](https://next-auth.js.org/)
 - **Styling**: Vanilla CSS & TailwindCSS (customized)

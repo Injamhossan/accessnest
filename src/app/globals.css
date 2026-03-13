@@ -11,14 +11,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-roboto);
+  --font-sans: var(--font-inter);
 }
 
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-roboto), sans-serif;
+  font-family: var(--font-inter), sans-serif;
   background-image:
     radial-gradient(circle at 15% 0%, rgba(15, 122, 247, 0.14), transparent 40%),
     radial-gradient(circle at 85% 10%, rgba(12, 91, 184, 0.12), transparent 35%);
@@ -31,5 +31,5 @@ html[lang="bn"] * {
 }
 
 html[lang="bn"] .force-english-font {
-  font-family: var(--font-roboto), sans-serif !important;
+  font-family: var(--font-inter), sans-serif !important;
 }

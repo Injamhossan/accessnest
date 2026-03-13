@@ -41,10 +41,10 @@ export default function FAQSection() {
 
       <div className="mx-auto w-full max-w-4xl px-4 relative z-10">
         <header className="mb-14 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-sm border border-slate-200 mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-lg bg-white shadow-sm border border-slate-200 mb-6">
             <MessageCircleQuestion className="w-8 h-8 text-blue-600" />
           </div>
-          <h2 className="text-3xl font-extrabold text-slate-900 md:text-5xl tracking-tight mb-4">
+          <h2 className="text-3xl font-bold text-slate-900 md:text-5xl tracking-tight mb-4">
             {t.title1} <span className="text-blue-600">{t.title2}</span>
           </h2>
           <p className="text-slate-600 max-w-2xl mx-auto md:text-lg">
@@ -58,9 +58,9 @@ export default function FAQSection() {
             return (
               <div 
                 key={idx} 
-                className={`group rounded-2xl border transition-all duration-300 overflow-hidden ${
+                className={`group rounded-lg border transition-all duration-300 overflow-hidden ${
                   isOpen 
-                    ? "border-blue-200 bg-white shadow-md shadow-blue-100/50" 
+                    ? "border-blue-200 bg-white" 
                     : "border-slate-200 bg-white/60 hover:bg-white hover:shadow-sm"
                 }`}
               >
@@ -68,7 +68,7 @@ export default function FAQSection() {
                   onClick={() => toggleFAQ(idx)}
                   className="flex w-full items-center justify-between gap-4 p-6 text-left focus:outline-none"
                 >
-                  <h3 className={`text-lg font-bold transition-colors ${
+                  <h3 className={`text-lg font-semibold transition-colors ${
                     isOpen ? "text-blue-700" : "text-slate-900 group-hover:text-blue-600"
                   }`}>
                     {faq.question}

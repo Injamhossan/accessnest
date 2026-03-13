@@ -16,7 +16,7 @@ export default function TrustSection() {
         </header>
         <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto list-none p-0">
           <li className="flex flex-col items-center text-center gap-4">
-            <figure className="w-14 h-14 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-700 mb-2">
+            <figure className="w-14 h-14 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-700 mb-2">
               <ShieldCheck className="w-7 h-7" />
             </figure>
             <hgroup>
@@ -25,7 +25,7 @@ export default function TrustSection() {
             </hgroup>
           </li>
           <li className="flex flex-col items-center text-center gap-4">
-            <figure className="w-14 h-14 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-700 mb-2">
+            <figure className="w-14 h-14 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-700 mb-2">
               <Lock className="w-7 h-7" />
             </figure>
             <hgroup>
@@ -34,7 +34,7 @@ export default function TrustSection() {
             </hgroup>
           </li>
           <li className="flex flex-col items-center text-center gap-4">
-            <figure className="w-14 h-14 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-700 mb-2">
+            <figure className="w-14 h-14 rounded-lg bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-700 mb-2">
               <CreditCard className="w-7 h-7" />
             </figure>
             <hgroup>

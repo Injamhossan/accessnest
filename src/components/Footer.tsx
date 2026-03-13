@@ -41,7 +41,7 @@ export default function Footer() {
             </nav>
           </header>
 
-          <aside className="md:col-span-3 grid grid-cols-2 md:grid-cols-3 gap-8 text-sm">
+          <aside className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-sm">
             <nav aria-label="Product Links" className="space-y-4">
                <h3 className="font-bold text-slate-900 tracking-wide uppercase text-xs">Products</h3>
                <ul className="space-y-3 font-medium text-slate-500 list-none p-0">

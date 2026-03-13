@@ -37,16 +37,16 @@ export default function ProductSection() {
       <article className="mx-auto w-full">
         <header className="mb-8 flex flex-col gap-4 md:mb-10 md:flex-row md:items-end md:justify-between">
           <hgroup className="max-w-2xl">
-            <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-sky-600">{t.badge}</p>
+            <p className="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-sky-600">{t.badge}</p>
             <h2 className="text-2xl font-bold text-slate-900 md:text-4xl">
               {t.title1}
               <span className="block text-sky-700">{t.title2}</span>
             </h2>
-            <p className="mt-3 text-sm text-slate-600 md:text-base font-medium">
+            <p className="mt-3 text-sm text-slate-600 md:text-base font-normal">
               {t.desc}
             </p>
           </hgroup>
-          <Link href="/products" className="rounded-xl flex items-center justify-center border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 shadow-[0_2px_10px_rgb(0,0,0,0.03)] transition hover:border-sky-200 hover:text-sky-700 hover:bg-slate-50 cursor-pointer">
+          <Link href="/products" className="rounded-lg flex items-center justify-center border border-slate-200 bg-white px-6 py-3 text-sm font-semibold text-slate-700 shadow-sm transition hover:border-sky-200 hover:text-sky-700 hover:bg-slate-50 cursor-pointer">
             {t.btn}
           </Link>
         </header>
@@ -74,8 +74,8 @@ export default function ProductSection() {
             ))}
           </ul>
         ) : (
-          <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-            <p className="text-slate-500 font-bold">No products available yet.</p>
+          <div className="text-center py-20 bg-slate-50 rounded-xl border-2 border-dashed border-slate-200">
+            <p className="text-slate-500 font-semibold">{t.noProducts || "No products available yet."}</p>
           </div>
         )}
       </article>

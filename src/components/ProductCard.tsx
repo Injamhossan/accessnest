@@ -58,7 +58,7 @@ export default function ProductCard({ id, slug, title, description, price, ratin
   };
 
   return (
-    <article className="group relative flex flex-col bg-white rounded-3xl overflow-hidden border border-slate-200/60 shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-500 hover:shadow-[0_20px_50px_rgba(15,122,247,0.12)] hover:-translate-y-2 h-full">
+    <article className="group relative flex flex-col bg-white rounded-xl overflow-hidden border border-slate-200/60 shadow-sm transition-all duration-500 hover:shadow-md hover:-translate-y-1 h-full">
       {/* Wishlist Button */}
       <button 
         onClick={handleAddToWishlist}
@@ -80,7 +80,7 @@ export default function ProductCard({ id, slug, title, description, price, ratin
         
         {/* Category / Badge (Optional) */}
         <div className="absolute bottom-4 left-4 z-10">
-          <span className="rounded-full bg-slate-900/40 backdrop-blur-md px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">
+          <span className="rounded-full bg-slate-900/40 backdrop-blur-md px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-white border border-white/10">
             {category ? ((adminT.categories as any)[category] || category) : "Digital Asset"}
           </span>
         </div>
@@ -91,25 +91,25 @@ export default function ProductCard({ id, slug, title, description, price, ratin
         <div className="flex items-center justify-between mb-2">
           {/* Price Tag */}
           <div className="flex flex-col">
-            <span className="text-2xl font-black text-slate-900 leading-none force-english-font">{price}</span>
-            <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wide mt-1">one-time payment</span>
+            <span className="text-2xl font-bold text-slate-900 leading-none force-english-font">{price}</span>
+            <span className="text-[10px] text-slate-400 font-semibold uppercase tracking-wide mt-1">one-time payment</span>
           </div>
 
           {/* Rating */}
           <div className="flex items-center gap-1 bg-amber-50 px-2.5 py-1.5 rounded-xl border border-amber-100">
             <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-500" />
-            <span className="text-xs font-bold text-amber-700 force-english-font">{rating}</span>
+            <span className="text-xs font-semibold text-amber-700 force-english-font">{rating}</span>
             <span className="text-[10px] text-amber-600/60 font-medium force-english-font">({reviews})</span>
           </div>
         </div>
 
         <Link href={`/products/${slug || id}`} className="block group/title">
-          <h3 className="text-xl font-extrabold text-slate-900 mb-2 group-hover/title:text-[#0f7af7] transition-colors line-clamp-1">
+          <h3 className="text-xl font-bold text-slate-900 mb-2 group-hover/title:text-[#0f7af7] transition-colors line-clamp-1">
             {title}
           </h3>
         </Link>
         
-        <p className="text-sm text-slate-500 font-medium mb-6 line-clamp-2 leading-relaxed">
+        <p className="text-sm text-slate-500 font-normal mb-6 line-clamp-2 leading-relaxed">
           {description}
         </p>
 
@@ -118,14 +118,14 @@ export default function ProductCard({ id, slug, title, description, price, ratin
           <div className="grid grid-cols-2 gap-3">
             <button 
               onClick={handleAddToCart}
-              className="flex items-center justify-center gap-2 rounded-2xl bg-slate-50 border border-slate-200 py-3 text-xs font-bold text-slate-700 transition-all hover:bg-slate-100 hover:border-slate-300 active:scale-[0.97]"
+              className="flex items-center justify-center gap-2 rounded-lg bg-slate-50 border border-slate-200 py-3 text-xs font-semibold text-slate-700 transition-all hover:bg-slate-100 hover:border-slate-300 active:scale-[0.97]"
             >
               <ShoppingCart className="h-4 w-4" />
               Add to Cart
             </button>
             <Link 
               href={`/products/${slug || id}`}
-              className="flex items-center justify-center gap-2 rounded-2xl bg-slate-900 py-3 text-xs font-bold text-white transition-all hover:bg-slate-800 active:scale-[0.97] shadow-lg shadow-slate-200 hover:shadow-xl"
+              className="flex items-center justify-center gap-2 rounded-lg bg-[#0f7af7] py-3 text-xs font-semibold text-white transition-all hover:bg-blue-600 active:scale-[0.97] shadow-sm"
             >
               <CreditCard className="h-4 w-4" />
               Buy Now
@@ -134,7 +134,7 @@ export default function ProductCard({ id, slug, title, description, price, ratin
 
           <Link 
             href={`/products/${slug || id}`}
-            className="group/details flex w-full items-center justify-center gap-2 py-1 text-[11px] font-bold text-[#0f7af7] transition-all hover:text-[#0a66d1]"
+            className="group/details flex w-full items-center justify-center gap-2 py-1 text-[11px] font-semibold text-[#0f7af7] transition-all hover:text-[#0a66d1]"
           >
             View Details
             <ArrowRight className="h-3 w-3 transition-transform group-hover/details:translate-x-1" />

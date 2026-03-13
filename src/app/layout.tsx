@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 
-import { Roboto } from "next/font/google";
+import { Inter } from "next/font/google";
 import localFont from "next/font/local";
 import WrapperLayout from "@/components/WrapperLayout";
 import "./globals.css";
 
-const roboto = Roboto({
-  weight: ["400", "500", "700", "900"],
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-roboto",
+  variable: "--font-inter",
 });
 
 const banglaFont = localFont({
@@ -48,6 +47,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+  verification: {
+    google: "gLU3VKXu91W0MF8KOYY0d8p-3RMDUl_gR4WehltvElo",
+  },
 };
 
 
@@ -64,7 +66,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${roboto.variable} ${banglaFont.variable} font-sans antialiased min-h-screen flex flex-col bg-slate-50`}
+        className={`${inter.variable} ${banglaFont.variable} font-sans antialiased min-h-screen flex flex-col bg-slate-50`}
       >
         {process.env.NEXT_PUBLIC_GTM_ID && (
           <noscript>

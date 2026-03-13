@@ -31,7 +31,8 @@ export const dict = {
       title1: "Popular Digital Products",
       title2: "Ready for Instant Access",
       desc: "Choose from trending subscriptions and premium resources curated for creators, professionals, and growing teams.",
-      btn: "View All Products"
+      btn: "View All Products",
+      noProducts: "No products available yet."
     },
     about: {
       title: "About Access Nest",
@@ -232,7 +233,8 @@ export const dict = {
       title1: "জনপ্রিয় ডিজিটাল পণ্যগুলো",
       title2: "ইনস্ট্যান্ট অ্যাক্সেসের জন্য প্রস্তুত",
       desc: "ক্রিয়েটর, প্রফেশনাল এবং টিমের জন্য সব সেরা সাবস্ক্রিপশন এবং প্রিমিয়াম রিসোর্স থেকে বেছে নিন।",
-      btn: "সব পণ্য দেখুন"
+      btn: "সব পণ্য দেখুন",
+      noProducts: "এখনও কোনো পণ্য নেই।"
     },
     about: {
       title: "Access Nest সম্পর্কে",
