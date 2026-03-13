@@ -77,7 +77,7 @@ export async function POST(req: Request) {
       cancel_url: `${baseUrl}/checkout/cancel`,
       meta_data: {
         orderId: order.id,
-        userId: session.user.id,
+        userId: userId,
         phone: phone,
       },
     };

@@ -61,104 +61,95 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center p-6 bg-slate-50/50">
-        <div className="relative mb-8">
-          <div className="h-32 w-32 bg-white rounded-[2.5rem] shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex items-center justify-center relative z-10 border border-slate-100">
-            <ShoppingBag className="h-14 w-14 text-[#0f7af7] opacity-20" />
-            <div className="absolute -bottom-2 -right-2 bg-amber-400 h-8 w-8 rounded-full flex items-center justify-center border-4 border-white">
-              <Plus className="h-4 w-4 text-white font-bold" />
-            </div>
+      <div className="min-h-[70vh] flex flex-col items-center justify-center p-6 bg-white">
+        <div className="mb-6">
+          <div className="h-20 w-20 bg-slate-50 rounded-full flex items-center justify-center border border-slate-100">
+            <ShoppingBag className="h-10 w-10 text-slate-300" />
           </div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-blue-400/10 blur-[60px] rounded-full -z-0"></div>
         </div>
         
-        <h1 className="text-3xl font-black text-slate-900 mb-3 text-center">{cartT.emptyTitle}</h1>
-        <p className="text-slate-500 font-medium mb-10 text-center max-w-sm leading-relaxed">
+        <h1 className="text-2xl font-semibold text-slate-900 mb-2 text-center">{cartT.emptyTitle}</h1>
+        <p className="text-slate-500 mb-8 text-center max-w-sm">
           {cartT.emptyDesc}
         </p>
 
         <Link 
           href="/products" 
-          className="group inline-flex items-center justify-center gap-3 px-10 py-5 bg-[#0f7af7] text-white rounded-2xl font-black transition-all hover:bg-[#0863cb] shadow-[0_15px_30px_rgba(15,122,247,0.3)] hover:-translate-y-1 active:scale-95"
+          className="inline-flex items-center justify-center gap-2 px-6 py-2.5 bg-slate-900 text-white rounded-lg font-medium transition-all hover:bg-slate-800 active:scale-95 text-sm"
         >
           {cartT.continue}
-          <ChevronRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
         </Link>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f4f7fb] pt-24 pb-20">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-white pt-24 pb-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <Link href="/products" className="group flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-[#0f7af7] transition-all">
-                <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
-                {cartT.continue}
-              </Link>
-            </div>
-            <h1 className="text-4xl font-black text-slate-900 flex items-center gap-4">
-              {cartT.title}
-              <span className="text-lg font-bold bg-[#0f7af7]/10 text-[#0f7af7] px-4 py-1.5 rounded-2xl border border-[#0f7af7]/10">
-                {items.length} {lang === 'en' ? 'Items' : 'টি পণ্য'}
-              </span>
-            </h1>
+        <div className="mb-10">
+          <div className="flex items-center gap-2 mb-2">
+            <Link href="/products" className="group flex items-center gap-1.5 text-xs font-medium text-slate-500 hover:text-slate-900 transition-all">
+              <ArrowLeft className="h-3.5 w-3.5 transition-transform group-hover:-translate-x-0.5" />
+              {cartT.continue}
+            </Link>
           </div>
+          <h1 className="text-3xl font-semibold text-slate-900 flex items-center gap-3">
+            {cartT.title}
+            <span className="text-sm font-medium bg-slate-100 text-slate-600 px-3 py-1 rounded-full border border-slate-200">
+              {items.length} {lang === 'en' ? 'Items' : 'টি পণ্য'}
+            </span>
+          </h1>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
           {/* Cart Items List */}
-          <div className="lg:col-span-8 space-y-6">
-            <div className="grid gap-4">
+          <div className="lg:col-span-8 space-y-4">
+            <div className="grid gap-3">
               {items.map((item) => (
-                <div key={item.id} className="bg-white p-5 md:p-6 rounded-[2.5rem] border border-white shadow-[0_8px_30px_rgb(0,0,0,0.02)] flex flex-col sm:flex-row items-center gap-6 group transition-all hover:shadow-[0_20px_50px_rgba(0,0,0,0.04)] relative overflow-hidden">
+                <div key={item.id} className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-3 sm:gap-6 group transition-all hover:border-slate-200">
                   {/* Item Image */}
-                  <div className="relative h-28 w-40 rounded-2xl overflow-hidden bg-slate-50 shrink-0 border border-slate-100">
-                    <Image src={item.image} alt={item.title} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div className="relative h-16 w-20 sm:h-20 sm:w-28 rounded-lg overflow-hidden bg-slate-50 shrink-0 border border-slate-100">
+                    <Image src={item.image} alt={item.title} fill className="object-cover" />
                   </div>
                   
                   {/* Item Content */}
-                  <div className="flex-1 min-w-0 text-center sm:text-left pt-2 pb-2">
-                    <span className="text-[10px] font-black text-[#0f7af7] uppercase tracking-[0.2em] mb-2 block opacity-70">
+                  <div className="flex-1 min-w-0 py-1">
+                    <span className="text-[9px] font-bold text-[#0f7af7] uppercase tracking-widest mb-1 block">
                       {item.category ? ((adminT?.categories as any)?.[item.category] || item.category) : "Digital Asset"}
                     </span>
-                    <h3 className="text-xl font-extrabold text-slate-900 truncate mb-1 pr-6">{item.title}</h3>
-                    <div className="flex items-center justify-center sm:justify-start gap-3">
-                      <p className="text-2xl font-black text-[#0f7af7] force-english-font">৳{item.price}</p>
-                      <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">One-time</span>
-                    </div>
+                    <h3 className="text-sm sm:text-lg font-bold text-slate-900 truncate mb-1 leading-tight">{item.title}</h3>
+                    <p className="text-base sm:text-lg font-black text-slate-900">৳{item.price}</p>
                   </div>
 
                   {/* Item Actions */}
-                  <div className="flex flex-row items-center gap-6 sm:pl-6 sm:border-l border-slate-100">
+                  <div className="flex flex-col sm:flex-row items-end sm:items-center gap-2 sm:gap-4 sm:pl-4 sm:border-l border-slate-100">
                     {/* Quantity Controls */}
-                    <div className="flex items-center bg-slate-50 rounded-2xl border border-slate-100 p-1.5 shadow-inner">
+                    <div className="flex items-center bg-slate-50 rounded-lg border border-slate-200 p-0.5 sm:p-1">
                       <button 
                         onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="p-2 text-slate-400 hover:bg-white hover:text-[#0f7af7] hover:shadow-sm rounded-xl transition-all active:scale-90"
+                        className="p-1 text-slate-400 hover:text-slate-900 transition-all"
                       >
-                        <Minus className="h-4 w-4" />
+                        <Minus className="h-3 sm:h-3.5 w-3 sm:w-3.5" />
                       </button>
-                      <span className="w-10 text-center font-black text-slate-900 force-english-font text-lg">{item.quantity}</span>
+                      <span className="w-6 sm:w-8 text-center font-bold text-slate-900 text-xs sm:text-sm">{item.quantity}</span>
                       <button 
                         onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="p-2 text-slate-400 hover:bg-white hover:text-[#0f7af7] hover:shadow-sm rounded-xl transition-all active:scale-90"
+                        className="p-1 text-slate-400 hover:text-slate-900 transition-all"
                       >
-                        <Plus className="h-4 w-4" />
+                        <Plus className="h-3 sm:h-3.5 w-3 sm:w-3.5" />
                       </button>
                     </div>
                     
                     {/* Remove Button */}
                     <button 
                       onClick={() => removeItem(item.id)}
-                      className="p-4 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all group/trash"
+                      className="p-2 text-slate-300 hover:text-red-500 transition-all"
+                      title="Remove Item"
                     >
-                      <Trash2 className="h-6 w-6 group-hover/trash:scale-110 transition-transform" />
+                      <Trash2 className="h-4 sm:h-5 w-4 sm:w-5" />
                     </button>
                   </div>
                 </div>
@@ -166,17 +157,15 @@ export default function CartPage() {
             </div>
 
             {/* Extra Benefits */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-10">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-8 opacity-60">
               {[
-                { icon: ShieldCheck, title: cartT.guarantee, color: 'text-emerald-500', bg: 'bg-emerald-50' },
-                { icon: Lock, title: cartT.secure, color: 'text-blue-500', bg: 'bg-blue-50' },
-                { icon: ShoppingBag, title: cartT.shipping, color: 'text-amber-500', bg: 'bg-amber-50' }
+                { icon: ShieldCheck, title: cartT.guarantee },
+                { icon: Lock, title: cartT.secure },
+                { icon: ShoppingBag, title: cartT.shipping }
               ].map((benefit, i) => (
-                <div key={i} className="flex items-center gap-4 p-5 rounded-3xl bg-white border border-slate-100/50 shadow-sm">
-                  <div className={`h-12 w-12 rounded-2xl ${benefit.bg} flex items-center justify-center shrink-0`}>
-                    <benefit.icon className={`h-6 w-6 ${benefit.color}`} />
-                  </div>
-                  <span className="text-sm font-bold text-slate-700 leading-snug">{benefit.title}</span>
+                <div key={i} className="flex items-center gap-3">
+                  <benefit.icon className="h-4 w-4 text-slate-400" />
+                  <span className="text-xs font-medium text-slate-600 leading-snug">{benefit.title}</span>
                 </div>
               ))}
             </div>
@@ -184,30 +173,25 @@ export default function CartPage() {
 
           {/* Checkout Summary */}
           <div className="lg:col-span-4 lg:sticky lg:top-28">
-            <div className="bg-white p-8 rounded-[3rem] border border-white shadow-[0_30px_70px_rgba(0,0,0,0.06)] relative overflow-hidden">
-              {/* Background gradient hint */}
-              <div className="absolute top-0 right-0 w-32 h-32 bg-[#0f7af7]/5 blur-[40px] -z-0"></div>
-              
-              <h2 className="text-2xl font-black text-slate-900 mb-8 flex items-center gap-3">
-                <ShoppingBag className="h-6 w-6 text-[#0f7af7]" />
-                {cartT.summary}
+            <div className="bg-white p-6 rounded-xl border border-slate-200 shadow-sm">
+              <h2 className="text-lg font-semibold text-slate-900 mb-6 flex items-center gap-2">
+                Order Summary
               </h2>
               
-              <div className="space-y-5 mb-8 relative z-10">
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 font-bold">{cartT.subtotal}</span>
-                  <span className="text-slate-900 font-black force-english-font text-lg">৳{getTotalPrice()}</span>
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-500">{cartT.subtotal}</span>
+                  <span className="text-slate-900 font-medium">৳{getTotalPrice()}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-400 font-bold">{cartT.tax} (0%)</span>
-                  <span className="text-slate-900 font-black">৳0</span>
+                <div className="flex justify-between items-center text-sm">
+                  <span className="text-slate-500">{cartT.tax}</span>
+                  <span className="text-slate-900 font-medium">৳0</span>
                 </div>
-                <div className="h-px bg-slate-100 w-full my-2"></div>
-                <div className="flex justify-between items-center py-2">
-                  <span className="text-xl font-black text-slate-900">{cartT.total}</span>
+                <div className="h-px bg-slate-100 w-full my-4"></div>
+                <div className="flex justify-between items-center py-1">
+                  <span className="text-base font-semibold text-slate-900">{cartT.total}</span>
                   <div className="text-right">
-                    <span className="text-3xl font-black text-[#0f7af7] force-english-font">৳{getTotalPrice()}</span>
-                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mt-1">all taxes included</p>
+                    <span className="text-2xl font-semibold text-slate-900">৳{getTotalPrice()}</span>
                   </div>
                 </div>
               </div>
@@ -223,27 +207,25 @@ export default function CartPage() {
                     num_items: items.length
                   });
                 }}
-                className="group relative w-full bg-[#0f7af7] hover:bg-[#0c66d1] text-white py-6 rounded-[2rem] font-black text-lg transition-all shadow-[0_15px_30px_rgba(15,122,247,0.3)] hover:shadow-[0_20px_40px_rgba(15,122,247,0.4)] hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-3 overflow-hidden"
+                className="group relative w-full bg-slate-900 hover:bg-slate-800 text-white py-3 rounded-lg font-medium text-sm transition-all flex items-center justify-center gap-2"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]"></div>
                 {cartT.checkout}
-                <ChevronRight className="h-6 w-6 transition-transform group-hover:translate-x-1" />
+                <ChevronRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
 
               {/* Payment Trust Logos */}
-              <div className="mt-10 pt-8 border-t border-slate-50">
-                <p className="text-[10px] font-black text-center text-slate-300 uppercase tracking-[0.3em] mb-6">Guaranteed Safe Checkout</p>
-                <div className="flex items-center justify-center gap-6 grayscale opacity-30 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
-                  <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width={40} height={25} className="h-5 w-auto" />
-                  <Image src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width={40} height={25} className="h-5 w-auto" />
-                  <Image src="https://upload.wikimedia.org/wikipedia/bn/0/05/Bkash_logo.png" alt="Bkash" width={40} height={25} className="h-6 w-auto" />
+              <div className="mt-8 pt-6 border-t border-slate-100">
+                <p className="text-[10px] text-center text-slate-400 uppercase tracking-widest mb-4">Secure Checkout</p>
+                <div className="flex items-center justify-center gap-4 opacity-40">
+                  <Image src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="Visa" width={32} height={20} className="h-3 w-auto" />
+                  <Image src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="Mastercard" width={32} height={20} className="h-4 w-auto" />
+                  <Image src="https://upload.wikimedia.org/wikipedia/bn/0/05/Bkash_logo.png" alt="Bkash" width={32} height={20} className="h-4 w-auto" />
                 </div>
               </div>
             </div>
             
-            <p className="text-center mt-6 text-slate-400 text-xs font-bold flex items-center justify-center gap-2">
-              <Lock className="h-3 w-3" />
-              Secure 256-bit SSL encrypted payment
+            <p className="text-center mt-4 text-slate-400 text-xs">
+              Secure SSL encrypted payment
             </p>
           </div>
 

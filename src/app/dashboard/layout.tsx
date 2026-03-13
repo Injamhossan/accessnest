@@ -62,49 +62,48 @@ export default function DashboardLayout({
   const getLinkClass = (path: string) => {
     const isActive = pathname === path;
     return isActive
-      ? "flex items-center gap-3 px-4 py-3 text-[#0f7af7] bg-blue-50/50 rounded-2xl font-bold border border-blue-100/50 shadow-sm"
-      : "flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-2xl font-semibold transition-all group";
+      ? "flex items-center gap-3 px-4 py-3 text-blue-600 bg-blue-50 rounded-xl font-bold border border-blue-100 shadow-sm"
+      : "flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-900 hover:bg-slate-50 rounded-xl font-semibold transition-all group";
   };
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* Sidebar Header */}
-      <div className="p-6 border-b border-slate-50 flex items-center justify-between">
+      <div className="p-6 flex items-center justify-between">
         <Link href="/" className="flex items-center">
-            <Image src={navLogo} alt="Logo" width={120} height={40} className="h-12 w-auto object-contain" />
+            <Image src={navLogo} alt="Logo" width={110} height={36} className="h-10 w-auto object-contain" />
         </Link>
-        <button onClick={() => setIsSidebarOpen(false)} className="md:hidden p-2 text-slate-400 hover:text-slate-900">
-          <X className="h-6 w-6" />
+        <button onClick={() => setIsSidebarOpen(false)} className="md:hidden p-2 text-slate-400 hover:text-slate-900 bg-slate-50 rounded-lg">
+          <X className="h-5 w-5" />
         </button>
       </div>
 
       {/* Navigation Links */}
-      <nav className="flex-1 p-6 space-y-2 overflow-y-auto">
+      <nav className="flex-1 px-6 py-4 space-y-1.5 overflow-y-auto">
         <Link href="/dashboard" className={getLinkClass("/dashboard")}> 
           <Home className="h-5 w-5" /> 
           <span className="flex-1">{t.overview}</span>
-          <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 md:group-hover:translate-x-1 transition-all" />
         </Link>
 
         {isAdmin && (
           <>
             <div className="pt-6 pb-2 px-4">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Management</p>
+              <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Manage</p>
             </div>
             <Link href="/dashboard/manage-products" className={getLinkClass("/dashboard/manage-products")}>
-              <ShoppingBag className="h-5 w-5" /> Manage Products
+              <ShoppingBag className="h-5 w-5" /> Products
             </Link>
             <Link href="/dashboard/manage-users" className={getLinkClass("/dashboard/manage-users")}>
-              <User className="h-5 w-5" /> Manage Users
+              <User className="h-5 w-5" /> Users
             </Link>
             <Link href="/dashboard/all-sales" className={getLinkClass("/dashboard/all-sales")}>
-              <CreditCard className="h-5 w-5" /> Global Sales
+              <CreditCard className="h-5 w-5" /> Sales
             </Link>
           </>
         )}
 
         <div className="pt-6 pb-2 px-4 border-t border-slate-50 mt-4">
-           <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Account</p>
+           <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Account</p>
         </div>
         <Link href="/dashboard/orders" className={getLinkClass("/dashboard/orders")}>
           <ShoppingBag className="h-5 w-5" /> {t.orders}
@@ -121,20 +120,20 @@ export default function DashboardLayout({
       </nav>
 
       {/* Sidebar Footer */}
-      <div className="p-6 border-t border-slate-50 mb-4">
-        <div className="bg-slate-50 rounded-2xl p-4 mb-4">
-          <div className="flex items-center gap-3 mb-2">
-            <ShieldCheck className="h-5 w-5 text-emerald-500" />
-            <span className="text-xs font-bold text-slate-900">Secure Account</span>
+      <div className="p-6 space-y-4">
+        <div className="bg-slate-50 rounded-xl p-4 border border-slate-100">
+          <div className="flex items-center gap-2 mb-1.5">
+            <ShieldCheck className="h-4 w-4 text-emerald-500" />
+            <span className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">Secure session</span>
           </div>
-          <p className="text-[10px] font-medium text-slate-400 leading-relaxed">Your data is encrypted and protected by 256-bit SSL.</p>
+          <p className="text-[10px] font-medium text-slate-400 leading-tight">Data protected by 256-bit encryption.</p>
         </div>
-        <div className="flex flex-col gap-2">
-          <button onClick={handleSignOut} className="flex items-center gap-3 px-4 py-3 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-2xl font-bold transition-all">
-            <LogOut className="h-5 w-5" /> {t.logout}
+        <div className="pt-2 flex flex-col gap-1">
+          <button onClick={handleSignOut} className="flex items-center gap-3 px-4 py-2.5 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-xl font-bold transition-all text-sm">
+            <LogOut className="h-4 w-4" /> {t.logout}
           </button>
-          <Link href="/" className="flex items-center gap-3 px-4 py-3 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-2xl font-semibold transition-all">
-            <ArrowLeft className="h-5 w-5" /> Back to Home
+          <Link href="/" className="flex items-center gap-3 px-4 py-2.5 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-xl font-semibold transition-all text-sm">
+            <ArrowLeft className="h-4 w-4" /> Home
           </Link>
         </div>
       </div>

@@ -130,7 +130,7 @@ export async function POST(req: Request) {
 
                 <hr style="border: none; border-top: 1px solid #edf2f7; margin: 40px 0;">
                 <p style="font-size: 12px; color: #a0aec0; text-align: center; margin: 0;">If you have any questions, feel free to reply to this email or visit our <a href="${process.env.NEXT_PUBLIC_BASE_URL}/contact" style="color: #3182ce; text-decoration: none;">support center</a>.</p>
-                <p style="font-size: 11px; color: #cbd5e0; text-align: center; margin-top: 20px;">Support: <a href="mailto:support@accessnest.tech" style="color: #cbd5e0; text-decoration: none;">support@accessnest.tech</a></p>
+                <p style="font-size: 11px; color: #cbd5e0; text-align: center; margin-top: 20px;">Support: <a href="mailto:accessnestbd@gmail.com" style="color: #cbd5e0; text-decoration: none;">accessnestbd@gmail.com</a></p>
               </div>
             </div>
           </div>

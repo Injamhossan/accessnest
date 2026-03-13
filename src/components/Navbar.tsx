@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Search, ShoppingCart, User, Globe, LogOut, LogIn, Menu, X, ChevronRight, LayoutDashboard } from "lucide-react";
+import { Search, ShoppingCart, User, Globe, LogOut, LogIn, Menu, X, ChevronRight, LayoutDashboard, Loader2, Star, ArrowRight } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import navLogo from "@/assets/navlogo.png";
 import iconLogo from "@/assets/icon-02.png";
@@ -17,15 +18,54 @@ export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+  
   const { lang, toggleLang } = useLangStore();
   const t = dict[lang as keyof typeof dict]?.nav || { home: "Home", products: "Products", about: "About", contact: "Contact", search: "Search", cart: "Cart", dashboard: "Dashboard" };
   const { data: session, status } = useSession();
   const cartItemsCount = useCartStore((state) => state.getTotalItems());
+  const router = useRouter();
 
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // Live Search Logic
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      setIsSearching(false);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const res = await fetch(`/api/products?search=${encodeURIComponent(searchQuery.trim())}`);
+        if (res.ok) {
+          const data = await res.json();
+          setSearchResults(data.slice(0, 5)); // Only show top 5 in dropdown
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
+
+  const handleSearchSubmit = () => {
+    if (searchQuery.trim()) {
+      router.push(`/products?search=${encodeURIComponent(searchQuery.trim())}`);
+      setShowDropdown(false);
+    }
+  };
 
   // Prevent scroll when mobile menu is open
   useEffect(() => {
@@ -79,12 +119,90 @@ export default function Navbar() {
               <span className="font-bold text-[10px] md:text-xs uppercase force-english-font text-slate-600">{lang}</span>
             </button>
 
+            <div className="hidden md:flex items-center relative group">
+              <div className="relative flex items-center">
+                <Search 
+                  className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 group-focus-within:text-[#0f7af7] transition-colors z-10 cursor-pointer" 
+                  onClick={handleSearchSubmit}
+                />
+                <input 
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowDropdown(true);
+                  }}
+                  onFocus={() => setShowDropdown(true)}
+                  placeholder={t.search + "..."}
+                  className="w-40 lg:w-64 pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-100 rounded-xl text-xs font-extrabold outline-none focus:bg-white focus:border-[#0f7af7] focus:ring-4 focus:ring-[#0f7af7]/5 transition-all force-english-font"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleSearchSubmit();
+                  }}
+                />
+                {isSearching && (
+                  <Loader2 className="absolute right-3.5 top-1/2 -translate-y-1/2 h-3 w-3 text-blue-600 animate-spin" />
+                )}
+              </div>
+
+              {/* Live Search Dropdown */}
+              {showDropdown && searchQuery.trim() && (
+                <div className="absolute top-full left-0 right-0 mt-3 bg-white border border-slate-200 rounded-2xl shadow-xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                  <div className="p-2 space-y-1">
+                    {searchResults.length > 0 ? (
+                      <>
+                        {searchResults.map((product) => (
+                          <Link
+                            key={product.id}
+                            href={`/products/${product.slug || product.id}`}
+                            onClick={() => {
+                              setShowDropdown(false);
+                              setSearchQuery("");
+                            }}
+                            className="flex items-center gap-3 p-2 hover:bg-slate-50 rounded-xl transition-all group"
+                          >
+                            <div className="h-10 w-10 rounded-lg bg-slate-100 border border-slate-200 overflow-hidden shrink-0">
+                               <Image src={product.image} alt={product.title} width={40} height={40} className="object-cover h-full w-full" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-[11px] font-bold text-slate-900 truncate">{product.title}</p>
+                              <div className="flex items-center gap-1.5">
+                                <span className="text-[9px] font-bold text-[#0f7af7]">৳{product.price}</span>
+                                <span className="text-[9px] text-slate-400 font-medium">• {product.category}</span>
+                              </div>
+                            </div>
+                            <ArrowRight className="h-3 w-3 text-slate-300 group-hover:text-slate-900 transition-colors shrink-0" />
+                          </Link>
+                        ))}
+                        <button 
+                          onClick={handleSearchSubmit}
+                          className="w-full mt-1 p-2 text-[10px] font-bold text-[#0f7af7] hover:bg-blue-50/50 text-center rounded-lg transition-all"
+                        >
+                          View all results for &quot;{searchQuery}&quot;
+                        </button>
+                      </>
+                    ) : !isSearching && (
+                      <div className="p-4 text-center">
+                        <p className="text-[10px] font-bold text-slate-400">No products found</p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Click backdrop to close dropdown */}
+            {showDropdown && searchQuery && (
+              <div 
+                className="fixed inset-0 z-40 bg-transparent" 
+                onClick={() => setShowDropdown(false)}
+              />
+            )}
+
             <button 
               onClick={() => setIsSearchOpen(true)}
-              className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-xl transition-all group cursor-pointer"
+              className="md:hidden p-2 hover:bg-slate-50 rounded-xl transition-all group cursor-pointer"
             >
-              <Search className="w-5 h-5 group-hover:scale-110 transition-transform text-slate-500 group-hover:text-[#0f7af7]" />
-              <span className="hidden lg:inline font-semibold text-sm text-slate-600">{t.search}</span>
+              <Search className="w-5 h-5 text-slate-500 group-hover:text-[#0f7af7]" />
             </button>
 
             <Link href="/cart" className="flex items-center gap-2 p-2 hover:bg-slate-50 rounded-lg transition-all group">

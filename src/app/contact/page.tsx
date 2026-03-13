@@ -41,7 +41,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-bold text-slate-900">{t.call}</h3>
                 <p className="text-slate-500 mt-1 mb-2 text-sm">{t.callDesc}</p>
-                <a href="tel:+1234567890" className="font-semibold text-emerald-600 hover:underline">+1 (234) 567-890</a>
+                <a href="tel:+1234567890" className="font-semibold text-emerald-600 hover:underline">+8801641108312</a>
               </div>
             </div>
 
@@ -52,7 +52,7 @@ export default function ContactPage() {
               <div>
                 <h3 className="text-lg font-bold text-slate-900">{t.visit}</h3>
                 <p className="text-slate-500 mt-1 mb-2 text-sm">{t.visitDesc}</p>
-                <span className="font-semibold text-amber-600">100 Innovation Drive, Tech City</span>
+                <span className="font-semibold text-amber-600">Bashundhara R/A, Dhaka, Bangladesh</span>
               </div>
             </div>
           </div>

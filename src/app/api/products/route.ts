@@ -5,9 +5,20 @@ import { getServerSession } from "next-auth/next";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
+    const { searchParams } = new URL(req.url);
+    const search = searchParams.get("search");
+
+    const where: any = search ? {
+      OR: [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ]
+    } : {};
+
     const products = await prisma.product.findMany({
+      where,
       orderBy: [
         { isFeatured: "desc" },
         { createdAt: "desc" }
@@ -15,6 +26,7 @@ export async function GET() {
     });
     return NextResponse.json(products);
   } catch (error) {
+    console.error("Products API error:", error);
     return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
   }
 }

@@ -133,37 +133,36 @@ export default function ManageProductsPage() {
   }
 
   return (
-    <div className="px-4 py-8 sm:p-6 lg:p-10 max-w-7xl mx-auto w-full">
+    <div className="px-4 py-6 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
       {/* Header section */}
-      <div className="mb-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      <div className="mb-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight flex items-center gap-3">
-            <Layers className="h-8 w-8 text-[#0f7af7]" />
-            Manage Inventory
+          <h1 className="text-2xl font-semibold text-slate-900 tracking-tight">
+            Manage Products
           </h1>
-          <p className="text-slate-500 font-semibold mt-1 text-sm">Add, refine, or decommission digital assets with precision.</p>
+          <p className="text-slate-500 mt-1 text-sm">Add and manage your digital products catalog.</p>
         </div>
         <button 
           onClick={() => openModal()}
-          className="group inline-flex items-center justify-center gap-2 rounded-lg bg-[#0f7af7] px-6 py-4 text-xs font-bold text-white transition-all hover:bg-blue-600 active:scale-[0.98]"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-medium text-white transition-all hover:bg-slate-800 active:scale-[0.98]"
         >
-          <Plus className="h-5 w-5" /> Add New Asset
+          <Plus className="h-4 w-4" /> Add Product
         </button>
       </div>
 
-      <div className="bg-white rounded-xl border border-slate-200/80 shadow-sm overflow-hidden mb-10">
-        <div className="px-8 py-6 border-b border-slate-100 flex flex-wrap items-center justify-between gap-6 bg-slate-50/30">
-          <div className="relative flex-1 min-w-[280px]">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+      <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden mb-8">
+        <div className="px-6 py-4 border-b border-slate-100 flex flex-wrap items-center justify-between gap-4 bg-slate-50/50">
+          <div className="relative flex-1 min-w-[240px]">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
             <input 
               type="text" 
-              placeholder="Search assets by name or SKU..." 
-              className="pl-11 pr-4 py-3.5 bg-white border border-slate-200 rounded-lg text-sm font-semibold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 w-full transition-all" 
+              placeholder="Search products..." 
+              className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 w-full transition-all" 
             />
           </div>
-          <div className="flex gap-3">
-            <button className="inline-flex items-center gap-2 px-5 py-3.5 text-xs font-bold text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-all shadow-sm uppercase tracking-widest">
-                <Filter className="h-4 w-4 text-slate-400" /> Filters
+          <div className="flex gap-2">
+            <button className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-slate-600 bg-white border border-slate-200 rounded-md hover:bg-slate-50 transition-all shadow-sm">
+                <Filter className="h-4 w-4" /> Filters
             </button>
           </div>
         </div>
@@ -172,64 +171,64 @@ export default function ManageProductsPage() {
           <table className="w-full text-left min-w-[800px]">
             <thead>
               <tr className="bg-slate-50/50 border-b border-slate-100">
-                <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Asset Information</th>
-                <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Category</th>
-                <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Pricing</th>
-                <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Visibility</th>
-                <th className="px-8 py-5 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em] text-right">Actions</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500">Product</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500">Category</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500">Price</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500">Status</th>
+                <th className="px-6 py-4 text-xs font-semibold text-slate-500 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
               {loading ? (
                 <tr>
-                  <td colSpan={5} className="px-8 py-24 text-center">
-                    <Loader2 className="h-10 w-10 text-[#0f7af7] animate-spin mx-auto mb-4" />
-                    <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">Syncing inventory data...</p>
+                  <td colSpan={5} className="px-6 py-16 text-center">
+                    <Loader2 className="h-8 w-8 text-slate-400 animate-spin mx-auto mb-3" />
+                    <p className="text-slate-500 text-sm">Loading products...</p>
                   </td>
                 </tr>
               ) : products.length > 0 ? (
                 products.map((product) => (
-                  <tr key={product.id} className="hover:bg-slate-50/50 transition-colors group">
-                    <td className="px-8 py-5">
-                      <div className="flex items-center gap-5">
-                        <div className="h-14 w-14 rounded-2xl bg-slate-50 border border-slate-100 shrink-0 overflow-hidden relative shadow-sm">
+                  <tr key={product.id} className="hover:bg-slate-50/30 transition-colors group">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-4">
+                        <div className="h-10 w-10 rounded-md bg-slate-50 border border-slate-100 shrink-0 overflow-hidden relative">
                           {product.image ? (
-                            <Image src={product.image} alt={product.title} fill className="object-cover group-hover:scale-110 transition-transform duration-500" />
+                            <Image src={product.image} alt={product.title} fill className="object-cover" />
                           ) : (
-                            <Package className="h-6 w-6 m-4 text-slate-200" />
+                            <Package className="h-5 w-5 m-2.5 text-slate-300" />
                           )}
                         </div>
                         <div className="min-w-0">
-                          <p className="text-sm font-bold text-slate-900 group-hover:text-[#0f7af7] transition-colors truncate mb-1">{product.title}</p>
-                          <p className="text-[10px] text-slate-400 font-semibold uppercase tracking-widest line-clamp-1">ID: {product.id.slice(-8).toUpperCase()}</p>
+                          <p className="text-sm font-medium text-slate-900 truncate">{product.title}</p>
+                          <p className="text-xs text-slate-400">ID: {product.id.slice(-8).toUpperCase()}</p>
                         </div>
                       </div>
                     </td>
-                    <td className="px-8 py-5">
-                      <span className="text-[10px] font-bold text-slate-600 bg-white border border-slate-200 px-3 py-1.5 rounded-xl uppercase tracking-widest">
+                    <td className="px-6 py-4">
+                      <span className="text-xs font-medium text-slate-600">
                         {(t as any).categories?.[product.category] || product.category}
                       </span>
                     </td>
-                    <td className="px-8 py-5">
-                      <span className="text-sm font-bold text-slate-900 force-english-font tracking-tight">৳{product.price}</span>
+                    <td className="px-6 py-4">
+                      <span className="text-sm font-medium text-slate-900">৳{product.price}</span>
                     </td>
-                    <td className="px-8 py-5">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[10px] font-bold uppercase tracking-widest ${product.isActive ? 'bg-emerald-50 text-emerald-700 border border-emerald-100/50 shadow-sm shadow-emerald-100/20' : 'bg-slate-100 text-slate-500 border border-slate-200'}`}>
-                        <div className={`h-1.5 w-1.5 rounded-full ${product.isActive ? 'bg-emerald-500 animate-pulse' : 'bg-slate-400'}`} />
-                        {product.isActive ? 'Operational' : 'Off-line'}
+                    <td className="px-6 py-4">
+                      <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium ${product.isActive ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' : 'bg-slate-50 text-slate-500 border border-slate-200'}`}>
+                        <div className={`h-1 w-1 rounded-full ${product.isActive ? 'bg-emerald-600' : 'bg-slate-400'}`} />
+                        {product.isActive ? 'Active' : 'Hidden'}
                       </span>
                     </td>
-                    <td className="px-8 py-5 text-right">
-                      <div className="flex items-center justify-end gap-1.5">
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-1">
                         <button 
                           onClick={() => openModal(product)}
-                          className="p-2.5 text-slate-400 hover:text-[#0f7af7] hover:bg-blue-50 rounded-xl transition-all active:scale-90"
+                          className="p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-all"
                         >
                           <Edit className="h-4 w-4" />
                         </button>
                         <button 
                           onClick={() => handleDelete(product.id)}
-                          className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all active:scale-90"
+                          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-all"
                         >
                           <Trash2 className="h-4 w-4" />
                         </button>
@@ -239,13 +238,13 @@ export default function ManageProductsPage() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="px-8 py-32 text-center">
-                    <div className="h-20 w-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-white shadow-sm">
-                        <Package className="h-10 w-10 text-slate-200" />
+                  <td colSpan={5} className="px-6 py-20 text-center">
+                    <div className="h-16 w-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <Package className="h-8 w-8 text-slate-300" />
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2 uppercase tracking-wider">Empty Database</h3>
-                    <p className="text-slate-400 font-semibold text-sm max-w-xs mx-auto uppercase tracking-tighter mb-8">No digital assets were detected in the system registry.</p>
-                    <button onClick={() => openModal()} className="px-8 py-3 bg-[#0f7af7] text-white font-bold text-xs uppercase tracking-[0.2em] rounded-lg transition-transform">Add Master Asset</button>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-1">No products found</h3>
+                    <p className="text-slate-500 text-sm max-w-xs mx-auto mb-6">Start by adding your first digital product to the catalog.</p>
+                    <button onClick={() => openModal()} className="px-6 py-2 bg-slate-900 text-white font-medium text-sm rounded-md transition-all hover:bg-slate-800">Add Product</button>
                   </td>
                 </tr>
               )}
@@ -258,20 +257,20 @@ export default function ManageProductsPage() {
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-slate-950/40 backdrop-blur-md" onClick={closeModal} />
-          <div className="relative bg-white rounded-xl w-full max-w-2xl shadow-xl overflow-hidden animate-in fade-in zoom-in duration-300 border border-white/20">
-            <div className="px-10 py-8 border-b border-slate-50 flex items-center justify-between bg-slate-50/20">
+          <div className="relative bg-white rounded-lg w-full max-w-xl shadow-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200">
+            <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
               <div>
-                <span className="text-[10px] font-bold text-[#0f7af7] uppercase tracking-[0.3em] block mb-1">Asset Configuration</span>
-                <h2 className="text-2xl font-bold text-slate-900 tracking-tight">{editingProduct ? "Edit Master Data" : "Deploy New Asset"}</h2>
+                <h2 className="text-xl font-semibold text-slate-900">{editingProduct ? "Edit Product" : "Add New Product"}</h2>
+                <p className="text-xs text-slate-500 mt-0.5">Fill in the details for your digital product.</p>
               </div>
-              <button onClick={closeModal} className="p-3 hover:bg-white rounded-2xl transition-all shadow-sm border border-transparent hover:border-slate-100">
+              <button onClick={closeModal} className="p-2 hover:bg-slate-100 rounded-md transition-all">
                 <X className="h-5 w-5 text-slate-400" />
               </button>
             </div>
-            <form onSubmit={handleSubmit} className="p-10 space-y-8 overflow-y-auto max-h-[75vh] custom-scrollbar">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="sm:col-span-2 space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Asset Name</label>
+            <form onSubmit={handleSubmit} className="p-6 space-y-6 overflow-y-auto max-h-[80vh] custom-scrollbar">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="sm:col-span-2 space-y-1.5">
+                  <label className="text-xs font-medium text-slate-700 ml-0.5">Product Name</label>
                   <input 
                     required
                     value={formData.name}
@@ -281,24 +280,24 @@ export default function ManageProductsPage() {
                       setFormData({...formData, name, slug: formData.slug ? formData.slug : slug});
                     }}
                     type="text" 
-                    placeholder="e.g. Premium Access Node"
-                    className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-english-font"
+                    placeholder="e.g. Premium UI Kit"
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all"
                   />
                 </div>
 
-                <div className="sm:col-span-2 space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">URL Identifier (Slug)</label>
+                <div className="sm:col-span-2 space-y-1.5">
+                  <label className="text-xs font-medium text-slate-700 ml-0.5">Slug (URL Identifier)</label>
                   <input 
                     value={formData.slug}
                     onChange={(e) => setFormData({...formData, slug: e.target.value})}
                     type="text" 
-                    placeholder="e.g. premium-access-node"
-                    className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-mono"
+                    placeholder="e.g. premium-ui-kit"
+                    className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all font-mono text-slate-600"
                   />
                 </div>
                 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Market Pricing (BDT)</label>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-700 ml-0.5">Price (BDT)</label>
                   <input 
                     required
                     value={formData.price}
@@ -306,83 +305,83 @@ export default function ManageProductsPage() {
                     type="number" 
                     step="0.01"
                     placeholder="0.00"
-                    className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-english-font"
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Sector Class</label>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-700 ml-0.5">Category</label>
                   <div className="relative">
                     <select 
                         required
                         value={formData.category}
                         onChange={(e) => setFormData({...formData, category: e.target.value})}
-                        className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all appearance-none"
+                        className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all appearance-none"
                     >
                         <option value="">Select Category</option>
                         {Object.entries((t as any).categories || {}).map(([key, value]) => (
                         <option key={key} value={key}>{value as string}</option>
                         ))}
                     </select>
-                    <ChevronRight className="absolute right-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 rotate-90" />
+                    <ChevronRight className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400 rotate-90 pointer-events-none" />
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Asset Description</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-slate-700 ml-0.5">Description</label>
                 <textarea 
                   required
                   value={formData.description}
                   onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  rows={4}
-                  placeholder="Define the value proposition..."
-                  className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all resize-none"
+                  rows={3}
+                  placeholder="Tell us about the product..."
+                  className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all resize-none"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Visual Endpoint (URL)</label>
+              <div className="space-y-1.5">
+                <label className="text-xs font-medium text-slate-700 ml-0.5">Image URL</label>
                 <div className="relative">
-                  <ImageIcon className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
+                  <ImageIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <input 
                     value={formData.image}
                     onChange={(e) => setFormData({...formData, image: e.target.value})}
                     type="text" 
-                    placeholder="https://cloud.cdn/asset.jpg"
-                    className="w-full pl-14 pr-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-mono"
+                    placeholder="https://example.com/image.jpg"
+                    className="w-full pl-10 pr-3.5 py-2.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Download Hub (Encrypted)</label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-700 ml-0.5">Download URL</label>
                   <input 
                     value={formData.downloadUrl}
                     onChange={(e) => setFormData({...formData, downloadUrl: e.target.value})}
                     type="text" 
-                    placeholder="Secure link endpoint..."
-                    className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-mono"
+                    placeholder="Link to file..."
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Deliverable Credentials</label>
+                <div className="space-y-1.5">
+                  <label className="text-xs font-medium text-slate-700 ml-0.5">Deliverable Content</label>
                   <input 
                     value={formData.deliverableContent}
                     onChange={(e) => setFormData({...formData, deliverableContent: e.target.value})}
                     type="text" 
-                    placeholder="Keys, tokens or intel..."
-                    className="w-full px-6 py-4 bg-slate-50/50 border border-slate-200 rounded-lg text-sm font-bold text-slate-900 focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all"
+                    placeholder="Keys or codes..."
+                    className="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-900 transition-all"
                   />
                 </div>
               </div>
               
-              <div className="pt-6">
+              <div className="pt-2">
                 <button 
                   type="submit"
-                  className="w-full bg-slate-900 text-white font-bold py-5 rounded-lg hover:bg-[#0f7af7] transition-all uppercase tracking-[0.3em] text-xs active:scale-[0.98]"
+                  className="w-full bg-slate-900 text-white font-semibold py-3 rounded-md hover:bg-slate-800 transition-all text-sm active:scale-[0.98]"
                 >
-                  {editingProduct ? "Synchronize Updates" : "Initiate Deployment"}
+                  {editingProduct ? "Save Changes" : "Create Product"}
                 </button>
               </div>
             </form>

@@ -8,16 +8,25 @@ import ProductCard from "@/components/ProductCard";
 import { useLangStore } from "@/store/langStore";
 import { dict } from "@/utils/dictionary";
 
-export default function AllProductsPage() {
+import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+
+function ProductList() {
   const { lang } = useLangStore();
+  const searchParams = useSearchParams();
+  const search = searchParams.get("search");
   const t = dict[lang].products;
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setLoading(true);
       try {
-        const res = await fetch("/api/products", { cache: "no-store" });
+        const url = search 
+          ? `/api/products?search=${encodeURIComponent(search)}`
+          : "/api/products";
+        const res = await fetch(url, { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
           setProducts(data);
@@ -30,17 +39,20 @@ export default function AllProductsPage() {
     };
 
     fetchProducts();
-  }, []);
+  }, [search]);
 
   return (
-    <div className="min-h-screen bg-slate-50 py-12 px-4 md:px-6">
-      <div className="max-w-7xl mx-auto">
-        
+    <div className="max-w-7xl mx-auto">
+      
         {/* Header & Filters */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
             <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">{t.title}</h1>
-            <p className="mt-2 text-slate-500">{t.desc}</p>
+            <p className="mt-2 text-slate-500">
+              {search ? (
+                <>Found {products.length} results for &quot;<span className="text-[#0f7af7] font-bold">{search}</span>&quot;</>
+              ) : t.desc}
+            </p>
           </div>
           
           <div className="flex items-center gap-3">
@@ -60,10 +72,10 @@ export default function AllProductsPage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-40">
             <Loader2 className="h-12 w-12 text-sky-600 animate-spin" />
-            <p className="mt-4 text-slate-500 font-bold">Loading premium products...</p>
+            <p className="mt-4 text-slate-500 font-bold">Searching premium products...</p>
           </div>
         ) : products.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">
             {products.map((product) => (
               <ProductCard 
                 key={product.id}
@@ -83,7 +95,7 @@ export default function AllProductsPage() {
           <div className="flex flex-col items-center justify-center py-40 bg-white rounded-3xl border-2 border-dashed border-slate-200">
             <Package className="h-16 w-16 text-slate-200 mb-4" />
             <p className="text-slate-500 font-bold text-xl">No products found</p>
-            <p className="text-slate-400 mt-2">Check back later for new digital assets.</p>
+            <p className="text-slate-400 mt-2">Adjust your filters or try a different keyword.</p>
           </div>
         )}
 
@@ -95,8 +107,20 @@ export default function AllProductsPage() {
             </button>
           </div>
         )}
-
       </div>
+  );
+}
+
+export default function AllProductsPage() {
+  return (
+    <div className="min-h-screen bg-slate-50 py-12 px-4 md:px-6">
+      <Suspense fallback={
+        <div className="flex flex-col items-center justify-center py-40">
+          <Loader2 className="h-12 w-12 text-sky-600 animate-spin" />
+        </div>
+      }>
+        <ProductList />
+      </Suspense>
     </div>
   );
 }

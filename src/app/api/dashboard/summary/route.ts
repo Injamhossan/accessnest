@@ -39,16 +39,48 @@ export async function GET() {
         })
       ]);
 
+      // Calculate chart data (last 14 days)
+      const fourteenDaysAgo = new Date();
+      fourteenDaysAgo.setDate(fourteenDaysAgo.getDate() - 14);
+
+      const recentOrders = await prisma.order.findMany({
+        where: {
+          createdAt: { gte: fourteenDaysAgo },
+          status: 'completed'
+        },
+        select: {
+          createdAt: true,
+          totalAmount: true
+        }
+      });
+
+      const dailySales: Record<string, number> = {};
+      for (let i = 0; i < 14; i++) {
+          const d = new Date();
+          d.setDate(d.getDate() - i);
+          dailySales[d.toLocaleDateString()] = 0;
+      }
+
+      recentOrders.forEach((o: any) => {
+          const dateStr = new Date(o.createdAt).toLocaleDateString();
+          if (dailySales[dateStr] !== undefined) {
+              dailySales[dateStr] += Number(o.totalAmount);
+          }
+      });
+
+      const chartData = Object.entries(dailySales).map(([date, amount]: [string, any]) => ({ date, amount })).reverse();
+
       return NextResponse.json({
         type: "admin",
         stats: {
           userCount,
           productCount,
           orderCount,
-          revenue: revenue._sum.totalAmount || 0
+          revenue: Number(revenue._sum.totalAmount || 0)
         },
         recentUsers,
-        recentProducts
+        recentProducts,
+        chartData
       });
     } else {
       // User Data

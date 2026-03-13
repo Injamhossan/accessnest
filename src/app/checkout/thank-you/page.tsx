@@ -12,32 +12,29 @@ export default function ThankYouPage() {
   const orderId = "ORD-" + Math.random().toString(36).substring(2, 9).toUpperCase();
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center p-6 bg-slate-50">
-      <div className="max-w-2xl w-full">
-        <div
-          className="bg-white rounded-3xl shadow-xl shadow-blue-900/5 p-8 md:p-12 text-center transition-all duration-500 opacity-100 translate-y-0"
-        >
-          <div
-            className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-8 animate-bounce"
-          >
-            <svg className="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
+    <div className="min-h-[80vh] flex items-center justify-center p-4 bg-white">
+      <div className="max-w-xl w-full">
+        <div className="bg-white rounded-3xl border border-slate-100 p-10 md:p-16 text-center animate-in fade-in slide-in-from-bottom-5 duration-700">
+          
+          <div className="w-20 h-20 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-10 shadow-inner">
+            <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="2.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
 
-          <h1 className="text-3xl font-extrabold text-slate-900 md:text-4xl">
+          <h1 className="text-4xl font-black text-slate-900 tracking-tight leading-tight">
             {t.title}
           </h1>
-          <p className="text-slate-500 mt-4 text-lg">
+          <p className="text-slate-500 mt-4 text-base font-medium max-w-sm mx-auto">
             {t.subtitle}
           </p>
 
-          <div className="mt-10 p-6 bg-slate-50 rounded-2xl border border-dashed border-slate-200 inline-block">
-            <span className="text-sm font-medium text-slate-400 block mb-1">{t.orderId}</span>
-            <span className="text-xl font-mono font-bold text-slate-800 tracking-wider font-english">{orderId}</span>
+          <div className="mt-10 py-4 px-6 bg-slate-50 rounded-2xl border border-slate-100 inline-flex flex-col items-center">
+            <span className="text-[10px] font-bold text-[#0f7af7] uppercase tracking-[0.2em] mb-1">{t.orderId}</span>
+            <span className="text-lg font-black text-slate-900 font-mono italic tracking-widest">{orderId}</span>
           </div>
 
-          <p className="text-slate-600 mt-8 max-w-sm mx-auto">
+          <p className="text-slate-400 mt-10 text-sm font-medium leading-relaxed">
             {t.checkEmail}
           </p>
 
