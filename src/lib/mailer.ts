@@ -23,6 +23,8 @@ export const sendEmail = async ({ to, subject, html }: EmailOptions) => {
     
     const info = await transporter.sendMail({
       from: `"Access Nest" <${process.env.EMAIL_USER}>`,
+      sender: process.env.EMAIL_USER,
+      replyTo: process.env.EMAIL_USER,
       to,
       subject,
       html,

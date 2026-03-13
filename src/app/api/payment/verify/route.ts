@@ -105,9 +105,10 @@ export async function POST(req: Request) {
         html: `
           <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #f7fafc;">
             <div style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);">
-              <div style="background-color: #1a202c; padding: 30px; text-align: center;">
-                <h1 style="color: #ffffff; margin: 0; font-size: 24px;">Order Confirmed!</h1>
-                <p style="color: #a0aec0; margin: 10px 0 0;">Transaction ID: ${transactionId}</p>
+              <div style="background-color: #1a202c; padding: 40px 30px; text-align: center;">
+                <img src="${process.env.NEXT_PUBLIC_BASE_URL}/logo.png" alt="Access Nest" style="height: 40px; margin-bottom: 20px;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 24px; font-weight: 800; letter-spacing: -0.5px;">Order Confirmed!</h1>
+                <p style="color: #a0aec0; margin: 10px 0 0; font-size: 13px; font-weight: 500;">Transaction ID: ${transactionId}</p>
               </div>
               <div style="padding: 30px;">
                 <h2 style="font-size: 18px; color: #1a202c; margin: 0 0 20px;">Hi ${updatedOrder.user.name || 'Value Customer'},</h2>
@@ -129,8 +130,15 @@ export async function POST(req: Request) {
                 </div>
 
                 <hr style="border: none; border-top: 1px solid #edf2f7; margin: 40px 0;">
-                <p style="font-size: 12px; color: #a0aec0; text-align: center; margin: 0;">If you have any questions, feel free to reply to this email or visit our <a href="${process.env.NEXT_PUBLIC_BASE_URL}/contact" style="color: #3182ce; text-decoration: none;">support center</a>.</p>
-                <p style="font-size: 11px; color: #cbd5e0; text-align: center; margin-top: 20px;">Support: <a href="mailto:accessnestbd@gmail.com" style="color: #cbd5e0; text-decoration: none;">accessnestbd@gmail.com</a></p>
+                <p style="font-size: 12px; color: #a0aec0; text-align: center; margin: 0 0 10px;">
+                  This is a transactional receipt for your recent purchase.
+                </p>
+                <p style="font-size: 11px; color: #cbd5e0; text-align: center; margin: 0;">
+                  Access Nest BD • Dhaka, Bangladesh • <a href="mailto:accessnestbd@gmail.com" style="color: #cbd5e0; text-decoration: none;">accessnestbd@gmail.com</a>
+                </p>
+                <p style="font-size: 11px; color: #cbd5e0; text-align: center; margin-top: 15px;">
+                  You received this because you made a purchase on <a href="${process.env.NEXT_PUBLIC_BASE_URL}" style="color: #cbd5e0; text-decoration: none;">Access Nest</a>.
+                </p>
               </div>
             </div>
           </div>
