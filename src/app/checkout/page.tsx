@@ -8,10 +8,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { Info, ShieldCheck, UserPlus } from "lucide-react";
+import { ShieldCheck, Lock, ArrowRight, Info } from "lucide-react";
 
 export default function CheckoutPage() {
-  const { items, getTotalPrice, clearCart } = useCartStore();
+  const { items, getTotalPrice } = useCartStore();
   const { lang } = useLangStore();
   const t = dict[lang]?.checkout || dict.en.checkout;
   const router = useRouter();
@@ -43,8 +43,8 @@ export default function CheckoutPage() {
 
   if (!isClient) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <div className="w-8 h-8 border-2 border-slate-200 border-t-slate-900 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -53,16 +53,14 @@ export default function CheckoutPage() {
 
   if (items.length === 0) {
     return (
-      <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-        <div className="w-20 h-20 bg-slate-200 rounded-full flex items-center justify-center mb-4">
-          <svg className="w-10 h-10 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-          </svg>
-        </div>
-        <h2 className="text-2xl font-bold text-slate-800">Your cart is empty</h2>
-        <p className="text-slate-500 mt-2 max-w-xs">Looks like you haven't added anything to your cart yet.</p>
-        <Link href="/products" className="mt-6 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
-          Browse Products
+      <div className="flex-1 flex flex-col items-center justify-center p-12 text-center min-h-[60vh]">
+        <h2 className="text-2xl font-medium text-slate-900 tracking-tight">Your cart is empty</h2>
+        <p className="text-slate-500 mt-2">Add products to your cart to proceed.</p>
+        <Link 
+          href="/products" 
+          className="mt-6 text-sm font-semibold text-slate-900 border-b border-slate-900 pb-0.5 hover:opacity-70 transition-opacity"
+        >
+          Browse library
         </Link>
       </div>
     );
@@ -75,6 +73,12 @@ export default function CheckoutPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.fullName || !formData.email || !formData.phone) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
     setIsLoading(true);
     
     try {
@@ -85,99 +89,95 @@ export default function CheckoutPage() {
           fullName: formData.fullName,
           email: formData.email,
           phone: formData.phone,
-          items: items,
-          totalPrice: totalPrice,
+          items,
+          totalPrice,
         }),
       });
 
       const data = await response.json();
 
       if (data.payment_url) {
-        // Redirect to Nagorikpay gateway
         window.location.href = data.payment_url;
       } else {
         alert(data.error || "Failed to initialize payment");
         setIsLoading(false);
       }
     } catch (error) {
-      console.error("Checkout Error:", error);
-      alert("An unexpected error occurred. Please try again.");
       setIsLoading(false);
+      alert("An error occurred. Please try again.");
     }
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 md:px-6 lg:px-8 bg-slate-50">
+    <div className="min-h-screen pt-12 pb-24 px-6 md:px-12 bg-white">
       <div className="max-w-6xl mx-auto">
-        <header className="mb-10">
-          <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">{t.title}</h1>
-          <p className="text-slate-500 mt-2">{t.subtitle}</p>
+        <header className="mb-12">
+          <h1 className="text-3xl font-medium text-slate-900 tracking-tight mb-2">
+            {t.title}
+          </h1>
+          <p className="text-slate-500 text-sm">{t.subtitle}</p>
         </header>
 
         {!session && (
-          <div className="mb-8 bg-blue-600 rounded-2xl p-6 text-white shadow-lg overflow-hidden relative group">
-            <div className="absolute right-0 top-0 opacity-10 -mr-6 -mt-6 transition-transform group-hover:scale-110">
-              <UserPlus className="w-48 h-48" />
-            </div>
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-6">
-              <div className="h-16 w-16 bg-white/20 rounded-2xl flex items-center justify-center shrink-0 backdrop-blur-sm">
-                <UserPlus className="h-8 w-8 text-white" />
+          <div className="mb-12 border border-blue-50 bg-blue-50/30 rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden transition-all hover:bg-blue-50/50">
+            <div className="absolute right-0 top-0 w-24 h-24 bg-blue-100/20 rounded-full -mr-12 -mt-12" />
+            <div className="flex items-center gap-6 relative z-10 text-center md:text-left flex-col md:flex-row">
+              <div className="w-12 h-12 bg-white rounded-xl shadow-sm border border-blue-100 flex items-center justify-center shrink-0">
+                <Info className="h-6 w-6 text-blue-500" />
               </div>
-              <div className="flex-1 text-center md:text-left">
-                <h3 className="text-xl font-bold">Checkout faster and save your orders!</h3>
-                <p className="text-blue-100 mt-1 max-w-2xl font-medium">
-                  Did you know? Registered users can access their purchased products, license keys, and download links anytime from their dashboard. 
-                  Get 100% lifetime security for your digital assets.
+              <div>
+                <h3 className="text-base font-semibold text-slate-900 mb-1">Remember to log in?</h3>
+                <p className="text-xs text-slate-500 font-medium leading-relaxed max-w-sm">
+                  Access your orders and lifetime updates by logging in or creating a new account today.
                 </p>
               </div>
-              <div className="flex gap-3 shrink-0">
-                <Link 
-                  href="/login?callbackUrl=/checkout" 
-                  className="px-6 py-3 bg-white text-blue-600 rounded-xl font-bold hover:bg-blue-50 transition-colors shadow-md"
-                >
-                  Sign In
-                </Link>
-                <Link 
-                  href="/signup?callbackUrl=/checkout" 
-                  className="px-6 py-3 bg-blue-500 text-white rounded-xl font-bold border border-white/20 hover:bg-blue-400 transition-colors"
-                >
-                  Create Account
-                </Link>
-              </div>
+            </div>
+            <div className="flex gap-4 relative z-10">
+              <Link 
+                href="/login?callbackUrl=/checkout" 
+                className="text-xs font-bold uppercase tracking-widest text-blue-600 bg-white px-6 py-3 rounded-lg border border-blue-100 hover:bg-blue-50 transition-all shadow-sm"
+              >
+                Sign In
+              </Link>
+              <Link 
+                href="/signup?callbackUrl=/checkout" 
+                className="text-xs font-bold uppercase tracking-widest text-white bg-slate-900 px-6 py-3 rounded-lg hover:bg-slate-800 transition-all shadow-sm"
+              >
+                Sign Up
+              </Link>
             </div>
           </div>
         )}
 
-        <div className="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-x-16 lg:items-start border-t border-slate-100 pt-12">
           {/* Left Column - Billing Form */}
-          <section className="lg:col-span-7">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-              <div className="p-6 md:p-8">
-                <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                  <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 text-sm">1</span>
-                  {t.billingDetails}
-                </h2>
+          <section className="lg:col-span-7 space-y-12">
+            <div>
+              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8">
+                01 {t.billingDetails}
+              </h2>
 
-                <form id="checkout-form" onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
-                    <div className="sm:col-span-2">
-                      <label htmlFor="fullName" className="block text-sm font-medium text-slate-700 mb-1">
-                        {t.fullName}
-                      </label>
-                      <input
-                        type="text"
-                        name="fullName"
-                        id="fullName"
-                        required
-                        value={formData.fullName}
-                        onChange={handleInputChange}
-                        placeholder="John Doe"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900 bg-white"
-                      />
-                    </div>
+              <form id="checkout-form" onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-6">
+                  <div className="space-y-1">
+                    <label htmlFor="fullName" className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                      {t.fullName}
+                    </label>
+                    <input
+                      type="text"
+                      name="fullName"
+                      id="fullName"
+                      required
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      placeholder="Name"
+                      className="w-full py-2 border-b border-slate-200 focus:border-slate-900 outline-none transition-all text-slate-900 bg-transparent placeholder:text-slate-300"
+                    />
+                  </div>
 
-                    <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="space-y-1">
+                      <label htmlFor="email" className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                         {t.email}
                       </label>
                       <input
@@ -187,13 +187,13 @@ export default function CheckoutPage() {
                         required
                         value={formData.email}
                         onChange={handleInputChange}
-                        placeholder="your@email.com"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900 bg-white"
+                        placeholder="email@example.com"
+                        className="w-full py-2 border-b border-slate-200 focus:border-slate-900 outline-none transition-all text-slate-900 bg-transparent placeholder:text-slate-300"
                       />
                     </div>
 
-                    <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">
+                    <div className="space-y-1">
+                      <label htmlFor="phone" className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
                         {t.phone}
                       </label>
                       <input
@@ -203,129 +203,130 @@ export default function CheckoutPage() {
                         required
                         value={formData.phone}
                         onChange={handleInputChange}
-                        placeholder="01XXXXXXXXX"
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all text-slate-900 bg-white"
+                        placeholder="Phone"
+                        className="w-full py-2 border-b border-slate-200 focus:border-slate-900 outline-none transition-all text-slate-900 bg-transparent placeholder:text-slate-300"
                       />
                     </div>
                   </div>
+                </div>
 
-                  <div className="pt-6 border-t border-slate-100">
-                    <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center">
-                      <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3 text-sm">2</span>
-                      {t.paymentMethod}
-                    </h2>
+                <div className="pt-12">
+                  <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8">
+                    02 {t.paymentMethod}
+                  </h2>
 
-                    <div className="space-y-4">
-                      {["nagorikpay", "card", "crypto"].map((method) => (
-                        <label
-                          key={method}
-                          className={`relative flex items-center p-4 cursor-pointer rounded-xl border transition-all ${
-                            formData.paymentMethod === method
-                              ? "border-blue-500 bg-blue-50/50 shadow-sm"
-                              : "border-slate-200 hover:border-slate-300"
-                          }`}
-                        >
-                          <input
-                            type="radio"
-                            name="paymentMethod"
-                            value={method}
-                            checked={formData.paymentMethod === method}
-                            onChange={handleInputChange}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-slate-300"
-                          />
-                          <span className="ml-4 flex items-center">
-                            <span className="text-slate-900 font-medium capitalize">
-                              {method === "nagorikpay" ? "Nagorikpay (Bkash/Rocket/Nagad/Card)" : method === "card" ? t.card : t.crypto}
-                            </span>
-                          </span>
-                        </label>
-                      ))}
-                    </div>
+                  <div className="grid grid-cols-1 gap-3">
+                    {[
+                      { id: "nagorikpay", name: "Nagorikpay", subtitle: "Bkash / Rocket / Nagad / Upay" },
+                      { id: "card", name: "Credit Card", subtitle: "Coming soon" },
+                    ].map((method) => (
+                      <label
+                        key={method.id}
+                        className={`group flex items-center justify-between p-4 cursor-pointer rounded-lg border transition-all ${
+                          formData.paymentMethod === method.id
+                            ? "border-slate-900 bg-slate-900 text-white"
+                            : "border-slate-100 hover:border-slate-200 text-slate-900"
+                        } ${method.id !== 'nagorikpay' ? 'opacity-40 cursor-not-allowed' : ''}`}
+                      >
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value={method.id}
+                          disabled={method.id !== 'nagorikpay'}
+                          checked={formData.paymentMethod === method.id}
+                          onChange={handleInputChange}
+                          className="sr-only"
+                        />
+                        <div>
+                          <p className="text-sm font-semibold">{method.name}</p>
+                          <p className={`text-[10px] uppercase font-bold tracking-widest ${
+                            formData.paymentMethod === method.id ? 'text-slate-400' : 'text-slate-400'
+                          }`}>{method.subtitle}</p>
+                        </div>
+                        <div className={`w-4 h-4 rounded-full border-2 transition-all ${
+                          formData.paymentMethod === method.id ? 'border-white bg-white' : 'border-slate-200'
+                        }`} />
+                      </label>
+                    ))}
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
             </div>
           </section>
 
           {/* Right Column - Summary */}
-          <aside className="mt-10 lg:mt-0 lg:col-span-5">
-            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 sticky top-24 overflow-hidden">
-              <div className="p-6 md:p-8">
-                <h2 className="text-xl font-bold text-slate-800 mb-6">{t.orderSummary}</h2>
+          <aside className="mt-16 lg:mt-0 lg:col-span-5">
+            <div className="bg-slate-50 rounded-xl p-8 sticky top-12">
+              <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8">
+                Your Order
+              </h2>
 
-                <ul className="space-y-4 mb-6">
-                  {items.map((item) => (
-                    <li key={item.id} className="flex items-center">
-                      <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border border-slate-100">
-                        <Image
-                          src={item.image}
-                          alt={item.title}
-                          width={64}
-                          height={64}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="ml-4 flex-1">
-                        <h3 className="text-sm font-medium text-slate-900 line-clamp-1">{item.title}</h3>
-                        <p className="text-xs text-slate-500 mt-1">{item.category}</p>
-                        <div className="flex justify-between items-center mt-1">
-                          <span className="text-xs text-slate-500">Qty: {item.quantity}</span>
-                          <span className="text-sm font-semibold text-slate-900">৳{(item.price * item.quantity).toFixed(2)}</span>
-                        </div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
- 
-                <div className="space-y-3 pt-6 border-t border-slate-100">
-                  <div className="flex justify-between text-slate-600">
-                    <span>Subtotal</span>
-                    <span>৳{totalPrice.toFixed(2)}</span>
+              <div className="space-y-6 mb-8 max-h-[300px] overflow-y-auto pr-4 scroll-slim">
+                {items.map((item) => (
+                  <div key={item.id} className="flex justify-between items-start gap-4">
+                    <div className="flex-1">
+                      <h3 className="text-sm font-medium text-slate-900 line-clamp-1">{item.title}</h3>
+                      <p className="text-xs text-slate-400 mt-0.5">{item.category}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-medium text-slate-900">৳{item.price.toFixed(2)}</p>
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Qty: {item.quantity}</p>
+                    </div>
                   </div>
-                  <div className="flex justify-between text-slate-600">
-                    <span>Tax (0%)</span>
-                    <span>৳0.00</span>
-                  </div>
-                  <div className="flex justify-between items-center pt-3 border-t border-slate-100">
-                    <span className="text-lg font-bold text-slate-900">{t.total}</span>
-                    <span className="text-2xl font-black text-blue-600">৳{totalPrice.toFixed(2)}</span>
-                  </div>
+                ))}
+              </div>
+  
+              <div className="space-y-3 pt-6 border-t border-slate-200">
+                <div className="flex justify-between text-xs font-medium text-slate-500">
+                  <span>Subtotal</span>
+                  <span className="text-slate-900">৳{totalPrice.toFixed(2)}</span>
                 </div>
+                <div className="flex justify-between text-xs font-medium text-slate-500">
+                  <span>Taxes</span>
+                  <span className="text-slate-900">৳0.00</span>
+                </div>
+                <div className="flex justify-between items-center pt-4 border-t border-slate-200 mt-2">
+                  <span className="text-sm font-bold text-slate-900 uppercase tracking-widest">{t.total}</span>
+                  <span className="text-xl font-bold text-slate-900 tracking-tight">৳{totalPrice.toFixed(2)}</span>
+                </div>
+              </div>
 
-                <div className="mt-8">
-                  <button
-                    form="checkout-form"
-                    type="submit"
-                    disabled={isLoading}
-                    className="w-full flex items-center justify-center px-8 py-4 bg-blue-600 text-white rounded-xl font-bold text-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-100 transition-all disabled:opacity-70 disabled:cursor-not-allowed group"
-                  >
-                    {isLoading ? (
-                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                      </svg>
-                    ) : (
-                      <>
-                        <span className="mr-2">{t.placeOrder}</span>
-                        <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </svg>
-                      </>
-                    )}
-                  </button>
-                  
-                  <div className="mt-4 flex items-center justify-center text-xs text-slate-400">
-                    <svg className="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-                    </svg>
-                    {t.secure}
+              <div className="mt-8 space-y-6">
+                <button
+                  form="checkout-form"
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full bg-slate-900 text-white rounded-lg py-4 text-sm font-bold uppercase tracking-widest hover:bg-slate-800 transition-all disabled:opacity-50"
+                >
+                  {isLoading ? "Processing..." : t.placeOrder}
+                </button>
+                
+                <div className="flex flex-col items-center gap-4 text-center">
+                  <div className="flex items-center gap-2">
+                    <ShieldCheck className="h-4 w-4 text-slate-400" />
+                    <Lock className="h-3 w-3 text-slate-300" />
                   </div>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-[0.15em]">
+                    Encrypted SSL secure payment
+                  </p>
                 </div>
               </div>
             </div>
           </aside>
         </div>
       </div>
+
+      <style jsx global>{`
+        .scroll-slim::-webkit-scrollbar {
+          width: 2px;
+        }
+        .scroll-slim::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .scroll-slim::-webkit-scrollbar-thumb {
+          background: #e2e8f0;
+        }
+      `}</style>
     </div>
   );
 }

@@ -83,7 +83,7 @@ function LoginContent() {
                 <label htmlFor="password" className="text-xs font-medium text-slate-700">
                   Password
                 </label>
-                <Link href="/login" className="text-[11px] font-medium text-slate-500 hover:text-slate-900 transition-colors">
+                <Link href="/forgot-password" title="Verify Email or Reset your password" className="text-[11px] font-medium text-slate-500 hover:text-slate-900 transition-colors">
                   Forgot?
                 </Link>
               </div>
@@ -150,6 +150,7 @@ function LoginContent() {
             </button>
             <button
               type="button"
+              onClick={() => signIn("github", { callbackUrl })}
               className="flex items-center justify-center gap-2 rounded-md border border-slate-200 bg-white py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-all"
             >
               <Github className="h-4 w-4 text-slate-900" />
