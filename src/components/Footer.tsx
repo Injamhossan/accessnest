@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Twitter, Instagram, Linkedin, Github } from "lucide-react";
+import { Twitter, Instagram, Linkedin, Github, Facebook } from "lucide-react";
 import Image from "next/image";
 import navLogo from "@/assets/navlogo.png";
 
@@ -13,24 +13,24 @@ export default function Footer() {
                <Image 
                  src={navLogo} 
                  alt="Access Nest Logo" 
-                 width={100} 
-                 height={32} 
-                 className="object-contain h-8 w-auto opacity-90"
+                 width={160} 
+                 height={48} 
+                 className="object-contain h-12 w-auto opacity-90"
                />
             </Link>
             <p className="text-sm text-slate-500 leading-relaxed font-medium">
               Your premium destination for secure, top-tier digital subscriptions and verified software licenses.
             </p>
             <nav aria-label="Social Links" className="flex items-center gap-4 pt-2">
-              <Link href="#" className="text-slate-400 hover:text-sky-600 transition-colors">
-                 <span className="sr-only">Twitter</span>
-                 <Twitter className="h-5 w-5" />
+              <Link href="https://www.facebook.com/accessnestbd" className="text-slate-400 hover:text-sky-600 transition-colors">
+                 <span className="sr-only">Facebook</span>
+                 <Facebook className="h-5 w-5" />
               </Link>
-              <Link href="#" className="text-slate-400 hover:text-sky-600 transition-colors">
+              <Link href="https://www.instagram.com/accessnestbd" className="text-slate-400 hover:text-sky-600 transition-colors">
                  <span className="sr-only">Instagram</span>
                  <Instagram className="h-5 w-5" />
               </Link>
-              <Link href="#" className="text-slate-400 hover:text-sky-600 transition-colors">
+              <Link href="https://www.linkedin.com/company/accessnestbd/" className="text-slate-400 hover:text-sky-600 transition-colors">
                  <span className="sr-only">LinkedIn</span>
                  <Linkedin className="h-5 w-5" />
               </Link>
@@ -45,20 +45,20 @@ export default function Footer() {
             <nav aria-label="Product Links" className="space-y-4">
                <h3 className="font-bold text-slate-900 tracking-wide uppercase text-xs">Products</h3>
                <ul className="space-y-3 font-medium text-slate-500 list-none p-0">
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">Cloud Storage</Link></li>
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">AI Assistants</Link></li>
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">Creative Software</Link></li>
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">Top Sellers</Link></li>
+                  <li><Link href="/products?category=Cloud Storage" className="hover:text-sky-600 transition-colors">Cloud Storage</Link></li>
+                  <li><Link href="/products?category=AI Assistants" className="hover:text-sky-600 transition-colors">AI Assistants</Link></li>
+                  <li><Link href="/products?category=Creative Software" className="hover:text-sky-600 transition-colors">Creative Software</Link></li>
+                  <li><Link href="/products" className="hover:text-sky-600 transition-colors">All Products</Link></li>
                </ul>
             </nav>
 
             <nav aria-label="Company Links" className="space-y-4">
                <h3 className="font-bold text-slate-900 tracking-wide uppercase text-xs">Company</h3>
                <ul className="space-y-3 font-medium text-slate-500 list-none p-0">
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">About Us</Link></li>
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">How it Works</Link></li>
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">Verified Partnerships</Link></li>
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">Contact Support</Link></li>
+                  <li><Link href="/about" className="hover:text-sky-600 transition-colors">About Us</Link></li>
+                  <li><Link href="/how-it-works" className="hover:text-sky-600 transition-colors">How it Works</Link></li>
+                  <li><Link href="/partners" className="hover:text-sky-600 transition-colors">Verified Partnerships</Link></li>
+                  <li><Link href="/contact" className="hover:text-sky-600 transition-colors">Contact Support</Link></li>
                </ul>
             </nav>
 
@@ -66,8 +66,8 @@ export default function Footer() {
                <h3 className="font-bold text-slate-900 tracking-wide uppercase text-xs">Legal</h3>
                <ul className="space-y-3 font-medium text-slate-500 list-none p-0">
                   <li><Link href="/privacy-policy" className="hover:text-sky-600 transition-colors">Privacy Policy</Link></li>
-                  <li><Link href="/terms-and-conditions" className="hover:text-sky-600 transition-colors">Terms of Conditions</Link></li>
-                  <li><Link href="#" className="hover:text-sky-600 transition-colors">Refund Policy</Link></li>
+                  <li><Link href="/terms-and-conditions" className="hover:text-sky-600 transition-colors">Terms and Conditions</Link></li>
+                  <li><Link href="/refund-policy" className="hover:text-sky-600 transition-colors">Refund Policy</Link></li>
                </ul>
             </nav>
           </aside>

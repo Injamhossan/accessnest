@@ -3,9 +3,11 @@
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { useLangStore } from "@/store/langStore";
 import { dict } from "@/utils/dictionary";
 import { useCartStore } from "@/store/cartStore";
+import navLogo from "@/assets/navlogo.png";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
@@ -104,71 +106,114 @@ function SuccessContent() {
           {/* Main Receipt Content */}
           <div className="lg:col-span-8 space-y-8 print:col-span-12">
             {/* Order Receipt */}
-            <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden print:border-none print:shadow-none">
-              <div className="border-b border-slate-50 bg-slate-50/50 px-8 py-6 flex justify-between items-center">
-                <div className="flex flex-col">
-                    <h2 className="text-slate-900 font-black text-lg">Order Receipt</h2>
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Status: Fully Paid</p>
-                </div>
-                <span className="text-slate-400 text-xs font-mono font-bold bg-white px-3 py-1.5 rounded-lg border border-slate-100">{order?.id}</span>
+            {/* Professional Invoice */}
+            <div className="bg-white rounded-2xl border border-slate-200 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden print:border-none print:shadow-none p-8 md:p-12 relative">
+              {/* PAID Watermark */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.03] pointer-events-none rotate-[-30deg]">
+                <span className="text-7xl md:text-9xl font-black text-emerald-600 tracking-widest uppercase">PAID</span>
               </div>
-              
-              <div className="p-8">
-                <div className="grid grid-cols-2 gap-8 border-b border-slate-100 pb-8 mb-8">
-                  <div>
-                    <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-2">Payment Method</p>
-                    <p className="text-slate-900 font-bold flex items-center gap-2">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500" />
-                        {order?.paymentMethod || 'Credit/Debit Card'}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-[10px] text-slate-400 uppercase tracking-widest font-bold mb-2">Date</p>
-                    <p className="text-slate-900 font-bold">{order ? new Date(order.createdAt).toLocaleDateString() : '-'}</p>
+
+              {/* Invoice Header */}
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-100 pb-8 mb-8 relative z-10">
+                <div className="mb-6 md:mb-0">
+                  <Image src={navLogo} alt="Access Nest Logo" width={180} height={60} className="h-10 md:h-12 w-auto object-contain mb-4" priority />
+                  <p className="text-xs md:text-sm text-slate-500 font-medium">Access Nest</p>
+                  <p className="text-xs md:text-sm text-slate-500 font-medium">Dhaka, Bangladesh</p>
+                  <p className="text-xs md:text-sm text-slate-500 font-medium mt-1">accessnestbd@gmail.com</p>
+                </div>
+                <div className="text-left md:text-right">
+                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight uppercase mb-2">Invoice</h2>
+                  <p className="text-slate-500 font-mono text-xs md:text-sm mb-1">Receipt No: <span className="font-bold text-slate-900">{order?.id || '-'}</span></p>
+                  <p className="text-slate-500 font-mono text-xs md:text-sm mb-1">Transaction ID: <span className="font-bold text-slate-900">{transactionId || '-'}</span></p>
+                  <p className="text-slate-500 text-xs md:text-sm mb-3">Date: <span className="font-bold text-slate-900">{order ? new Date(order.createdAt).toLocaleDateString() : '-'}</span></p>
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[9px] md:text-[10px] font-black uppercase tracking-widest border border-emerald-100">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Payment Completed
                   </div>
                 </div>
+              </div>
 
-                <div className="space-y-6">
-                  <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#0f7af7]" />
-                    Items Purchased
-                  </h3>
-                  <div className="space-y-4">
-                    {order?.items?.map((item: any) => (
-                      <div key={item.id} className="flex justify-between items-center p-4 bg-slate-50/50 rounded-2xl border border-slate-50 group hover:border-slate-100 transition-all">
-                        <div className="flex items-center gap-4">
-                          <div className="w-14 h-14 bg-white rounded-xl border border-slate-100 p-1 flex-shrink-0 overflow-hidden shadow-sm">
-                            <img src={item.product.image} alt={item.product.title} className="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform" />
-                          </div>
-                          <div>
-                            <p className="font-black text-slate-900 text-sm leading-tight">{item.product.title}</p>
-                            <p className="text-[11px] text-slate-400 font-bold mt-1">Item Category: {item.product.category || 'Digital'}</p>
-                          </div>
+              <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                {/* Billed To */}
+                <div>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-3">Billed To</p>
+                  <div className="bg-slate-50 p-5 rounded-xl border border-slate-100">
+                    {order?.user ? (
+                      <>
+                        <p className="text-slate-900 font-bold text-base md:text-lg">{order.user.name || 'Valued Customer'}</p>
+                        <p className="text-slate-500 text-sm mt-1">{order.user.email}</p>
+                      </>
+                    ) : (
+                      <p className="text-slate-900 font-bold text-base md:text-lg">Valued Customer</p>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Payment Info Small */}
+                <div className="md:text-right flex flex-col justify-end">
+                   <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-3 md:hidden">Payment Details</p>
+                   <div className="bg-slate-50 p-5 rounded-xl border border-slate-100 md:bg-transparent md:border-none md:p-0">
+                      <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-2 hidden md:block">Payment Details</p>
+                      <div className="flex md:justify-end items-center gap-2 mb-1">
+                        <span className="text-slate-500 text-sm">Method:</span>
+                        <span className="text-slate-900 font-bold text-sm bg-white md:bg-slate-100 px-2 py-0.5 rounded border border-slate-100 md:border-none">{order?.paymentMethod || 'Credit/Debit Card'}</span>
+                      </div>
+                      <div className="flex md:justify-end items-center gap-2">
+                        <span className="text-slate-500 text-sm">Status:</span>
+                        <span className="text-emerald-600 font-bold text-sm">Paid in Full</span>
+                      </div>
+                   </div>
+                </div>
+              </div>
+
+              {/* Invoice Items */}
+              <div className="mb-8 relative z-10">
+                <div className="hidden sm:grid grid-cols-12 gap-4 pb-3 border-b border-slate-200 text-[10px] text-slate-400 font-bold uppercase tracking-widest mb-4">
+                  <div className="col-span-6">Description</div>
+                  <div className="col-span-2 text-center">Qty</div>
+                  <div className="col-span-2 text-right">Unit Price</div>
+                  <div className="col-span-2 text-right">Amount</div>
+                </div>
+                
+                <div className="space-y-4 sm:space-y-0">
+                  {order?.items?.map((item: any) => (
+                    <div key={item.id} className="grid grid-cols-1 sm:grid-cols-12 gap-4 py-4 border-b border-slate-100 last:border-0 sm:items-center">
+                      <div className="col-span-1 sm:col-span-6 flex items-center gap-4">
+                        <div className="w-12 h-12 bg-slate-50 rounded-lg border border-slate-100 p-1 flex-shrink-0 overflow-hidden hidden sm:block">
+                          <img src={item.product.image} alt={item.product.title} className="w-full h-full object-cover rounded-md" />
                         </div>
-                        <div className="text-right">
-                             <p className="font-mono font-black text-slate-900">৳{Number(item.subtotal).toLocaleString()}</p>
-                             <p className="text-[9px] text-slate-400 font-bold uppercase mt-1">Qty: {item.quantity}</p>
+                        <div>
+                          <p className="font-bold text-slate-900 text-sm">{item.product.title}</p>
+                          <p className="text-[10px] md:text-[11px] text-slate-400 mt-0.5">Category: {item.product.category || 'Digital Product'}</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
+                      <div className="col-span-1 sm:col-span-2 flex justify-between sm:block text-left sm:text-center text-slate-600 text-sm font-medium">
+                        <span className="sm:hidden text-slate-400 text-xs">Qty:</span>
+                        <span>{item.quantity}</span>
+                      </div>
+                      <div className="col-span-1 sm:col-span-2 flex justify-between sm:block text-left sm:text-right text-slate-600 text-sm font-medium">
+                        <span className="sm:hidden text-slate-400 text-xs">Unit Price:</span>
+                        <span>৳{Number(item.subtotal/item.quantity).toLocaleString()}</span>
+                      </div>
+                      <div className="col-span-1 sm:col-span-2 flex justify-between sm:block text-left sm:text-right font-black text-slate-900 text-sm bg-slate-50 sm:bg-transparent p-2 rounded-lg sm:p-0">
+                        <span className="sm:hidden text-slate-500 font-bold text-xs uppercase">Total:</span>
+                        <span>৳{Number(item.subtotal).toLocaleString()}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
+              </div>
 
-                <div className="mt-10 pt-8 border-t border-slate-100 space-y-4">
-                  <div className="flex justify-between text-slate-400 text-sm font-bold">
-                    <span>Product Subtotal</span>
+              {/* Invoice Footer / Total */}
+              <div className="flex flex-col sm:flex-row justify-end items-end sm:items-start pt-6 border-t border-slate-200 relative z-10">
+                <div className="w-full sm:w-72 space-y-3 p-5 bg-slate-50 rounded-xl border border-slate-100">
+                  <div className="flex justify-between text-slate-500 text-sm font-medium">
+                    <span>Subtotal</span>
                     <span>৳{Number(order?.totalAmount).toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between items-end pt-4 border-t border-slate-100">
-                    <div>
-                        <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest mb-1">Total Paid Amount</p>
-                        <p className="text-3xl font-black text-slate-900 tracking-tighter">৳{Number(order?.totalAmount).toLocaleString()}</p>
-                    </div>
-                    <div className="text-right hidden sm:block">
-                        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 text-[#0f7af7] rounded-lg text-[10px] font-black uppercase tracking-widest animate-pulse">
-                           Direct License Active
-                        </span>
-                    </div>
+                  <div className="flex justify-between items-end pt-3 mt-3 border-t border-slate-200">
+                    <span className="text-slate-900 font-bold uppercase tracking-widest text-[11px]">Total Paid Amount</span>
+                    <span className="text-2xl font-black text-[#0f7af7] tracking-tighter">৳{Number(order?.totalAmount).toLocaleString()}</span>
                   </div>
                 </div>
               </div>
@@ -214,6 +259,27 @@ function SuccessContent() {
 
           {/* Action Sidebar */}
           <div className="lg:col-span-4 space-y-6 print:hidden">
+
+            {/* Review Reminder Banner */}
+            <div className="bg-amber-50 rounded-3xl border border-amber-200/60 p-6 lg:p-8 shadow-sm relative overflow-hidden group">
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-2 text-amber-500">
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                     <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                  </svg>
+                  <h3 className="text-sm font-black text-amber-900 uppercase tracking-widest">Share Your Thoughts</h3>
+                </div>
+                <p className="text-amber-800/80 text-xs font-medium leading-relaxed">
+                  We'd love to hear your feedback! Once you've explored your new items, a quick review on the product page would mean the world to us.
+                </p>
+              </div>
+              <div className="absolute -bottom-10 -right-6 text-amber-500/10 transform rotate-12 transition-transform group-hover:-translate-y-2 group-hover:scale-110 duration-700 pointer-events-none">
+                <svg className="w-40 h-40" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                </svg>
+              </div>
+            </div>
+
             <div className="bg-white rounded-3xl border border-slate-100 p-8 lg:sticky lg:top-28 shadow-sm">
               <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest mb-6">Quick Actions</h3>
               <div className="space-y-3">

@@ -29,6 +29,7 @@ model User {
   transactions  Transaction[]
   approvedLogs  VisitorLog[]   @relation("ApproverAdmin")
   visitorLogs   VisitorLog[]   @relation("VisitorUser")
+  productReviews ProductReview[]
 
   @@map("users")
 }
@@ -93,8 +94,25 @@ model Product {
   slug               String?         @unique
   orderItems         CartItem[]
   orders             OrderItem[]
+  productReviews     ProductReview[]
 
   @@map("products")
+}
+
+model ProductReview {
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String   @db.Text
+  productId String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([userId])
+  @@map("product_reviews")
 }
 
 model CartItem {

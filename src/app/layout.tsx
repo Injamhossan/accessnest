@@ -56,6 +56,7 @@ export const metadata: Metadata = {
 import Providers from "@/components/Providers";
 import { Analytics } from "@vercel/analytics/react";
 import FacebookPixel from "@/components/FacebookPixel";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 
 export default function RootLayout({
@@ -67,6 +68,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={`${inter.variable} ${banglaFont.variable} font-sans antialiased min-h-screen flex flex-col bg-slate-50`}
+        suppressHydrationWarning
       >
         {process.env.NEXT_PUBLIC_GTM_ID && (
           <noscript>
@@ -87,6 +89,7 @@ export default function RootLayout({
           </div>
         </Providers>
 
+        <WhatsAppButton />
         <Analytics />
         {process.env.NEXT_PUBLIC_GTM_ID && (
           <Script

@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 
 import ProductCard from "@/components/ProductCard";
+import ProductReviews from "@/components/ProductReviews";
 
 import { useRouter } from "next/navigation";
 
@@ -213,6 +214,9 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
             </div>
           </div>
         </div>
+
+        {/* Product Reviews Section */}
+        <ProductReviews productId={product.id} />
 
         {/* Related Products Section */}
         {relatedProducts && relatedProducts.length > 0 && (

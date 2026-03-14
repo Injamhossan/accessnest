@@ -78,10 +78,9 @@ export default function PrivacyPolicy() {
           <section className="bg-slate-50 p-8 rounded-2xl border border-slate-100 mt-12">
             <h2 className="text-xl font-bold text-slate-900 mb-2">Contact Us</h2>
             <p className="text-sm">
-              If you have any questions regarding this Privacy Policy, please reach out to us:
+              If you have any questions about this Privacy Policy, please contact us at <a href="mailto:accessnestbd@gmail.com" className="text-sky-600 font-bold hover:underline">accessnestbd@gmail.com</a>.
             </p>
             <div className="mt-4 flex flex-col sm:flex-row gap-4">
-              <span className="text-sm font-bold text-slate-600">Email: support@accessnest.tech</span>
               <Link href="/contact" className="text-sm font-bold text-blue-600 hover:underline">Support Helpdesk</Link>
             </div>
           </section>

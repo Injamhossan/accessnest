@@ -16,16 +16,25 @@ function ProductList() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search");
   const t = dict[lang].products;
+  const adminT = dict[lang].admin; // For category names
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  
+  // Filter States
+  const [category, setCategory] = useState<string>("All");
+  const [sort, setSort] = useState<string>("featured");
+
+  const categories = ["All", "Security", "Storage", "Automation", "Design", "Marketing", "Development", "Software", "Education", "Other"];
 
   useEffect(() => {
     const fetchProducts = async () => {
       setLoading(true);
       try {
-        const url = search 
-          ? `/api/products?search=${encodeURIComponent(search)}`
-          : "/api/products";
+        let url = `/api/products?`;
+        if (search) url += `search=${encodeURIComponent(search)}&`;
+        if (category !== "All") url += `category=${encodeURIComponent(category)}&`;
+        if (sort) url += `sort=${encodeURIComponent(sort)}&`;
+
         const res = await fetch(url, { cache: "no-store" });
         if (res.ok) {
           const data = await res.json();
@@ -39,7 +48,7 @@ function ProductList() {
     };
 
     fetchProducts();
-  }, [search]);
+  }, [search, category, sort]);
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -55,15 +64,31 @@ function ProductList() {
             </p>
           </div>
           
-          <div className="flex items-center gap-3">
-            <button className="flex items-center gap-2 px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-colors shadow-sm">
-              <Filter className="w-4 h-4" /> {t.filters}
-            </button>
-            <select className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 outline-none transition-colors shadow-sm cursor-pointer">
-              <option>{t.sortFeatured}</option>
-              <option>{t.sortLowToHigh}</option>
-              <option>{t.sortHighToLow}</option>
-              <option>{t.sortRated}</option>
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="relative group">
+               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none group-focus-within:text-[#0f7af7] transition-colors z-10">
+                 <Filter className="w-4 h-4" />
+               </span>
+               <select 
+                 value={category}
+                 onChange={(e) => setCategory(e.target.value)}
+                 className="pl-9 pr-8 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 outline-none transition-colors shadow-sm cursor-pointer appearance-none relative z-0"
+               >
+                 {categories.map(c => (
+                   <option key={c} value={c}>{c === "All" ? t.filters || "All Categories" : (adminT.categories as any)[c] || c}</option>
+                 ))}
+               </select>
+            </div>
+            
+            <select 
+              value={sort}
+              onChange={(e) => setSort(e.target.value)}
+              className="px-4 py-2.5 bg-white border border-slate-200 rounded-lg text-sm font-semibold text-slate-700 hover:bg-slate-50 outline-none transition-colors shadow-sm cursor-pointer"
+            >
+              <option value="featured">{t.sortFeatured || "Featured"}</option>
+              <option value="price_asc">{t.sortLowToHigh || "Price: Low to High"}</option>
+              <option value="price_desc">{t.sortHighToLow || "Price: High to Low"}</option>
+              <option value="rating_desc">{t.sortRated || "Highest Rated"}</option>
             </select>
           </div>
         </div>

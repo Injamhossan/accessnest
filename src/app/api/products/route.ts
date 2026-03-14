@@ -7,22 +7,35 @@ import { authOptions } from "@/lib/auth";
 
 export async function GET(req: Request) {
   try {
-    const { searchParams } = new URL(req.url);
+    const searchParams = new URL(req.url).searchParams;
     const search = searchParams.get("search");
+    const category = searchParams.get("category");
+    const sort = searchParams.get("sort");
 
-    const where: any = search ? {
-      OR: [
+    const where: any = {};
+    if (search) {
+      where.OR = [
         { title: { contains: search, mode: 'insensitive' } },
         { description: { contains: search, mode: 'insensitive' } },
-      ]
-    } : {};
+      ];
+    }
+    if (category && category !== "All") {
+      where.category = category;
+    }
+
+    let orderBy: any = [{ isFeatured: "desc" }, { createdAt: "desc" }];
+    
+    if (sort === "price_asc") {
+      orderBy = [{ price: "asc" }];
+    } else if (sort === "price_desc") {
+      orderBy = [{ price: "desc" }];
+    } else if (sort === "rating_desc") {
+      orderBy = [{ rating: "desc" }, { reviews: "desc" }];
+    }
 
     const products = await prisma.product.findMany({
       where,
-      orderBy: [
-        { isFeatured: "desc" },
-        { createdAt: "desc" }
-      ]
+      orderBy
     });
     return NextResponse.json(products);
   } catch (error) {
