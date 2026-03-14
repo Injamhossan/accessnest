@@ -149,14 +149,23 @@ export async function POST(req: Request) {
         console.error("Critical: Order confirmed but email failed to send to", updatedOrder.user.email);
       }
 
+      const cookieHeader = req.headers.get("cookie") || "";
+      const fbpMatch = cookieHeader.match(/_fbp=([^;]+)/);
+      const fbcMatch = cookieHeader.match(/_fbc=([^;]+)/);
+      const xForwardedFor = req.headers.get("x-forwarded-for");
+      const clientIp = xForwardedFor ? xForwardedFor.split(",")[0].trim() : undefined;
+
       // 6. Track with Facebook CAPI (Server-side)
       await trackCapiEvent({
         eventName: "Purchase",
         eventSourceUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api/payment/verify`,
+        eventId: updatedOrder.id,
         userData: {
           em: updatedOrder.user.email,
-          client_ip_address: req.headers.get("x-forwarded-for") || undefined,
+          client_ip_address: clientIp,
           client_user_agent: req.headers.get("user-agent") || undefined,
+          fbp: fbpMatch ? fbpMatch[1] : undefined,
+          fbc: fbcMatch ? fbcMatch[1] : undefined,
         },
         customData: {
           value: Number(updatedOrder.totalAmount),

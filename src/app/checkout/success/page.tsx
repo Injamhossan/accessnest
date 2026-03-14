@@ -8,6 +8,7 @@ import { useLangStore } from "@/store/langStore";
 import { dict } from "@/utils/dictionary";
 import { useCartStore } from "@/store/cartStore";
 import navLogo from "@/assets/navlogo.png";
+import * as fp from "@/lib/fpixel";
 
 function SuccessContent() {
   const searchParams = useSearchParams();
@@ -43,6 +44,15 @@ function SuccessContent() {
       if (data.success) {
         setOrder(data.order);
         clearCart();
+        
+        // Track Client-side Purchase Event for deduplication
+        fp.event("Purchase", {
+          value: Number(data.order.totalAmount),
+          currency: "BDT",
+          content_ids: data.order.items?.map((i: any) => i.productId) || [],
+          content_type: "product"
+        }, { eventID: data.order.id });
+
         setVerifying(false);
       } else {
         setError(data.message || "Verification failed");

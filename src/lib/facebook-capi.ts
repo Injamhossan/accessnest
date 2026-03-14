@@ -3,6 +3,7 @@ import crypto from "crypto";
 
 const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID;
 const FB_ACCESS_TOKEN = process.env.FB_ACCESS_TOKEN;
+const FB_TEST_EVENT_CODE = process.env.FB_TEST_EVENT_CODE;
 
 interface CapiEventParams {
   eventName: string;
@@ -16,6 +17,7 @@ interface CapiEventParams {
     fbp?: string;
   };
   customData?: any;
+  eventId?: string;
 }
 
 export const trackCapiEvent = async ({
@@ -23,6 +25,7 @@ export const trackCapiEvent = async ({
   eventSourceUrl,
   userData,
   customData,
+  eventId,
 }: CapiEventParams) => {
   if (!FB_PIXEL_ID || !FB_ACCESS_TOKEN) {
     console.warn("Facebook Pixel ID or Access Token missing. CAPI event not tracked.");
@@ -39,6 +42,7 @@ export const trackCapiEvent = async ({
     data: [
       {
         event_name: eventName,
+        event_id: eventId,
         event_time: Math.floor(Date.now() / 1000),
         action_source: "website",
         event_source_url: eventSourceUrl,
@@ -53,6 +57,7 @@ export const trackCapiEvent = async ({
         custom_data: customData,
       },
     ],
+    ...(FB_TEST_EVENT_CODE ? { test_event_code: FB_TEST_EVENT_CODE } : {}),
   };
 
   try {
