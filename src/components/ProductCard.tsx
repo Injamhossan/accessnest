@@ -113,20 +113,20 @@ export default function ProductCard({ id, slug, title, description, price, ratin
         </p>
 
         <div className="mt-auto">
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-col min-[450px]:flex-row gap-2">
             <Link 
               href={`/products/${slug || id}`}
-              className="flex-1 flex items-center justify-center gap-1.5 rounded-lg bg-slate-900 py-2.5 text-[10px] font-bold text-white transition-all hover:bg-slate-800 active:scale-[0.98] shadow-sm"
+              className="flex-1 flex w-full items-center justify-center gap-1.5 rounded-lg bg-slate-900 py-2.5 text-[10px] font-bold text-white transition-all hover:bg-slate-800 active:scale-[0.98] shadow-sm whitespace-nowrap"
             >
-              <CreditCard className="h-3 w-3" />
-              Get Now
+              <CreditCard className="h-3 w-3 shrink-0" />
+              <span>Get Now</span>
             </Link>
             <button 
               onClick={handleAddToCart}
-              className="flex-1 flex items-center justify-center gap-1.5 rounded-lg bg-white border border-slate-200 py-2.5 text-[10px] font-bold text-slate-600 transition-all hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98]"
+              className="flex-1 flex w-full items-center justify-center gap-1.5 rounded-lg bg-white border border-slate-200 py-2.5 text-[10px] font-bold text-slate-600 transition-all hover:bg-slate-50 hover:border-slate-300 active:scale-[0.98] whitespace-nowrap"
             >
-              <ShoppingCart className="h-3 w-3" />
-              Add to Cart
+              <ShoppingCart className="h-3 w-3 shrink-0" />
+              <span>Add to Cart</span>
             </button>
           </div>
 
