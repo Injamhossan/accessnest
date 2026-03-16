@@ -30,7 +30,7 @@ export default function Footer() {
                  <span className="sr-only">Instagram</span>
                  <Instagram className="h-5 w-5" />
               </Link>
-              <Link href="https://www.linkedin.com/company/accessnestbd/" className="text-slate-400 hover:text-sky-600 transition-colors">
+              <Link href="https://www.linkedin.com/company/accessnestbd" className="text-slate-400 hover:text-sky-600 transition-colors">
                  <span className="sr-only">LinkedIn</span>
                  <Linkedin className="h-5 w-5" />
               </Link>
