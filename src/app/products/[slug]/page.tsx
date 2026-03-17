@@ -60,8 +60,40 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
     take: 4,
   });
 
-  return <ProductDetailClient 
-    product={JSON.parse(JSON.stringify(product))} 
-    relatedProducts={JSON.parse(JSON.stringify(relatedProducts))}
-  />;
+  return (
+    <>
+      {/* Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": product.title,
+            "image": [product.image],
+            "description": product.description,
+            "sku": product.slug || product.id,
+            "offers": {
+              "@type": "Offer",
+              "url": `https://accessnest.tech/products/${product.slug || product.id}`,
+              "priceCurrency": "BDT",
+              "price": product.discountedPrice ? product.discountedPrice.toString() : product.price.toString(),
+              "itemCondition": "https://schema.org/NewCondition",
+              "availability": product.stock > 0 ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+            },
+            "aggregateRating": product.reviews > 0 ? {
+              "@type": "AggregateRating",
+              "ratingValue": product.rating ? product.rating.toString() : "5",
+              "reviewCount": product.reviews.toString()
+            } : undefined
+          })
+        }}
+      />
+      <ProductDetailClient 
+        product={JSON.parse(JSON.stringify(product))} 
+        relatedProducts={JSON.parse(JSON.stringify(relatedProducts))}
+      />
+    </>
+  );
 }
+

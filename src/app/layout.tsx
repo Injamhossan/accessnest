@@ -24,7 +24,10 @@ export const metadata: Metadata = {
     template: "%s | Access Nest"
   },
   description: "Explore premium digital products, UI kits, and software assets at Access Nest. Empowering creators with professional-grade digital resources.",
-  keywords: ["digital products", "marketplace", "UI kits", "software", "design assets", "development tools", "Access Nest"],
+  keywords: [
+    "digital products", "marketplace", "UI kits", "software", "design assets", "development tools", "Access Nest",
+    "ডিজিটাল প্রোডাক্ট", "সফটওয়্যার", "সাবস্ক্রিপশন", "বাংলাদেশে ডিজিটাল প্রোডাক্ট", "Access Nest BD"
+  ],
   authors: [{ name: "Access Nest Team" }],
   alternates: {
     canonical: "/",
@@ -47,10 +50,16 @@ export const metadata: Metadata = {
     locale: "en_US",
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Access Nest | Premium Digital Products & Assets Marketplace",
+    description: "Discover the best digital products for your next project. Software, UI kits, and more.",
+  },
   verification: {
     google: "gLU3VKXu91W0MF8KOYY0d8p-3RMDUl_gR4WehltvElo",
   },
 };
+
 
 
 import Providers from "@/components/Providers";

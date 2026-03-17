@@ -96,9 +96,7 @@ describe('ProductCard', () => {
     fp.event.mockClear() 
 
     const { container } = render(<ProductCard {...mockProps} />)
-    
-    // The wishlist button is the first button in the component, or we can look for the Heart icon
-    // It doesn't have text, so we'll select the first button
+  
     const wishlistBtn = container.querySelector('button')
     wishlistBtn?.click()
 
