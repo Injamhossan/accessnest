@@ -1,12 +1,15 @@
 # Access Nest 🚀
 
-**Access Nest** is a premium, high-performance marketplace for digital products, software assets, and premium licenses. Designed with cutting-edge web technologies like **Next.js 15 (App Router)**, **Prisma ORM**, and **PostgreSQL**, it guarantees a seamless purchasing experience for buyers alongside powerful operations tools for administrators.
+**Access Nest** is a premium, high-performance marketplace for digital products, software assets, and premium licenses. Designed with cutting-edge web technologies like **Next.js 16 (App Router)**, **NestJS**, **Prisma ORM**, and **PostgreSQL**, it guarantees a seamless purchasing experience for buyers alongside powerful operations tools for administrators.
 
 ---
 
 ## ✨ Core Features
 
 - 🛒 **Digital Marketplace**: A highly optimized storefront with real-time categorizing, intelligent searching, and sorting via backend APIs.
+- 🏗️ **Scalable Architecture**: Migrated to a robust **NestJS** backend architecture for enhanced scalability and maintainability, maintaining complete backward compatibility with existing API routes.
+- 🎨 **Minimalist UI Modernization**: Clean, elegant, and minimalist design aesthetic powered by **Tailwind CSS**. Enhanced with fluid frontend animations using **Framer Motion** to deliver a premium, clutter-free user experience.
+- 🎥 **Advanced Video Integration**: Reliable `iframe` embed system for seamless student course playback, replacing older volatile players. Features a specialized `ClientOnlyPlayer` utility for instructors, bypassing backend rate-limits and providing accurate automated YouTube video duration detection.
 - 🛡️ **Seamless Checkout**: Includes robust cart functionalities and smooth, secure guest checkouts alongside authenticated payments. Delivery emails are automated instantly via **Nodemailer**.
 - ⭐ **Customer Reviews**: Dynamic product review system highlighting real-time star ratings and authentic user feedback directly on the product's detail pages.
 - 👤 **Smart Dashboard**:
@@ -17,7 +20,6 @@
   - Robust **Google Tag Manager** and Search Console Verification configured for superior SEO and e-commerce tracking performance.
 - 🔒 **Security & Authentication**: Scalable **NextAuth** integration handling comprehensive login/signup modules alongside sophisticated lost-password recovery tokens via unique SMTP logic.
 - 🌍 **Multilingual Localization**: A blazing-fast static dictionary pattern translating complex UI chunks in pure, isolated boundaries.
-- 🌓 **Dynamic UI**: Unparalleled UI design enriched with micro-animations, premium custom local fonts (Bangla & Inter), and an ultra-modern aesthetic powered completely by Vanilla CSS mixed effectively with optimized Tailwind boundaries.
 
 ---
 
@@ -25,13 +27,15 @@
 
 | Technology | Description |
 |---|---|
-| **Framework** | [Next.js 16 (Turbopack Powered App Router)](https://nextjs.org/) |
+| **Frontend Framework** | [Next.js 16 (Turbopack Powered App Router)](https://nextjs.org/) |
+| **Backend Framework** | [NestJS](https://nestjs.com/) for scalable, maintainable server-side operations |
 | **Database** | [PostgreSQL](https://www.postgresql.org/) manipulated with [Prisma ORM](https://www.prisma.io/) |
 | **Authentication** | [NextAuth.js](https://next-auth.js.org/) alongside secure token cryptographic features |
-| **Styling** | Vanilla CSS interlinked with utility-focused TailwindCSS |
+| **Styling** | Modern minimalist aesthetics using utility-focused **Tailwind CSS** and **Framer Motion** |
 | **Icons** | Rich graphics leveraging [Lucide React](https://lucide.dev/) |
 | **Global State** | Optimized client-side stores via [Zustand](https://zustand-demo.pmnd.rs/) |
 | **Emails** | Trigger-based notifications via [Nodemailer](https://nodemailer.com/) |
+| **Media Playback** | Performance-oriented `iframe` embeds and `ClientOnlyPlayer` |
 
 ---
 
