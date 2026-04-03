@@ -22,7 +22,7 @@ export default function Footer() {
               Your premium destination for secure, top-tier digital subscriptions and verified software licenses.
             </p>
             <nav aria-label="Social Links" className="flex items-center gap-4 pt-2">
-              <Link href="https://www.facebook.com/accessnestbd" className="text-slate-400 hover:text-sky-600 transition-colors">
+              <Link href="https://www.facebook.com/accessnest.tech" className="text-slate-400 hover:text-sky-600 transition-colors">
                  <span className="sr-only">Facebook</span>
                  <Facebook className="h-5 w-5" />
               </Link>

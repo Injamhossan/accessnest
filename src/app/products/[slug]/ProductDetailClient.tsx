@@ -114,9 +114,9 @@ export default function ProductDetailClient({ product, relatedProducts }: { prod
           
           {/* Left: Product Visuals */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="relative aspect-[16/10] rounded-xl overflow-hidden bg-white border border-slate-200 shadow-sm">
+            <div className="relative aspect-square rounded-xl overflow-hidden bg-white border border-slate-200 shadow-sm">
               <Image 
-                src={product.image || "https://placehold.co/1200x800/png?text=Product"} 
+                src={product.image || "https://placehold.co/1000x1000/png?text=Product"} 
                 alt={product.title}
                 fill
                 className="object-cover"

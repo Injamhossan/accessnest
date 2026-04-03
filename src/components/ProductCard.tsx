@@ -68,7 +68,7 @@ export default function ProductCard({ id, slug, title, description, price, ratin
       </button>
 
       {/* Image Container */}
-      <Link href={`/products/${slug || id}`} className="relative aspect-[16/11] w-full overflow-hidden bg-slate-100 block">
+      <Link href={`/products/${slug || id}`} className="relative aspect-square w-full overflow-hidden bg-slate-100 block">
         <Image
           src={image}
           alt={title}

@@ -111,7 +111,7 @@ export default function CartPage() {
               {items.map((item) => (
                 <div key={item.id} className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-sm flex items-center gap-3 sm:gap-6 group transition-all hover:border-slate-200">
                   {/* Item Image */}
-                  <div className="relative h-16 w-20 sm:h-20 sm:w-28 rounded-lg overflow-hidden bg-slate-50 shrink-0 border border-slate-100">
+                  <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-lg overflow-hidden bg-slate-50 shrink-0 border border-slate-100">
                     <Image src={item.image} alt={item.title} fill className="object-cover" />
                   </div>
                   
